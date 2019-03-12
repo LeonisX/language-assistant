@@ -43,11 +43,6 @@ https://www.youtube.com/watch?v=2V5K5VcmgU0
 https://gitlab.com/sunkur/SpringJavaFXController
 
 
-#### Done
-
-Spring, JDBC, Splash Screen, Inject ApplicationContext in all controllers. И на улицу JavaFX тоже придет Spring 
-https://habr.com/ru/post/348850/
-
 ### Useful links:
 
 **JavaFX 11**
