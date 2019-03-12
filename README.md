@@ -4,16 +4,8 @@
 
 This is a model of the project, designed to simplify the study of foreign languages. For now, just a sketch of the integration of Spring Boot 2 and JavaFX 8.
 
-TODO study:
 
-И на улицу JavaFX тоже придет Spring
-https://habr.com/ru/post/348850/
-
-Как подружить JavaFX и Spring Boot
-https://habr.com/ru/post/265511/
-
-JavaFX и Spring. Вместе веселей
-https://habr.com/ru/post/203960/
+### TODO study:
 
 Ram Alapure
 JavaFX 8 Tutorial 64 - Spring Boot CRUD with FXML
@@ -49,3 +41,17 @@ JavaFX+Spring part2
 https://www.youtube.com/watch?v=2V5K5VcmgU0
 
 https://gitlab.com/sunkur/SpringJavaFXController
+
+
+#### Done
+
+Spring, JDBC, Splash Screen, Inject ApplicationContext in all controllers. И на улицу JavaFX тоже придет Spring 
+https://habr.com/ru/post/348850/
+
+### Useful links:
+
+**JavaFX 11**
+
+https://mvnrepository.com/artifact/org.openjfx
+
+https://openjfx.io/
