@@ -14,44 +14,44 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class MainApp extends Application {
 
-	private static final Logger log = LoggerFactory.getLogger(MainApp.class);
+    private static final Logger log = LoggerFactory.getLogger(MainApp.class);
 
-	private ConfigurableApplicationContext springContext;
-	private Parent rootNode;
-	private FXMLLoader fxmlLoader;
+    private ConfigurableApplicationContext springContext;
+    private Parent rootNode;
+    private FXMLLoader fxmlLoader;
 
-	public static void main(String[] args) {
-		//SpringApplication.run(MainApp.class, args);
-		launch(args);
-	}
+    public static void main(String[] args) {
+        //SpringApplication.run(MainApp.class, args);
+        launch(args);
+    }
 
-	@Override
-	public void init() throws Exception {
-		springContext = SpringApplication.run(MainApp.class);
-		fxmlLoader = new FXMLLoader();
-		fxmlLoader.setControllerFactory(springContext::getBean);
-	}
+    @Override
+    public void init() {
+        springContext = SpringApplication.run(MainApp.class);
+        fxmlLoader = new FXMLLoader();
+        fxmlLoader.setControllerFactory(springContext::getBean);
+    }
 
-	@Override
-	public void start(Stage primaryStage) throws Exception{
-		log.info("Starting {}!", "PROJECT_TITLE");
-		fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-		rootNode = fxmlLoader.load();
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        log.info("Starting {}!", "PROJECT_TITLE");
+        fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
+        rootNode = fxmlLoader.load();
 
-		primaryStage.setTitle("Hello World");
-		Scene scene = new Scene(rootNode, 800, 600);
+        primaryStage.setTitle("Hello World");
+        Scene scene = new Scene(rootNode, 800, 600);
 		/*primaryStage.centerOnScreen();
 		primaryStage.setOnCloseRequest(e -> {
 			Platform.exit();
 			System.exit(0);
 		});*/
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-	@Override
-	public void stop() {
-		springContext.stop();
-	}
+    @Override
+    public void stop() {
+        springContext.stop();
+    }
 
 }
