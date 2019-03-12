@@ -11,7 +11,7 @@
             prefWidth="600.0"
             xmlns="http://javafx.com/javafx/8.0.121"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="md.leonis.assistant.MainApp">
+            fx:controller="md.leonis.assistant.SampleController">
     <center>
         <WebView fx:id="myWebView" />
     </center>

@@ -20,14 +20,27 @@ public class MainApp extends Application {
     private Parent rootNode;
     private FXMLLoader fxmlLoader;
 
+    private static String[] savedArgs;
+
     public static void main(String[] args) {
         //SpringApplication.run(MainApp.class, args);
+        savedArgs = args;
         launch(args);
     }
 
+    /*А вот с точкой входа в приложение все гораздо интересней!
+    Нам необходимо инициализировать Spring контекст и сделать это можно в двух разных местах:
+    Если Вам потребуется создать экземпляры типов Scene, Stage, открыть popup, то делать это нужно в методе start(), т.к. он вызывается в UI потоке.
+    В противном случае можете воспользоваться методом init() (как в примере ниже), который вызывается не в UI потоке перед вызовом метода start().*/
     @Override
     public void init() {
-        springContext = SpringApplication.run(MainApp.class);
+        springContext = SpringApplication.run(MainApp.class, savedArgs);
+
+        // Именно на момент инициализации JavaFX мы запускаем инициализацию Spring контекста:
+        //springContext = SpringApplication.run(getClass(), savedArgs);
+        // Ну и следующей строкой заполняем текущий объект бинами:
+        //springContext.getAutowireCapableBeanFactory().autowireBean(this);
+
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
     }
@@ -52,6 +65,7 @@ public class MainApp extends Application {
     @Override
     public void stop() {
         springContext.stop();
+        // Here probably close connections to DB
     }
 
 }
