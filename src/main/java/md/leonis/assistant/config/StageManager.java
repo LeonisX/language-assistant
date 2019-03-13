@@ -1,14 +1,13 @@
 package md.leonis.assistant.config;
 
-import java.util.Objects;
-
-import md.leonis.assistant.FxmlView;
-import org.slf4j.Logger;
-
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import md.leonis.assistant.FxmlView;
+import org.slf4j.Logger;
+
+import java.util.Objects;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -17,16 +16,16 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class StageManager {
 
-    private static final Logger LOG = getLogger(StageManager.class);
+    private static final Logger log = getLogger(StageManager.class);
     private final Stage primaryStage;
     private final SpringFXMLLoader springFXMLLoader;
 
-    public StageManager(SpringFXMLLoader springFXMLLoader, Stage stage) {
+    StageManager(SpringFXMLLoader springFXMLLoader, Stage stage) {
         this.springFXMLLoader = springFXMLLoader;
         this.primaryStage = stage;
     }
 
-    public void switchScene(final FxmlView view) {
+    public void showScene(final FxmlView view) {
         Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
         show(viewRootNodeHierarchy, view.getTitle());
     }
@@ -48,13 +47,13 @@ public class StageManager {
         }
     }
 
-    private Scene prepareScene(Parent rootnode){
+    private Scene prepareScene(Parent rootNode) {
         Scene scene = primaryStage.getScene();
 
         if (scene == null) {
-            scene = new Scene(rootnode);
+            scene = new Scene(rootNode);
         }
-        scene.setRoot(rootnode);
+        scene.setRoot(rootNode);
         return scene;
     }
 
@@ -70,16 +69,13 @@ public class StageManager {
             rootNode = springFXMLLoader.load(fxmlFilePath);
             Objects.requireNonNull(rootNode, "A Root FXML node must not be null");
         } catch (Exception exception) {
-            logAndExit("Unable to load FXML view" + fxmlFilePath, exception);
+            logAndExit("Unable to load FXML view " + fxmlFilePath, exception);
         }
         return rootNode;
     }
 
-
     private void logAndExit(String errorMsg, Exception exception) {
-        LOG.error(errorMsg, exception, exception.getCause());
+        log.error(errorMsg, exception, exception.getCause());
         Platform.exit();
     }
-
 }
-

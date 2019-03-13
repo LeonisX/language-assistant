@@ -5,8 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.web.WebView;
 import md.leonis.assistant.FxmlView;
-import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.config.StageManager;
+import md.leonis.assistant.service.SampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -40,6 +40,6 @@ public class SampleController {
     @FXML
     private void handleNextWindowButtonAction(ActionEvent event) {
         // Button was clicked, show next window
-        stageManager.switchScene(FxmlView.USER);
+        stageManager.showScene(FxmlView.USER);
     }
 }
