@@ -8,10 +8,6 @@ This is a model of the project, designed to simplify the study of foreign langua
 ### TODO study:
 
 
-MVP Java
-Integrating Spring Boot with JavaFX
-https://www.youtube.com/watch?v=hjeSOxi3uPg
-
 Javantura conference
 Javantura v4 - Spring Boot and JavaFX - can they play together? - Josip Kovaček
 https://www.youtube.com/watch?v=8sw_Av7JOc8
@@ -44,6 +40,10 @@ Ram Alapure
 JavaFX 8 Tutorial 64 - Spring Boot CRUD with FXML
 https://www.youtube.com/watch?v=NQQOPy-jmhA
 https://github.com/RamAlapure/JavaFXSpringBootApp
+
+MVP Java
+Integrating Spring Boot with JavaFX
+https://www.youtube.com/watch?v=hjeSOxi3uPg
 
 
 ### Useful links:
