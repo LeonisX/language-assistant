@@ -3,6 +3,8 @@ package md.leonis.assistant.config;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import md.leonis.assistant.FxmlView;
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ public class StageManager {
         this.primaryStage = stage;
     }
 
-    public void showScene(final FxmlView view) {
+    public void switchScene(final FxmlView view) {
         Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
         show(viewRootNodeHierarchy, view.getTitle());
     }
@@ -45,6 +47,29 @@ public class StageManager {
         } catch (Exception exception) {
             logAndExit ("Unable to show scene for title" + title,  exception);
         }
+    }
+
+    public void showNewWindow(final FxmlView view) {
+        Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
+
+        Label secondLabel = new Label("I'm a Label on new Window");
+
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(secondLabel);
+
+        Scene secondScene = new Scene(viewRootNodeHierarchy);
+        //Scene secondScene = new Scene(viewRootNodeHierarchy, 230, 100);
+
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle(view.getTitle());
+        newWindow.setScene(secondScene);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(primaryStage.getX() + 200);
+        newWindow.setY(primaryStage.getY() + 100);
+
+        newWindow.show();
     }
 
     private Scene prepareScene(Parent rootNode) {

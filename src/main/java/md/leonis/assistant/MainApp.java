@@ -52,7 +52,7 @@ public class MainApp extends Application {
         //TODO load title
         log.info("Starting {}!", "Language Assistant");
         stageManager = springContext.getBean(StageManager.class, primaryStage);
-        stageManager.showScene(FxmlView.LOGIN);
+        stageManager.switchScene(FxmlView.LOGIN);
 
         /*fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
         rootNode = fxmlLoader.load();
