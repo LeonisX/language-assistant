@@ -1,4 +1,4 @@
-package md.leonis.assistant.config;
+package md.leonis.assistant.view;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

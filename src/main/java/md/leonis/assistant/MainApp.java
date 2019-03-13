@@ -2,11 +2,13 @@ package md.leonis.assistant;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import md.leonis.assistant.config.StageManager;
+import md.leonis.assistant.view.FxmlView;
+import md.leonis.assistant.view.StageManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
@@ -34,17 +36,10 @@ public class MainApp extends Application {
     @Override
     public void init() {
         String[] args = this.getParameters().getRaw().toArray(new String[0]);
-        /*SpringApplicationBuilder builder = new SpringApplicationBuilder(MainApp.class);
-        builder.headless(false); // Needed for TestFX integration testing
-        springContext = builder.run(args);*/
-
         // Именно на момент инициализации JavaFX мы запускаем инициализацию Spring контекста:
         springContext = SpringApplication.run(MainApp.class, args);
-        // Ну и следующей строкой заполняем текущий объект бинами:
-        springContext.getAutowireCapableBeanFactory().autowireBean(this);
 
-        //fxmlLoader = new FXMLLoader();
-        //fxmlLoader.setControllerFactory(springContext::getBean);
+        //springContext = bootstrapSpringApplicationContext();
     }
 
     @Override
@@ -52,7 +47,7 @@ public class MainApp extends Application {
         //TODO load title
         log.info("Starting {}!", "Language Assistant");
         stageManager = springContext.getBean(StageManager.class, primaryStage);
-        stageManager.switchScene(FxmlView.LOGIN);
+        displayInitialScene();
 
         /*fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
         rootNode = fxmlLoader.load();
@@ -74,6 +69,22 @@ public class MainApp extends Application {
         // Close or Stop???
         //springContext.close();
         // Here probably close connections to DB
+    }
+
+    /**
+     * Useful to override this method by sub-classes wishing to change the first
+     * Scene to be displayed on startup. Example: Functional tests on main
+     * window.
+     */
+    protected void displayInitialScene() {
+        stageManager.switchScene(FxmlView.LOGIN);
+    }
+
+    private ConfigurableApplicationContext bootstrapSpringApplicationContext() {
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(MainApp.class);
+        String[] args = getParameters().getRaw().toArray(new String[0]);
+        builder.headless(false); //needed for TestFX integration testing or eles will get a java.awt.HeadlessException during tests
+        return builder.run(args);
     }
 
 }

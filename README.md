@@ -7,6 +7,8 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO study:
 
+In fact, the framework for JavaFX + Spring Boot integration is written based on MVP Java lessons from Andy Luis.
+
 
 Javantura conference
 Javantura v4 - Spring Boot and JavaFX - can they play together? - Josip Kovaček
@@ -53,3 +55,71 @@ https://www.youtube.com/watch?v=hjeSOxi3uPg
 https://mvnrepository.com/artifact/org.openjfx
 
 https://openjfx.io/
+
+
+LeoLingo
+
+
+1. XDXF
+
+https://github.com/soshial/xdxf_makedict
+https://github.com/kysko/xdxf-dictionary
+https://github.com/hlavki/xdxf-parser
+
+http://www.dicto.org.ru/xdxf.html
+https://sourceforge.net/projects/xdxf/files/
+
+https://ru.wikipedia.org/wiki/XDXF
+
+Atlantida Multilingual Dictionary + Source + Sound
+
+https://web.archive.org/web/20061207035813/http://atla.revdanica.com/ru/
+https://sourceforge.net/projects/atla/files/
+
+
+
+
+
+
+
+DSL, Mova, PtkDict/phpMyLingvo MySQL dumps, Sdictionary
+JaLingo
+
+http://jalingo.sourceforge.net/
+http://jalingo.sourceforge.net/dictionaries/
+https://sourceforge.net/projects/jalingo/files/JaLingo/0.6.0/
+
+
+
+
+
+
+
+2. Other
+
+
+
+???
+https://code.google.com/archive/p/prs-plus/source/dictionary/source
+
+
+StarDict
+
+https://code.google.com/archive/p/stardict-3/downloads
+http://download.huzheng.org/
+https://archive.org/details/stardict_collections
+
+
+ABBYY Lingo
+
+Freedict
+https://freedict.org/downloads/
+https://github.com/freedict/fd-dictionaries/
+https://github.com/freedict/fd-dictionaries/wiki/Dictionary-Clients
+
+
+https://4pda.ru/forum/index.php?showtopic=189915&st=360#entry7315024
+https://4pda.ru/forum/index.php?showtopic=189915&st=620#entry8942509
+
+
+http://mueller-dic.chat.ru/Mueller24_koi.html

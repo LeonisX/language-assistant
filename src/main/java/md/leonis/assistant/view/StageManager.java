@@ -1,4 +1,4 @@
-package md.leonis.assistant.config;
+package md.leonis.assistant.view;
 
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import md.leonis.assistant.FxmlView;
 import org.slf4j.Logger;
 
 import java.util.Objects;
@@ -22,7 +21,7 @@ public class StageManager {
     private final Stage primaryStage;
     private final SpringFXMLLoader springFXMLLoader;
 
-    StageManager(SpringFXMLLoader springFXMLLoader, Stage stage) {
+    public StageManager(SpringFXMLLoader springFXMLLoader, Stage stage) {
         this.springFXMLLoader = springFXMLLoader;
         this.primaryStage = stage;
     }
