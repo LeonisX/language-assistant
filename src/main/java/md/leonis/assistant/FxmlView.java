@@ -18,17 +18,13 @@ public enum FxmlView {
         this.fxmlFileName = fxmlFileName;
     }
 
+    //TODO this bundle is cached?
     public String getTitle() {
-        return title;
+        return ResourceBundle.getBundle("Bundle").getString(title);
     }
 
     public String getFxmlFile() {
         return String.format(fxmlPath, fxmlFileName);
-    }
-
-    //TODO this bundle is cached?
-    String getStringFromResourceBundle(String key){
-        return ResourceBundle.getBundle("Bundle").getString(key);
     }
 
 }
