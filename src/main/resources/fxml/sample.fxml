@@ -3,12 +3,12 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.web.WebView?>
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.SampleController">
     <center>
         <WebView fx:id="myWebView" />
     </center>
    <bottom>
-      <Button fx:id="nextWindowButton" mnemonicParsing="false" onAction="#nextWindowButton" text="Button" BorderPane.alignment="CENTER" />
+       <Button fx:id="nextWindowButton" mnemonicParsing="false" onAction="#handleNextWindowButtonAction" text="Button"
+               BorderPane.alignment="CENTER"/>
    </bottom>
 </BorderPane>

@@ -7,10 +7,6 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO study:
 
-Ram Alapure
-JavaFX 8 Tutorial 64 - Spring Boot CRUD with FXML
-https://www.youtube.com/watch?v=NQQOPy-jmhA
-https://github.com/RamAlapure/JavaFXSpringBootApp
 
 MVP Java
 Integrating Spring Boot with JavaFX
@@ -41,6 +37,13 @@ JavaFX+Spring part2
 https://www.youtube.com/watch?v=2V5K5VcmgU0
 
 https://gitlab.com/sunkur/SpringJavaFXController
+
+#### Done
+
+Ram Alapure
+JavaFX 8 Tutorial 64 - Spring Boot CRUD with FXML
+https://www.youtube.com/watch?v=NQQOPy-jmhA
+https://github.com/RamAlapure/JavaFXSpringBootApp
 
 
 ### Useful links:

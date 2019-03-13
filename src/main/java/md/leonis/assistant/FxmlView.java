@@ -2,36 +2,31 @@ package md.leonis.assistant;
 
 import java.util.ResourceBundle;
 
-//TODO remove at all
 public enum FxmlView {
 
-    USER {
-        @Override
-        public String getTitle() {
-            return getStringFromResourceBundle("user.title");
-        }
+    USER("user.title", "sample2"),
 
-        @Override
-        public String getFxmlFile() {
-            return "/fxml/sample2.fxml";
-        }
-    },
+    LOGIN("login.title", "sample");
 
-    LOGIN {
-        @Override
-        public String getTitle() {
-            return getStringFromResourceBundle("login.title");
-        }
+    private static String fxmlPath = "/fxml/%s.fxml";
 
-        @Override
-        public String getFxmlFile() {
-            return "/fxml/sample.fxml";
-        }
-    };
+    private String title;
+    private String fxmlFileName;
 
-    public abstract String getTitle();
-    public abstract String getFxmlFile();
+    FxmlView(String title, String fxmlFileName) {
+        this.title = title;
+        this.fxmlFileName = fxmlFileName;
+    }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getFxmlFile() {
+        return String.format(fxmlPath, fxmlFileName);
+    }
+
+    //TODO this bundle is cached?
     String getStringFromResourceBundle(String key){
         return ResourceBundle.getBundle("Bundle").getString(key);
     }
