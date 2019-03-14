@@ -130,3 +130,17 @@ https://4pda.ru/forum/index.php?showtopic=189915&st=620#entry8942509
 
 
 http://mueller-dic.chat.ru/Mueller24_koi.html
+
+
+### Dictionaries
+
+https://www.cambridgeenglish.org/learning-english/exam-preparation/
+http://testyourvocab.com/
+http://www.manythings.org/vocabulary/lists/a/
+https://www.universeofmemory.com/how-many-words-you-should-know/
+https://www.flocabulary.com/wordlists/
+https://www.ef.com/wwen/english-resources/english-vocabulary/
+https://www.wordfrequency.info/top5000.asp
+http://martinweisser.org/corpora_site/word_lists.html
+http://www.kilgarriff.co.uk/bnc-readme.html
+https://www.victoria.ac.nz/lals/resources/academicwordlist
