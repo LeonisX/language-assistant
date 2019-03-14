@@ -4,7 +4,10 @@ import java.util.ResourceBundle;
 
 public enum FxmlView {
 
-    USER("user.title", "sample2"),
+    SPLASH("splash.title", "splash"),
+    DASHBOARD("dashboard.title", "dashboard"),
+    WORD_BANK("wordBank.title", "wordBank"),
+    WATCH_VIDEO("watchVideo.title", "watchVideo"),
 
     LOGIN("login.title", "sample");
 

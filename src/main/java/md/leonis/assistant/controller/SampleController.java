@@ -40,9 +40,9 @@ public class SampleController {
     @FXML
     private void handleNextWindowButtonAction(ActionEvent event) {
         // Button was clicked, show next window
-        stageManager.switchScene(FxmlView.USER);
+        stageManager.switchScene(FxmlView.LOGIN);
 
-        stageManager.showNewWindow(FxmlView.USER);
+        stageManager.showNewWindow(FxmlView.LOGIN);
 
     }
 }

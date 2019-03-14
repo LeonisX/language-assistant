@@ -5,6 +5,13 @@
 This is a model of the project, designed to simplify the study of foreign languages. For now, just a sketch of the integration of Spring Boot 2 and JavaFX 8.
 
 
+### TODO
+
+* Splash screen
+* Main screen
+* Words screen
+* Video screen
+
 ### TODO study:
 
 In fact, the framework for JavaFX + Spring Boot integration is written based on MVP Java lessons from Andy Luis.

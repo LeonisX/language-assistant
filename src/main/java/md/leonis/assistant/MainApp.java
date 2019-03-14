@@ -2,6 +2,7 @@ package md.leonis.assistant;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import md.leonis.assistant.view.FxmlView;
 import md.leonis.assistant.view.StageManager;
 import org.slf4j.Logger;
@@ -77,7 +78,9 @@ public class MainApp extends Application {
      * window.
      */
     protected void displayInitialScene() {
-        stageManager.switchScene(FxmlView.LOGIN);
+        //TODO w/o borders https://stackoverflow.com/questions/14972199/how-to-create-splash-screen-with-transparent-background-in-javafx
+        // Caused by: java.lang.IllegalStateException: Cannot set style once stage has been set visible
+        stageManager.switchScene(FxmlView.SPLASH, StageStyle.UNDECORATED);
     }
 
     private ConfigurableApplicationContext bootstrapSpringApplicationContext() {

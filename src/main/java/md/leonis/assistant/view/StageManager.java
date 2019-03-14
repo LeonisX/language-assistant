@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 
 import java.util.Objects;
@@ -27,15 +28,19 @@ public class StageManager {
     }
 
     public void switchScene(final FxmlView view) {
-        Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
-        show(viewRootNodeHierarchy, view.getTitle());
+        switchScene(view, StageStyle.DECORATED);
     }
 
-    private void show(final Parent rootnode, String title) {
+    public void switchScene(final FxmlView view, StageStyle stageStyle) {
+        Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
+        show(viewRootNodeHierarchy, view.getTitle(), stageStyle);
+    }
+
+    private void show(final Parent rootnode, String title, StageStyle stageStyle) {
         Scene scene = prepareScene(rootnode);
         //scene.getStylesheets().add("/styles/Styles.css");
 
-        //primaryStage.initStyle(StageStyle.TRANSPARENT);
+        //primaryStage.initStyle(stageStyle);
         primaryStage.setTitle(title);
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
