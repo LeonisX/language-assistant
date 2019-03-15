@@ -3,6 +3,7 @@ package md.leonis.assistant.view;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -107,5 +108,13 @@ public class StageManager {
     private void logAndExit(String errorMsg, Exception exception) {
         log.error(errorMsg, exception, exception.getCause());
         Platform.exit();
+    }
+
+    public void showWarningAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

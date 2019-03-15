@@ -62,6 +62,6 @@ public class DashboardController {
     }
 
     public void watchVideoShow(ActionEvent actionEvent) {
-        stageManager.showNewWindow(FxmlView.WATCH_VIDEO);
+        stageManager.showNewWindow(FxmlView.VIDEO_LIST);
     }
 }

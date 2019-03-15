@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="716.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.VideoListController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="204.0" prefWidth="788.0">
+               <children>
+                  <VBox prefHeight="250.0" prefWidth="342.0">
+                     <children>
+                        <ImageView fx:id="previewImage" fitHeight="90.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+                           <children>
+                              <Label text="Title:" />
+                              <Label fx:id="title" text="title" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+                           <children>
+                              <Label text="Author" />
+                              <Label fx:id="author" text="author" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+                           <children>
+                              <Label text="Categories" />
+                              <Label fx:id="categories" text="Label" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+                           <children>
+                              <Label text="Tags" />
+                              <Label fx:id="tags" text="tro lo lo" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+                           <children>
+                              <Label text="Rating" />
+                              <Label fx:id="rating" text="Label" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#studyScriptClick" text="Study Script" />
+                              <Button mnemonicParsing="false" onAction="#watchClick" text="Watch" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
