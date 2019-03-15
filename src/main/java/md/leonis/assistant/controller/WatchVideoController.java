@@ -30,14 +30,26 @@ public class WatchVideoController {
     @FXML
     private void initialize() {
 
-        myWebView.getEngine().setOnAlert((WebEvent<String> wEvent) -> {
+        /*myWebView.getEngine().setOnAlert((WebEvent<String> wEvent) -> {
             System.out.println("JS alert() message: " + wEvent.getData() );
         });
 
         myWebView.getEngine().setOnError((WebErrorEvent wEvent) -> {
             System.out.println("JS alert() message: " + wEvent.getMessage() );
-        });
+        });*/
 
+
+        https://stackoverflow.com/questions/44905264/cannot-sign-in-to-google-in-javafx-webview
+        https://stackoverflow.com/questions/51167203/android-webview-google-login-not-working
+        https://stackoverflow.com/questions/44905264/cannot-sign-in-to-google-in-javafx-webview
+        https://stackoverflow.com/questions/42721593/will-google-oauth-continue-to-work-with-javafx-webview
+
+        com.sun.javafx.webkit.WebConsoleListener.setDefaultListener(
+                (webView, message, lineNumber, sourceId) ->
+                        System.out.println("Console: [" + sourceId + ":" + lineNumber + "] " + message)
+        );
+
+        System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
 
         myWebView.getEngine().load(configHolder.getCurrentVideo().getUrl());
     }
