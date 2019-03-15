@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import md.leonis.assistant.config.ConfigHolder;
+import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.User;
 import md.leonis.assistant.view.FxmlView;
 import md.leonis.assistant.view.StageManager;
@@ -28,9 +29,9 @@ public class DashboardController {
     private void initialize() {
         User user = configHolder.getUser();
 
-        //TODO calculate based on words
         //TODO link to page with description
-        String level = "начинающий (A2+)";
+        //TODO user.getWords() ???
+        String level = LanguageLevel.getTitle(user.getWords());
 
         String text = String.format("%s\n" +
                 "\n" +

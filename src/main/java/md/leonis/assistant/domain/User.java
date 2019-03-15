@@ -17,6 +17,8 @@ public class User {
     private String email;
     private String password;
 
+    // TODO preferred specialization
+
     private Long score;
 
     private Long words;
