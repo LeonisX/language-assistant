@@ -12,6 +12,25 @@ This is a model of the project, designed to simplify the study of foreign langua
 * Words screen
 * Video screen
 
+### TODO levels
+
+* Enum for word count -> level
+* https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%89%D0%B5%D0%B5%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D0%BA%D0%B8%D0%B5_%D0%BA%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D0%B8_%D0%B2%D0%BB%D0%B0%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B8%D0%BD%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%BE%D0%BC
+* https://en.wikipedia.org/wiki/Common_European_Framework_of_Reference_for_Languages
+* https://tracktest.eu/english-levels-cefr/
+* http://vocabularypreview.englishprofile.org/staticfiles/about.html
+* Far perspective: keep in DB as language settings
+
+### TODO levels -> words
+
+https://www.universeofmemory.com/how-many-words-you-should-know/
+https://www.quora.com/What-approximate-number-of-vocabulary-could-one-assign-to-the-CEFR-levels-with-European-languages
+https://languagelearning.stackexchange.com/questions/3061/what-are-estimates-of-vocabulary-size-for-each-cefr-level
+http://erfoundation.org/wordpress/graded-readers/
+
+
+
+
 ### TODO study:
 
 In fact, the framework for JavaFX + Spring Boot integration is written based on MVP Java lessons from Andy Luis.
@@ -146,6 +165,9 @@ https://www.wordfrequency.info/top5000.asp
 http://martinweisser.org/corpora_site/word_lists.html
 http://www.kilgarriff.co.uk/bnc-readme.html
 https://www.victoria.ac.nz/lals/resources/academicwordlist
+
+TODO very cool
+https://www.english.com/gse/teacher-toolkit/user/vocabulary?page=1&sort=gse;asc&gseRange=10;90&audience=GL
 
 #### Russian
 
