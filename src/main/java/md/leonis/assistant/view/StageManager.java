@@ -54,13 +54,10 @@ public class StageManager {
         }
     }
 
+
+    //TODO refactor!!!
     public void showNewWindow(final FxmlView view) {
         Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
-
-        Label secondLabel = new Label("I'm a Label on new Window");
-
-        StackPane secondaryLayout = new StackPane();
-        secondaryLayout.getChildren().add(secondLabel);
 
         Scene secondScene = new Scene(viewRootNodeHierarchy);
         //Scene secondScene = new Scene(viewRootNodeHierarchy, 230, 100);

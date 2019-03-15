@@ -34,9 +34,9 @@ https://img.youtube.com/vi/RifjriAxbw8/1.jpg
 https://img.youtube.com/vi/RifjriAxbw8/2.jpg
 https://img.youtube.com/vi/RifjriAxbw8/3.jpg
 
-#TODO
+#TODO bugs
 
-
+Shut down sound from browser when window is closed
 
 
 

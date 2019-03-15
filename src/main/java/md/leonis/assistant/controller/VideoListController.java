@@ -1,15 +1,11 @@
 package md.leonis.assistant.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import md.leonis.assistant.config.ConfigHolder;
-import md.leonis.assistant.domain.Video;
-import md.leonis.assistant.utils.VideoUtils;
-import md.leonis.assistant.view.FxmlView;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +33,9 @@ public class VideoListController {
     @FXML
     public ImageView previewImage;
 
+    @FXML
+    public HBox container;
+
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -52,7 +51,12 @@ public class VideoListController {
 
     @FXML
     private void initialize() {
-        Video video = configHolder.getVideos().get(0);
+
+        configHolder.getVideos().forEach(video ->
+                container.getChildren().add(new VideoTemplateController(stageManager, configHolder, video)));
+
+
+        /*Video video = configHolder.getVideos().get(0);
 
         title.setText(video.getTitle());
         author.setText(video.getAuthor());
@@ -62,15 +66,15 @@ public class VideoListController {
 
         String youtubeId = VideoUtils.getYoutubeVideoId(video.getUrl());
         Image image = new Image(VideoUtils.getYouTubeThumbnail(youtubeId));
-        previewImage.setImage(image);
+        previewImage.setImage(image);*/
     }
 
-    public void studyScriptClick(ActionEvent actionEvent) {
+    /*public void studyScriptClick(ActionEvent actionEvent) {
         stageManager.showWarningAlert("Attention please", "This functionality is not ready yet", "Please be patient");
     }
 
     public void watchClick(ActionEvent actionEvent) {
         configHolder.setCurrentVideo(configHolder.getVideos().get(0));
         stageManager.showNewWindow(FxmlView.WATCH_VIDEO);
-    }
+    }*/
 }
