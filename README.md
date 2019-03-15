@@ -134,6 +134,8 @@ http://mueller-dic.chat.ru/Mueller24_koi.html
 
 ### Dictionaries
 
+#### English
+
 https://www.cambridgeenglish.org/learning-english/exam-preparation/
 http://testyourvocab.com/
 http://www.manythings.org/vocabulary/lists/a/
@@ -144,3 +146,17 @@ https://www.wordfrequency.info/top5000.asp
 http://martinweisser.org/corpora_site/word_lists.html
 http://www.kilgarriff.co.uk/bnc-readme.html
 https://www.victoria.ac.nz/lals/resources/academicwordlist
+
+#### Russian
+
+https://www.myvocab.info/howitworks
+https://www.myvocab.info/articles
+http://www.speakrus.ru/dict/
+http://linguists.narod.ru/downloads5.html#slav
+https://pishu-pravilno.livejournal.com/591215.html
+http://www.ruscorpora.ru/corpora-freq.html
+http://ruscorpora.ru/corpora-freq.html
+
+#### Other
+
+https://puzzle-english.com/vocabulary
