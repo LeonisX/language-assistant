@@ -2,6 +2,9 @@ package md.leonis.assistant.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import md.leonis.assistant.config.ConfigHolder;
+import md.leonis.assistant.domain.User;
 import md.leonis.assistant.view.FxmlView;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +14,46 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class DashboardController {
 
+    @FXML
+    public TextArea infoTextArea;
+
     @Lazy
     @Autowired
     private StageManager stageManager;
 
+    @Autowired
+    ConfigHolder configHolder;
+
     @FXML
     private void initialize() {
+        User user = configHolder.getUser();
+
+        //TODO calculate based on words
+        //TODO link to page with description
+        String level = "начинающий (A2+)";
+
+        String text = String.format("%s\n" +
+                "\n" +
+                "\n" +
+                "Уровень: %s\n" +
+                "\n" +
+                "Словарный запас: %d\n" +
+                "\n" +
+                "Подтвержденные слова:\n" +
+                "- чтение: %d\n" +
+                "- написание: %d\n" +
+                "- на слух: %d\n" +
+                "\n" +
+                "\n" +
+                "Специализация: программист\n" +
+                "\n" +
+                "Счёт: %d\n" +
+                "\n" +
+                "Тут роза \n" +
+                "(ядро + специальности)", user.getName(), level, user.getWords(), user.getReadWords(), user.getWriteWords(), user.getTestWords(), user.getScore());
+
+        infoTextArea.setText(text);
+
     }
 
     public void wordBankShow(ActionEvent actionEvent) {

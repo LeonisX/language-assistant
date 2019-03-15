@@ -55,8 +55,7 @@
     <left>
         <VBox prefHeight="571.0" prefWidth="243.0" BorderPane.alignment="CENTER">
             <children>
-                <TextArea prefHeight="408.0" prefWidth="247.0"
-                          text="Leonis&#10;&#10;&#10;Уровень: начинающий&#10;&#10;Словарный запас: &#10;1000 из 20000&#10;(малыш)&#10;&#10;Подтвержденные слова:&#10;- чтение: 1000&#10;- написание: 700&#10;- на слух: 300&#10;&#10;&#10;Специализация: программист&#10;&#10;Тут роза &#10;(ядро + специальности)"/>
+                <TextArea fx:id="infoTextArea" prefHeight="408.0" prefWidth="247.0"/>
             </children>
         </VBox>
     </left>
