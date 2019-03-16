@@ -4,19 +4,23 @@
 
 This is a model of the project, designed to simplify the study of foreign languages. For now, just a sketch of the integration of Spring Boot 2 and JavaFX 8.
 
+## Scratch
 
-### TODO
+### Done
 
-* Splash screen
-* Main screen
-* Words screen
-* Video screen
+* Splash screen (mock-up)
+* Dashboard screen (mock-up)
+* WordBank screen (empty)
+* VideoList screen (mock-up)
+* WatchScript screen (mock-up)
+* WatchVideo screen (mock-up)
 
 ### TODO video
 
-* Video list selector
-* Watch script
-* Watch Video
+* WatchScript: Tab with table & words frequency & level & sort
+* WordBank: Show simply table with words / different statistics / level / sort
+
+
 
 https://www.youtube.com/watch?v=RifjriAxbw8
 
