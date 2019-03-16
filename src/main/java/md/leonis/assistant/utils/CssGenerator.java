@@ -5,6 +5,7 @@ import md.leonis.assistant.domain.LanguageLevel;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+//TODO builder
 public class CssGenerator {
 
     private static final String BLACK = "000000";
@@ -24,6 +25,8 @@ public class CssGenerator {
 
         String result = Arrays.stream(LanguageLevel.values())
                 .map(level -> {
+
+                    //TODO separate method getColor
                     String color = getColorByLevel(level, showColors);
 
                     switch (level) {
