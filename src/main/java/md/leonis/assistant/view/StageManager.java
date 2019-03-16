@@ -114,4 +114,12 @@ public class StageManager {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    public void showErrorAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

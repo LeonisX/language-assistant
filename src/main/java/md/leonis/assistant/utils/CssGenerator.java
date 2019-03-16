@@ -1,11 +1,12 @@
 package md.leonis.assistant.utils;
 
+import lombok.Builder;
 import md.leonis.assistant.domain.LanguageLevel;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-//TODO builder
+@Builder
 public class CssGenerator {
 
     private static final String BLACK = "000000";
@@ -13,64 +14,56 @@ public class CssGenerator {
 
     private static final String TEMPLATE = ".%s { color: #%s }";
 
-    public static String generate(boolean showColors, boolean hideKnownWords, boolean showUnknown,
-                                  boolean showA1,
-                                  boolean showA2,
-                                  boolean showB1,
-                                  boolean showB2,
-                                  boolean showC1,
-                                  boolean showC2,
-                                  boolean showC2p
-    ) {
+    private boolean showColors;
+    private boolean hideKnownWords;
+    private boolean showUnknown;
+    private boolean showA1;
+    private boolean showA2;
+    private boolean showB1;
+    private boolean showB2;
+    private boolean showC1;
+    private boolean showC2;
+    private boolean showC2p;
 
-        String result = Arrays.stream(LanguageLevel.values())
-                .map(level -> {
+    public String generate() {
 
-                    //TODO separate method getColor
-                    String color = getColorByLevel(level, showColors);
-
-                    switch (level) {
-                        case A0:
-                            break;
-                        case A1:
-                            color = showA1 ? color : WHITE;
-                            break;
-                        case A2:
-                        case A2P:
-                            color = showA2 ? color : WHITE;
-                            break;
-                        case B1:
-                        case B1P:
-                            color = showB1 ? color : WHITE;
-                            break;
-                        case B2:
-                        case B2P:
-                            color = showB2 ? color : WHITE;
-                            break;
-                        case C1:
-                            color = showC1 ? color : WHITE;
-                            break;
-                        case C2:
-                            color = showC2 ? color : WHITE;
-                            break;
-                        case C2P:
-                            color = showC2p ? color : WHITE;
-                            break;
-                        case UNK:
-                        default:
-                            color = showUnknown ? BLACK : WHITE;
-                    }
-
-                    return String.format(TEMPLATE, level.name().toLowerCase(), color);
-                }).collect(Collectors.joining(" "));
+        String css = Arrays.stream(LanguageLevel.values()).map(level ->
+                String.format(TEMPLATE, level.name().toLowerCase(), getColor(level))).collect(Collectors.joining(" "));
 
         if (hideKnownWords) {
-            result += String.format(TEMPLATE, "known", WHITE);
+            css += String.format(TEMPLATE, "known", WHITE);
         }
-        return result;
+        return css;
     }
 
-    private static String getColorByLevel(LanguageLevel level, boolean showColors) {
+    private String getColor(LanguageLevel level) {
+        switch (level) {
+            case A0:
+                return getColorByLevel(level);
+            case A1:
+                return showA1 ? getColorByLevel(level) : WHITE;
+            case A2:
+            case A2P:
+                return showA2 ? getColorByLevel(level) : WHITE;
+            case B1:
+            case B1P:
+                return showB1 ? getColorByLevel(level) : WHITE;
+            case B2:
+            case B2P:
+                return showB2 ? getColorByLevel(level) : WHITE;
+            case C1:
+                return showC1 ? getColorByLevel(level) : WHITE;
+            case C2:
+                return showC2 ? getColorByLevel(level) : WHITE;
+            case C2P:
+                return showC2p ? getColorByLevel(level) : WHITE;
+            case UNK:
+            default:
+                return showUnknown ? BLACK : WHITE;
+        }
+    }
+
+    private String getColorByLevel(LanguageLevel level) {
         if (!showColors) {
             return BLACK;
         }

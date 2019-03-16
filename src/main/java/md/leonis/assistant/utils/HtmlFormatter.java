@@ -1,45 +1,58 @@
 package md.leonis.assistant.utils;
 
-import lombok.Builder;
-import md.leonis.assistant.domain.LanguageLevel;;
+import lombok.Getter;
+import md.leonis.assistant.domain.LanguageLevel;
+import md.leonis.assistant.domain.ScriptWord;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-//TODO fill the map on the fly, transform on the fly
-@Builder
+@Getter
 public class HtmlFormatter {
 
     private static final Random random = new Random();
 
-    private static String TEMPLATE = "<span class='%s'>%s</span>";
+    private static final String TEMPLATE = "<span class='%s'>%s</span>";
+
+    private static final Pattern PATTERN = Pattern.compile("(?<=\\b|[^\\p{L}])");
 
     private static final Set<Character> PUNCTUATION = new TreeSet<>(Arrays.asList(',', '.', '!', '?', ';', ':'));
 
-    public String toHtml(String text) {
-        //TODO precompile
-        String[] words = text.split("(?<=\\b|[^\\p{L}])");
+    private String text;
+    private String html;
+    private Map<String, ScriptWord> wordsMap = new HashMap<>();
 
-        Map<String, String> wordsMap = Arrays.stream(words).distinct().collect(Collectors.toMap(w -> w, this::toSpan));
-
-        return Arrays.stream(words).map(word -> {
-            String tag = wordsMap.get(word);
-            return (tag == null) ? word : tag;
-        }).collect(Collectors.joining());
+    public HtmlFormatter(String text) {
+        this.text = text;
+        this.html = toHtml(text);
     }
 
-    private String toSpan(String word) {
+    private String toHtml(String text) {
+        String[] words = PATTERN.split(text);
+
+        for (String word : words) {
+            ScriptWord scriptWord = wordsMap.get(word);
+            if (scriptWord == null) {
+                LanguageLevel level = getLevel(word);
+                wordsMap.put(word, new ScriptWord(word, level, toSpan(word, level)));
+            } else {
+                scriptWord.increment();
+            }
+        }
+
+        return Arrays.stream(words).map(word -> wordsMap.get(word).getTag()).collect(Collectors.joining());
+    }
+
+    private String toSpan(String word, LanguageLevel level) {
         if (word.equals("\n")) {
             return "<br>\n";
         }
         if (isSeparator(word)) {
             return word;
         }
-        return String.format(TEMPLATE, getClass(word), word);
-    }
-
-    private String getClass(String word) {
-        return getLevel(word) + " " + getKnownStatus(word);
+        String clazz = getLevelName(level) + " " + getKnownStatus(word);
+        return String.format(TEMPLATE, clazz, word);
     }
 
     private static boolean isSeparator(String word) {
@@ -49,9 +62,13 @@ public class HtmlFormatter {
         return PUNCTUATION.contains(word.charAt(0));
     }
 
+    private String getLevelName(LanguageLevel level) {
+        return level.name().toLowerCase(); // a1...c2p, unk
+    }
+
     //TODO get word level (DB)
-    private String getLevel(String word) {
-        return LanguageLevel.values()[random.nextInt(LanguageLevel.values().length)].name().toLowerCase(); // a1...c2p, unk
+    private LanguageLevel getLevel(String word) {
+        return LanguageLevel.values()[random.nextInt(LanguageLevel.values().length - 1) + 1];
     }
 
     //TODO  (DB)

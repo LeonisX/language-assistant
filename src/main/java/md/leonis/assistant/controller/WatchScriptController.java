@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import md.leonis.assistant.config.ConfigHolder;
 import md.leonis.assistant.utils.CssGenerator;
 import md.leonis.assistant.utils.HtmlFormatter;
@@ -24,6 +25,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 
+//TODO table: word || frequency || level + filter + sort
 @Controller
 public class WatchScriptController {
 
@@ -55,6 +57,14 @@ public class WatchScriptController {
 
     private boolean allowRefresh = true;
 
+    private HtmlFormatter htmlFormatter;
+
+    String text = "I don't see how this can be done without a loop. \n" +
+            "A string is more or less an group of characters. \n" +
+            "If it is a group (collection, array, etc) then no matter if it is internal or external to the native code, \n" +
+            "I would expect that you would need a loop in order to find something within the \"group\". \n" +
+            "I believe \"without using a loop?\" is more like \"without writing my own loop?\"";
+
     @FXML
     private void initialize() {
 
@@ -85,24 +95,19 @@ public class WatchScriptController {
                     target.addEventListener("mouseover", overEventListener, false);
                     target.addEventListener("mouseout", outEventListener, false);
                 }
+            } else if (newState == Worker.State.FAILED) {
+                //TODO test
+                stageManager.showErrorAlert("Error loading text",  "Failed to display the text in the browser",
+                        "WebView Worker Exception == " + webView.getEngine().getLoadWorker().getException());
+                Stage stage = (Stage) webView.getScene().getWindow();
+                stage.close();
             }
         });
 
         //TODO link with DB
-        //TODO static class
-        HtmlFormatter htmlFormatter = HtmlFormatter.builder().build();
+        htmlFormatter = new HtmlFormatter(text);
 
-        String text = htmlFormatter.toHtml("I don't see how this can be done without a loop. \n" +
-                "A string is more or less an group of characters. \n" +
-                "If it is a group (collection, array, etc) then no matter if it is internal or external to the native code, \n" +
-                "I would expect that you would need a loop in order to find something within the \"group\". \n" +
-                "I believe \"without using a loop?\" is more like \"without writing my own loop?\"");
-
-        webView.getEngine().loadContent("<html><body> " + text + " </body></html>");
-    }
-
-    public void sourceCodeClick() {
-        refreshWebView();
+        webView.getEngine().loadContent("<html><body> " + htmlFormatter.getHtml() + " </body></html>");
     }
 
     private void refreshWebView() {
@@ -122,19 +127,26 @@ public class WatchScriptController {
             StreamResult result = new StreamResult(new StringWriter());
             DOMSource source = new DOMSource(webView.getEngine().getDocument());
             transformer.transform(source, result);
-            String xmlString = result.getWriter().toString();
-
-
-            textArea.setText(xmlString);
+            textArea.setText(result.getWriter().toString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private Text generateCss() {
-        Document doc = webView.getEngine().getDocument();
-        return doc.createTextNode(CssGenerator.generate(colorsCheckBox.isSelected(), unknownWordsCheckBox.isSelected(), unkCheckBox.isSelected(), a1CheckBox.isSelected()
-                , a2CheckBox.isSelected(), b1CheckBox.isSelected(), b2CheckBox.isSelected(), c1CheckBox.isSelected(), c2CheckBox.isSelected(), c2pCheckBox.isSelected()));
+        CssGenerator cssGenerator = CssGenerator.builder()
+                .hideKnownWords(unknownWordsCheckBox.isSelected())
+                .showColors(colorsCheckBox.isSelected())
+                .showUnknown(unkCheckBox.isSelected())
+                .showA1(a1CheckBox.isSelected())
+                .showA2(a2CheckBox.isSelected())
+                .showB1(b1CheckBox.isSelected())
+                .showB2(b2CheckBox.isSelected())
+                .showC1(c1CheckBox.isSelected())
+                .showC2(c2CheckBox.isSelected())
+                .showC2p(c2pCheckBox.isSelected())
+                .build();
+        return webView.getEngine().getDocument().createTextNode(cssGenerator.generate());
     }
 
     public void showAllClick() {
@@ -157,5 +169,9 @@ public class WatchScriptController {
         if (allowRefresh) {
             refreshWebView();
         }
+    }
+
+    public void sourceCodeClick() {
+        refreshWebView();
     }
 }
