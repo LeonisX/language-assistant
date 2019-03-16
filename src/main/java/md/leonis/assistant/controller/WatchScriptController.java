@@ -12,9 +12,9 @@ import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -54,8 +54,7 @@ public class WatchScriptController {
                     "    background-color: #ff0000;\n" +
                     "    color: #ffffff;\n" +
                     "    padding: 20px\n" +
-                    "}"
-                    ;
+                    "}";
 
 
     private Node styleNode;
@@ -65,16 +64,25 @@ public class WatchScriptController {
 
         webView.getEngine().getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
-                Document doc = webView.getEngine().getDocument() ;
+                Document doc = webView.getEngine().getDocument();
 
                 styleNode = doc.createElement("style");
                 Text styleContent = doc.createTextNode(CSS);
                 styleNode.appendChild(styleContent);
                 doc.getDocumentElement().getElementsByTagName("head").item(0).appendChild(styleNode);
 
-                System.out.println(webView.getEngine().executeScript("document.documentElement.outerHTML"));
+                /*System.out.println(webView.getEngine().executeScript("document.documentElement.outerHTML"));
                 System.out.println("=======================");
-                System.out.println(webView.getEngine().executeScript("document.documentElement.innerHTML"));
+                System.out.println(webView.getEngine().executeScript("document.documentElement.innerHTML"));*/
+
+                EventListener clickEventListener = ev -> System.out.println(((Element) ev.getTarget()).getTextContent());
+
+                NodeList nodeList = doc.getElementsByTagName("span");
+
+                // https://www.khanacademy.org/computing/computer-programming/html-css-js/html-js-dom-events/a/dom-event-types
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    ((EventTarget) nodeList.item(i)).addEventListener("click", clickEventListener, false);
+                }
             }
         });
 
@@ -88,7 +96,7 @@ public class WatchScriptController {
     }
 
     public void sourceCodeClick(ActionEvent actionEvent) throws TransformerException {
-        Document doc = webView.getEngine().getDocument() ;
+        Document doc = webView.getEngine().getDocument();
         styleNode.removeChild(styleNode.getFirstChild());
         Text styleContent = doc.createTextNode(CssGenerator.generate());
         styleNode.appendChild(styleContent);
