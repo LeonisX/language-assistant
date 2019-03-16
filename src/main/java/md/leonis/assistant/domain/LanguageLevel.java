@@ -21,7 +21,9 @@ public enum LanguageLevel {
     B2P("Intermediate (B2+)", 6000, 20294),
     C1("Upper-Intermediate (C1)", 8000, 33279),
     C2("Advanced (C2)", 16000, 34911),
-    C2P("Near Native (C2+)", 32000, 200_000); // Who is bigger?
+    C2P("Near Native (C2+)", 32000, 200_000), // Who is bigger?
+
+    UNK("Unknown :(", -1, -1);
 
     private String title;
     private long minCount;

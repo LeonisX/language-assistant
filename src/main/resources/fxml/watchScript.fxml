@@ -16,27 +16,26 @@
             <HBox prefHeight="27.0" prefWidth="788.0" spacing="5.0">
                <children>
                   <Label text="Filters" />
-                  <Button mnemonicParsing="false" text="Show all" />
-                  <Button mnemonicParsing="false" text="Hide known words" />
+                  <Button mnemonicParsing="false" onAction="#showAllClick" text="Show all" />
                   <Button mnemonicParsing="false" onAction="#sourceCodeClick" text="Source code" />
                </children>
             </HBox>
             <HBox prefHeight="41.0" prefWidth="788.0" spacing="5.0">
                <children>
-                  <CheckBox mnemonicParsing="false" selected="true" text="Известные слова" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="Выделять цветами" />
+                  <CheckBox fx:id="unknownWordsCheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" text="Скрывать известные слова" />
+                  <CheckBox fx:id="colorsCheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="Выделять цветами" />
                </children>
             </HBox>
             <HBox prefHeight="35.0" prefWidth="788.0" spacing="5.0">
                <children>
-                  <CheckBox mnemonicParsing="false" selected="true" text="Unknown level" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="A1" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="A2" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="B1" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="B2" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="C1" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="C2" />
-                  <CheckBox mnemonicParsing="false" selected="true" text="C2+" />
+                  <CheckBox fx:id="unkCheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="Unknown level" />
+                  <CheckBox fx:id="a1CheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="A1" />
+                  <CheckBox fx:id="a2CheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="A2" />
+                  <CheckBox fx:id="b1CheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="B1" />
+                  <CheckBox fx:id="b2CheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="B2" />
+                  <CheckBox fx:id="c1CheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="C1" />
+                  <CheckBox fx:id="c2CheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="C2" />
+                  <CheckBox fx:id="c2pCheckBox" mnemonicParsing="false" onAction="#filterCheckBoxClick" selected="true" text="C2+" />
                </children>
             </HBox>
          </children>
