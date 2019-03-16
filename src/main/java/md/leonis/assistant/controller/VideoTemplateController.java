@@ -68,7 +68,8 @@ public class VideoTemplateController extends HBox {
     }
 
     public void studyScriptClick(ActionEvent actionEvent) {
-        stageManager.showWarningAlert("Attention please", "This functionality is not ready yet", "Please be patient");
+        //stageManager.showWarningAlert("Attention please", "This functionality is not ready yet", "Please be patient");
+        stageManager.showNewWindow(FxmlView.WATCH_SCRIPT);
     }
 
     public void watchClick(ActionEvent actionEvent) {

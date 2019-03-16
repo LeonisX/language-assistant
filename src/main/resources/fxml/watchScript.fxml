@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="716.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.WatchScriptController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="27.0" prefWidth="788.0" spacing="5.0">
+               <children>
+                  <Label text="Filters" />
+                  <Button mnemonicParsing="false" text="Show all" />
+                  <Button mnemonicParsing="false" text="Hide known words" />
+                  <Button mnemonicParsing="false" onAction="#sourceCodeClick" text="Source code" />
+               </children>
+            </HBox>
+            <HBox prefHeight="41.0" prefWidth="788.0" spacing="5.0">
+               <children>
+                  <CheckBox mnemonicParsing="false" selected="true" text="Известные слова" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="Выделять цветами" />
+               </children>
+            </HBox>
+            <HBox prefHeight="35.0" prefWidth="788.0" spacing="5.0">
+               <children>
+                  <CheckBox mnemonicParsing="false" selected="true" text="Unknown level" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="A1" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="A2" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="B1" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="B2" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="C1" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="C2" />
+                  <CheckBox mnemonicParsing="false" selected="true" text="C2+" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

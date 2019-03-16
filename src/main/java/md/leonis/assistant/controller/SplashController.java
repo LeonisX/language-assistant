@@ -18,7 +18,9 @@ public class SplashController {
 
     @FXML
     private void initialize() {
-        PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        //TODO switch on
+        //PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        PauseTransition delay = new PauseTransition(Duration.millis(1));
         //TODO boolean - need to wait all processes
         delay.setOnFinished(event -> stageManager.switchScene(FxmlView.DASHBOARD));
         delay.play();
