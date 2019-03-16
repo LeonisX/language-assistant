@@ -15,6 +15,7 @@ This is a model of the project, designed to simplify the study of foreign langua
 ### TODO video
 
 * Video list selector
+* Watch script
 * Watch Video
 
 https://www.youtube.com/watch?v=RifjriAxbw8
