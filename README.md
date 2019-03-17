@@ -17,11 +17,15 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO video
 
-* WatchScript: Tab with table & words frequency & level & sort
-* WordBank: Show simply table with words / different statistics / level / sort
+* WatchScript: Tab with table & words frequency & level & sort (as in WordBank)
 
 * Templates to separate folder
 
+### TODO DBs
+
+* Word::level
+* Word::frequency
+* English::Russian
 
 
 https://www.youtube.com/watch?v=RifjriAxbw8
@@ -200,6 +204,15 @@ https://www.wordfrequency.info/top5000.asp
 http://martinweisser.org/corpora_site/word_lists.html
 http://www.kilgarriff.co.uk/bnc-readme.html
 https://www.victoria.ac.nz/lals/resources/academicwordlist
+http://number27.org/assets/misc/words.txt
+https://www.wordandphrase.info/frequencyList.asp
+https://github.com/first20hours/google-10000-english
+http://www.naturalenglish.club/esl/1000.php
+http://norvig.com/google-books-common-words.txt
+http://ucrel.lancs.ac.uk/bncfreq/
+http://ucrel.lancs.ac.uk/bncfreq/flists.html
+http://www.kilgarriff.co.uk/bnc-readme.html
+
 
 TODO very cool
 https://www.english.com/gse/teacher-toolkit/user/vocabulary?page=1&sort=gse;asc&gseRange=10;90&audience=GL
