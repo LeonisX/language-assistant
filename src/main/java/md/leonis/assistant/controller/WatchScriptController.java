@@ -25,7 +25,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 
-//TODO table: word || frequency || level + filter + sort
+//TODO table tab: word || frequency || level + filter + sort
 @Controller
 public class WatchScriptController {
 
@@ -42,6 +42,8 @@ public class WatchScriptController {
     @FXML
     public TextArea textArea;
 
+    //TODO also another tpe of filter with range selection
+    //TODO template + separate controller
     public CheckBox unknownWordsCheckBox;
     public CheckBox colorsCheckBox;
     public CheckBox unkCheckBox;

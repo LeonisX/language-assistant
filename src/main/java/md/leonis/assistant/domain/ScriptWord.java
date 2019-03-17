@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class ScriptWord {
 
-    private String title;
+    private String word;
     private long frequency;
     private LanguageLevel level;
     private String tag;
 
-    public ScriptWord(String title, LanguageLevel level, String tag) {
-        this.title = title;
+    public ScriptWord(String word, LanguageLevel level, String tag) {
+        this.word = word;
         this.frequency = 1;
         this.level = level;
         this.tag = tag;

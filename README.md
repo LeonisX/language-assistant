@@ -20,6 +20,8 @@ This is a model of the project, designed to simplify the study of foreign langua
 * WatchScript: Tab with table & words frequency & level & sort
 * WordBank: Show simply table with words / different statistics / level / sort
 
+* Templates to separate folder
+
 
 
 https://www.youtube.com/watch?v=RifjriAxbw8
