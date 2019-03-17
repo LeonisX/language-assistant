@@ -10,7 +10,7 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 * Splash screen (mock-up)
 * Dashboard screen (mock-up)
-* WordBank screen (empty)
+* WordBank screen (mock-up, w/o filters)
 * VideoList screen (mock-up)
 * WatchScript screen (mock-up)
 * WatchVideo screen (mock-up)
