@@ -62,7 +62,7 @@ public class RawImporterApp {
             } else {
                 response = toString(urlConnection.getInputStream());
             }
-            rawDAO.save(new Raw(response));
+            rawDAO.save(new Raw(i, response));
             Thread.sleep(delay);
         }
     }
