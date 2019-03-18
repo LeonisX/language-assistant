@@ -4,5 +4,3 @@
 
 --todo rename
 CREATE SCHEMA Test;
-
-CREATE SCHEMA Bank;

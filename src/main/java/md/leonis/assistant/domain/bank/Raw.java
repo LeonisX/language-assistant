@@ -1,4 +1,4 @@
-package md.leonis.assistant.domain;
+package md.leonis.assistant.domain.bank;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

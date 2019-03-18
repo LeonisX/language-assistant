@@ -1,4 +1,4 @@
-package md.leonis.assistant.domain;
+package md.leonis.assistant.domain.standard;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,14 +15,14 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "WordFrequencies", schema = "Bank")
-public class WordFrequency {
+@Table(name = "WordPlaces", schema = "Test")
+public class WordPlace {
 
     @Id
     @Column(name = "Word", length = 136, nullable = false)
     private String word;
 
-    @Column(name = "Frequency", nullable = false)
-    private long frequency;
+    @Column(name = "Place", nullable = false)
+    private long place;
 
 }

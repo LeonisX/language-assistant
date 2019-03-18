@@ -1,6 +1,6 @@
-package md.leonis.assistant.dao;
+package md.leonis.assistant.dao.standard;
 
-import md.leonis.assistant.domain.WordPlace;
+import md.leonis.assistant.domain.standard.WordPlace;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

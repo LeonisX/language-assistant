@@ -1,9 +1,10 @@
-package md.leonis.assistant.domain;
+package md.leonis.assistant.domain.standard;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import md.leonis.assistant.domain.LanguageLevel;
 
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "WordLevels", schema = "Bank")
+@Table(name = "WordLevels", schema = "Test")
 public class WordLevel {
 
     @Id
