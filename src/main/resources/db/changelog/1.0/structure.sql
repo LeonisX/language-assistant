@@ -26,3 +26,10 @@ CREATE TABLE Bank.WordLevels (
     Level VARCHAR(3) NOT NULL,
     Percent INT
 );
+
+--changeset leonis:1.0.4
+
+CREATE TABLE Test.Raws (
+    Id BIGINT IDENTITY PRIMARY KEY,
+    Raw TEXT NOT NULL
+);
