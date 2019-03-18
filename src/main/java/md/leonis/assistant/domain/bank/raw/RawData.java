@@ -9,7 +9,7 @@ public class RawData {
 
     private String itemId;
     private String expression;
-    private List<RawAudioFiles> audioFiles;
+    private RawAudioFiles audioFiles;
     private String thesaurus;
     private String definition;
     private String example;
@@ -19,9 +19,9 @@ public class RawData {
     private boolean temporaryGse;
     private List<String> grammaticalCategories;
     private List<RawCollos> collos;
-    private List<String> variants;              // ???
+    private List<String> variants;
     private List<List<RawTopic>> topics;
-    private List<RawRegion> region;
-    private RawHighlight highlight; // TODO Optional, Object
+    private RawRegion region;
+    private RawHighlight highlight; // TODO can't parse :(
 
 }
