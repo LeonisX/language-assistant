@@ -24,8 +24,8 @@ This is a model of the project, designed to simplify the study of foreign langua
 ### TODO DBs
 
 * Word::level
-* Word::frequency
-* Word::place
+* v Word::frequency
+* v Word::place
 
 * English::Russian
 
