@@ -26,9 +26,9 @@ public class WordLevel {
     private LanguageLevel level;
 
     @Column(name = "Percent")
-    private byte percent;
+    private Byte percent;
 
     @Column(name = "Definition")
-    private byte definition;
+    private String definition;
 
 }
