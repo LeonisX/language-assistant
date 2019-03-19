@@ -1,5 +1,6 @@
 package md.leonis.assistant.service;
 
+import md.leonis.assistant.dao.standard.UserWordBankDAO;
 import md.leonis.assistant.dao.standard.WordLevelDAO;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.standard.WordLevel;
@@ -19,6 +20,9 @@ public class SampleService {
     @Autowired
     private WordLevelDAO wordLevelDAO;
 
+    @Autowired
+    private UserWordBankDAO wordBankDAO;
+
     public void echo() {
         System.out.println("ECHO");
     }
@@ -33,5 +37,9 @@ public class SampleService {
             log.info(wordLevelList.toString());
         }
         return wordLevelList.stream().min(Comparator.comparing(WordLevel::getWord)).get().getLevel();
+    }
+
+    public boolean getKnownStatus(String word) {
+        return wordBankDAO.findById(word).isPresent();
     }
 }

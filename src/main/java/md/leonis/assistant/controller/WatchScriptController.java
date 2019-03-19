@@ -50,6 +50,8 @@ public class WatchScriptController {
     //TODO dynamically show only relevant checkBoxes
     //TODO also another type of filter with range selection
     //TODO template + separate controller
+
+    //TODO filters: detect endings, upper cases
     public CheckBox unknownWordsCheckBox;
     public CheckBox colorsCheckBox;
     public CheckBox unkCheckBox;
@@ -67,11 +69,13 @@ public class WatchScriptController {
 
     private HtmlFormatter htmlFormatter;
 
+    //TODO read from video || DB
     String text = "I don't see how this can be done without a loop. \n" +
             "A string is more or less an group of characters. \n" +
             "If it is a group (collection, array, etc) then no matter if it is internal or external to the native code, \n" +
             "I would expect that you would need a loop in order to find something within the \"group\". \n" +
-            "I believe \"without using a loop?\" is more like \"without writing my own loop?\"";
+            "I believe \"without using a loop?\" is more like \"without writing my own loop?\" \n" +
+            "Mortal mortal Kombat rare sponge";
 
     @FXML
     private void initialize() {

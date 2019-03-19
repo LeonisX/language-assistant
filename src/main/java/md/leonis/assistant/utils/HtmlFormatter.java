@@ -75,8 +75,8 @@ public class HtmlFormatter {
         //return LanguageLevel.values()[random.nextInt(LanguageLevel.values().length - 1) + 1];
     }
 
-    //TODO  (DB)
     private String getKnownStatus(String word) {
-        return random.nextBoolean() ? "known" : "unknown";
+        return sampleService.getKnownStatus(word) ? "known" : "unknown";
+        //return random.nextBoolean() ? "known" : "unknown";
     }
 }
