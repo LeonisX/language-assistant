@@ -14,21 +14,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "WordLevels", schema = "Test")
+@Table(schema = "Test")
 public class WordLevel {
 
     @Id
-    @Column(name = "Word", length = 136, nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
     private String word;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Level", length = 3, nullable = false)
     private LanguageLevel level;
 
-    @Column(name = "Percent")
     private Byte percent;
 
-    @Column(name = "Definition")
     private String definition;
 
 }

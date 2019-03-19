@@ -12,12 +12,10 @@ CREATE TABLE Test.WordFrequencies (
     Frequency BIGINT NOT NULL
 );
 
-CREATE TABLE Test.WordLevels (
-    Word NVARCHAR(136) PRIMARY KEY,
+CREATE TABLE Test.WordLevel (
+    Id BIGINT IDENTITY PRIMARY KEY,
+    Word NVARCHAR(136) NOT NULL,
     Level VARCHAR(3) NOT NULL,
-    Percent INT
+    Percent INT,
+    Definition TEXT
 );
-
---changeset leonis:1.0.3
-
-ALTER TABLE Test.WordLevels ADD COLUMN Definition NVARCHAR(255);
