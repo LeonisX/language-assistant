@@ -45,3 +45,15 @@ CREATE TABLE Test.ParsedRawData (
 --changeset leonis:1.0.4
 
 CREATE INDEX words ON Test.WordLevel (Word);
+
+--changeset leonis:1.0.5
+
+CREATE TABLE Test.UserWordBank (
+    Word NVARCHAR(136) PRIMARY KEY,
+    Smoke BOOLEAN DEFAULT FALSE,
+    Reading BOOLEAN DEFAULT FALSE,
+    Writing BOOLEAN DEFAULT FALSE,
+    Smoked BIGINT NOT NULL DEFAULT 0,
+    Read BIGINT NOT NULL DEFAULT 0,
+    Written BIGINT NOT NULL DEFAULT 0,
+);
