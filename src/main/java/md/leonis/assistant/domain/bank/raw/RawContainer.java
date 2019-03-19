@@ -9,4 +9,5 @@ public class RawContainer {
 
     private int count;
     private List<RawData> data;
+
 }

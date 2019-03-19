@@ -2,6 +2,7 @@ package md.leonis.assistant;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import md.leonis.assistant.dao.bank.RawDAO;
+import md.leonis.assistant.dao.standard.ParsedRawDataDAO;
 import md.leonis.assistant.dao.standard.WordLevelDAO;
 import md.leonis.assistant.domain.bank.raw.RawContainer;
 import md.leonis.assistant.domain.bank.raw.RawData;
@@ -48,6 +49,8 @@ public class RawParserApp {
 
         }*/
 
+        ParsedRawDataDAO parsedRawDataDAO = springContext.getBean(ParsedRawDataDAO.class);
+
         List<WordLevel> wordLevels = StreamSupport.stream(rawDAO.findAll().spliterator(), false)
                 .flatMap(r -> {
                     try {
@@ -56,7 +59,9 @@ public class RawParserApp {
                         e.printStackTrace();
                     }
                     return null;
-                }).map(RawData::toWordLevel).collect(Collectors.toList());
+                })
+                .peek(r -> parsedRawDataDAO.save(r.toParsedRawData()))
+                .map(RawData::toWordLevel).collect(Collectors.toList());
 
         WordLevelDAO wordLevelDAO = springContext.getBean(WordLevelDAO.class);
         wordLevelDAO.saveAll(wordLevels);
