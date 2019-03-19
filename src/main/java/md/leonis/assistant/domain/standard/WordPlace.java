@@ -15,14 +15,11 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "WordPlaces", schema = "Test")
 public class WordPlace {
 
     @Id
-    @Column(name = "Word", length = 136, nullable = false)
     private String word;
 
-    @Column(name = "Place", nullable = false)
     private long place;
 
 }
