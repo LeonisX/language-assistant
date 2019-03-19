@@ -21,8 +21,8 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 * Templates to separate folder
 
-* Users WordBank (randomly data for now)
-* WatchScript: connect to it
+* v Users WordBank (randomly data for now)
+* v WatchScript: connect to it
 
 ### TODO DBs
 
