@@ -28,4 +28,7 @@ public class WordLevel {
     @Column(name = "Percent")
     private byte percent;
 
+    @Column(name = "Definition")
+    private byte definition;
+
 }

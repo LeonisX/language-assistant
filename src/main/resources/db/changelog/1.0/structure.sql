@@ -17,3 +17,7 @@ CREATE TABLE Test.WordLevels (
     Level VARCHAR(3) NOT NULL,
     Percent INT
 );
+
+--changeset leonis:1.0.3
+
+ALTER TABLE Test.WordLevels ADD COLUMN Definition NVARCHAR(255);
