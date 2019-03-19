@@ -25,12 +25,12 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 * v 2 DataSources, 2 files
 * v Grab site
-* Raw to WL, analyze
+* v Raw to WL, analyze
 
 * v Word::frequency
 * v Word::place
 
-* Word::level
+* v Word::level
 * Match levels & wordbanks from different sources
 
 * Video - find the most matched videos (level, unknown words)

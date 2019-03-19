@@ -41,3 +41,7 @@ CREATE TABLE Test.ParsedRawData (
     region TEXT,
     highlight TEXT,
 );
+
+--changeset leonis:1.0.4
+
+CREATE INDEX words ON Test.WordLevel (Word);

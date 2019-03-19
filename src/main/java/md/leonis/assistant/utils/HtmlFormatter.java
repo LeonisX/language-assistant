@@ -3,6 +3,7 @@ package md.leonis.assistant.utils;
 import lombok.Getter;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.ScriptWord;
+import md.leonis.assistant.service.SampleService;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -19,12 +20,15 @@ public class HtmlFormatter {
 
     private static final Set<Character> PUNCTUATION = new TreeSet<>(Arrays.asList(',', '.', '!', '?', ';', ':'));
 
-    private String text;
-    private String html;
-    private Map<String, ScriptWord> wordsMap = new HashMap<>();
+    private final String text;
+    private final String html;
+    private final SampleService sampleService;
 
-    public HtmlFormatter(String text) {
+    private final Map<String, ScriptWord> wordsMap = new HashMap<>();
+
+    public HtmlFormatter(String text, SampleService sampleService) {
         this.text = text;
+        this.sampleService = sampleService;
         this.html = toHtml(text);
     }
 
@@ -66,9 +70,9 @@ public class HtmlFormatter {
         return level.name().toLowerCase(); // a1...c2p, unk
     }
 
-    //TODO get word level (DB)
     private LanguageLevel getLevel(String word) {
-        return LanguageLevel.values()[random.nextInt(LanguageLevel.values().length - 1) + 1];
+        return sampleService.getLevel(word);
+        //return LanguageLevel.values()[random.nextInt(LanguageLevel.values().length - 1) + 1];
     }
 
     //TODO  (DB)

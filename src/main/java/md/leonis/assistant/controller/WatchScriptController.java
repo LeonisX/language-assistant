@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import md.leonis.assistant.config.ConfigHolder;
+import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.utils.CssGenerator;
 import md.leonis.assistant.utils.HtmlFormatter;
 import md.leonis.assistant.view.StageManager;
@@ -36,13 +37,18 @@ public class WatchScriptController {
     @Autowired
     private ConfigHolder configHolder;
 
+    @Autowired
+    private SampleService sampleService;
+
     @FXML
     private WebView webView;
 
     @FXML
     public TextArea textArea;
 
-    //TODO also another tpe of filter with range selection
+    //TODO dynamically build
+    //TODO dynamically show only relevant checkBoxes
+    //TODO also another type of filter with range selection
     //TODO template + separate controller
     public CheckBox unknownWordsCheckBox;
     public CheckBox colorsCheckBox;
@@ -106,8 +112,7 @@ public class WatchScriptController {
             }
         });
 
-        //TODO link with DB
-        htmlFormatter = new HtmlFormatter(text);
+        htmlFormatter = new HtmlFormatter(text, sampleService);
 
         webView.getEngine().loadContent("<html><body> " + htmlFormatter.getHtml() + " </body></html>");
     }

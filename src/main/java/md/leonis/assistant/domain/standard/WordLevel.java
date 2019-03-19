@@ -1,9 +1,6 @@
 package md.leonis.assistant.domain.standard;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import md.leonis.assistant.domain.LanguageLevel;
 
 import javax.persistence.*;
@@ -11,6 +8,7 @@ import javax.persistence.*;
 //TODO study default columns matching, Column w/o name
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
