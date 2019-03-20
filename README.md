@@ -14,6 +14,7 @@ This is a model of the project, designed to simplify the study of foreign langua
 * VideoList screen (mock-up)
 * WatchScript screen (mock-up)
 * WatchVideo screen (mock-up)
+* Dictionary screen (mock-up)
 
 ### TODO video
 
@@ -43,7 +44,7 @@ https://mvnrepository.com/artifact/org.apache.lucene.morphology
 * Video - find the most matched videos (level, unknown words)
 
 
-* English::Russian
+* v English::Russian
 
 
 

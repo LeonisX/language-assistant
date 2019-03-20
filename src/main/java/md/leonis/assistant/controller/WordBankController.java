@@ -40,7 +40,7 @@ public class WordBankController {
         initData();
 
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
-        //levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
+        //transcrColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
         levelColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getLevel().getTitle()));
         levelColumn.sortTypeProperty();
         frequencyColumn.setCellValueFactory(new PropertyValueFactory<>("frequency"));

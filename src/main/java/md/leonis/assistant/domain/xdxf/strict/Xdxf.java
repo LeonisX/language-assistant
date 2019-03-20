@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "metaInfo",
     "lexicon"
 })
-@XmlRootElement(name = "files")
+@XmlRootElement(name = "xdxf")
 public class Xdxf {
 
     @XmlAttribute(name = "format")

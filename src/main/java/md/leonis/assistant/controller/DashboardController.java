@@ -64,4 +64,8 @@ public class DashboardController {
     public void watchVideoShow(ActionEvent actionEvent) {
         stageManager.showNewWindow(FxmlView.VIDEO_LIST);
     }
+
+    public void onDictionaryClick(ActionEvent actionEvent) {
+        stageManager.showNewWindow(FxmlView.DICTIONARY);
+    }
 }

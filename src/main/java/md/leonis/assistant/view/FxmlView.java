@@ -9,7 +9,8 @@ public enum FxmlView {
     WORD_BANK("wordBank.title", "wordBank"),
     VIDEO_LIST("videoList.title", "videoList"),
     WATCH_SCRIPT("watchScript.title", "watchScript"),
-    WATCH_VIDEO("watchVideo.title", "watchVideo");
+    WATCH_VIDEO("watchVideo.title", "watchVideo"),
+    DICTIONARY("dictionary.title", "dictionary");
 
     private static String fxmlPath = "/fxml/%s.fxml";
 

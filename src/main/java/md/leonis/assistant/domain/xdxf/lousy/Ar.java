@@ -8,14 +8,11 @@
 
 package md.leonis.assistant.domain.xdxf.lousy;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -23,7 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "value"
+    "k", "tr", "value"
 })
 @XmlRootElement(name = "ar")
 public class Ar {
@@ -31,55 +28,45 @@ public class Ar {
     @XmlAttribute(name = "f")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String f;
-    @XmlValue
-    protected String value;
 
-    /**
-     * Gets the value of the f property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
+    @XmlElement
+    protected String k;
+
+    @XmlElement
+    protected String tr;
+
+    @XmlMixed
+    protected List<String> value;
+
     public String getF() {
         return f;
     }
 
-    /**
-     * Sets the value of the f property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
     public void setF(String value) {
         this.f = value;
     }
 
-    /**
-     * Gets the value of the value property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getvalue() {
-        return value;
+    public String getValue() {
+        return String.join("", value).trim();
     }
 
-    /**
-     * Sets the value of the value property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setvalue(String value) {
+    public void setValue(List<String> value) {
         this.value = value;
     }
 
+    public String getK() {
+        return k;
+    }
+
+    public void setK(String k) {
+        this.k = k;
+    }
+
+    public String getTr() {
+        return tr;
+    }
+
+    public void setTr(String tr) {
+        this.tr = tr;
+    }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.DictionaryController">
+    <top>
+        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="searchWordField" onKeyReleased="#searchWordFieldKeyReleased" />
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="wordsTable" prefHeight="200.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="wordColumn" editable="false" prefWidth="160.0" text="Word" />
+                <TableColumn fx:id="transcrColumn" editable="false" prefWidth="180.0" text="Transcription" />
+                <TableColumn fx:id="descrColumn" editable="false" prefWidth="390.0" text="Translation" />
+            </columns>
+        </TableView>
+    </center>
+   <bottom>
+      <TextArea fx:id="textArea" prefHeight="140.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

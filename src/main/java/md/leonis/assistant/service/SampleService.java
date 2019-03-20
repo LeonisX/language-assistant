@@ -4,11 +4,25 @@ import md.leonis.assistant.dao.standard.UserWordBankDAO;
 import md.leonis.assistant.dao.standard.WordLevelDAO;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.standard.WordLevel;
+import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xml.sax.*;
 
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.sax.SAXSource;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,6 +30,8 @@ import java.util.List;
 public class SampleService {
 
     private static final Logger log = LoggerFactory.getLogger(SampleService.class);
+
+    private static final String DICT_NAME = "_resources/files/dictionaries/mueller24/dict.xdxf";
 
     @Autowired
     private WordLevelDAO wordLevelDAO;
@@ -41,5 +57,32 @@ public class SampleService {
 
     public boolean getKnownStatus(String word) {
         return wordBankDAO.findById(word).isPresent();
+    }
+
+    //TODO get name
+    public Xdxf getDictionary() {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(Xdxf.class);
+
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            spf.setFeature("http://xml.org/sax/features/validation", false);
+            spf.setValidating(false);
+
+            XMLReader xmlReader = spf.newSAXParser().getXMLReader();
+            URL url = SampleService.class.getClassLoader().getResource(DICT_NAME);
+            File file = new File(url.toURI());
+            InputSource inputSource = new InputSource(new FileReader(file));
+            SAXSource source = new SAXSource(xmlReader, inputSource);
+
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
+
+            return (Xdxf) unmarshaller.unmarshal(source);
+
+        } catch (JAXBException | SAXException | ParserConfigurationException | FileNotFoundException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

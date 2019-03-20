@@ -23,7 +23,7 @@ public class XdxfImporterApp {
 
     private static final Logger log = LoggerFactory.getLogger(XdxfImporterApp.class);
 
-    private static final String DICT_NAME = "/home/leonidstavila/Downloads/dict/mueller24/dict.files";
+    private static final String DICT_NAME = "/home/leonis/language-assistant/src/main/resources/_resources/files/dictionaries/mueller24/dict.xdxf";
 
     public static void main(String[] args) throws SAXException, ParserConfigurationException, FileNotFoundException {
         //ConfigurableApplicationContext springContext = SpringApplication.run(XdxfImporterApp.class, args);

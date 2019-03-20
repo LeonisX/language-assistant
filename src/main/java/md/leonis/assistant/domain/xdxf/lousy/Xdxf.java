@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "abbreviations",
     "ar"
 })
-@XmlRootElement(name = "files")
+@XmlRootElement(name = "xdxf")
 public class Xdxf {
 
     @XmlAttribute(name = "lang_from", required = true)
@@ -223,4 +223,15 @@ public class Xdxf {
         return this.ar;
     }
 
+    @Override
+    public String toString() {
+        return "Xdxf{\n" +
+                "langFrom='" + langFrom + '\'' +
+                ", \nlangTo='" + langTo + '\'' +
+                ", \nformat='" + format + '\'' +
+                ", \nfullName='" + fullName + '\'' +
+                ", \ndescription='" + description + '\'' +
+                ", \nabbreviations=" + abbreviations +
+                "\n}";
+    }
 }
