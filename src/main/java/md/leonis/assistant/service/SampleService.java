@@ -25,7 +25,6 @@ import javax.xml.transform.sax.SAXSource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -89,11 +88,18 @@ public class SampleService {
     }
 
     public List<Dictionary> getDictionaries() {
-        List<Dictionary> result = new ArrayList<>();
-        result.add(new Dictionary(1L, "RUS", "ENG", "format", "revision", "fullName", 10L, 120000L, ""));
-        result.add(new Dictionary(2L, "ENG", "RUS", "format2", "revision2", "Tro lo lo", 20000L, 1000000L, ""));
-        return result;
-        //TODO enable
-        //return dictionaryDAO.findAll();
+        /*List<Dictionary> result = new ArrayList<>();
+        result.add(new Dictionary(1L, "RUS", "ENG", "format", "revision", "fullName", 10L, 120000, ""));
+        result.add(new Dictionary(2L, "ENG", "RUS", "format2", "revision2", "Tro lo lo", 20000L, 1000000, ""));
+        return result;*/
+        return dictionaryDAO.findAll();
+    }
+
+    public void saveDictionary(Dictionary dictionary) {
+        dictionaryDAO.save(dictionary);
+    }
+
+    public void deleteDictionary(Long id) {
+        dictionaryDAO.deleteById(id);
     }
 }

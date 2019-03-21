@@ -26,9 +26,9 @@ public class Dictionary {
 
     private String fullName;
 
-    private long size;
+    private Long size;
 
-    private long recordsCount;
+    private Integer recordsCount;
 
     private String path;
 
