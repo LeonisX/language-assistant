@@ -11,12 +11,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import md.leonis.assistant.domain.standard.Dictionary;
+import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
+
+import java.io.File;
 
 @Controller
 public class DictionaryImporterController {
@@ -88,8 +92,21 @@ public class DictionaryImporterController {
         dictionaries = new SortedList<>(observableList);
     }
 
-    //TODO
-    public void importClick(ActionEvent actionEvent) {
+    public void importClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("~/")); //TODO
+        fileChooser.setInitialFileName("dict.xdxf");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("XDXF Dictionaries", "*.xdxf"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+
+        //TODO null???
+        File file = fileChooser.showOpenDialog(dictionariesTable.getScene().getWindow());
+        Xdxf xdxf = sampleService.getDictionary(file);
+        //TODO xdxf -> dict
+        //TODO to DB
+        //TODO refresh
     }
 
     //TODO

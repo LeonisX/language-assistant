@@ -69,5 +69,6 @@ CREATE TABLE Test.Dictionary (
     Revision NVARCHAR(255),
     FullName NVARCHAR(255),
     Size BIGINT NOT NULL DEFAULT 0,
-    Records BIGINT NOT NULL DEFAULT 0
+    Records BIGINT NOT NULL DEFAULT 0,
+    Path NVARCHAR(255),
 );

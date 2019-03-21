@@ -11,7 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xml.sax.*;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -23,8 +25,6 @@ import javax.xml.transform.sax.SAXSource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,8 +33,6 @@ import java.util.List;
 public class SampleService {
 
     private static final Logger log = LoggerFactory.getLogger(SampleService.class);
-
-    private static final String DICT_NAME = "_resources/files/dictionaries/mueller24/dict.xdxf";
 
     @Autowired
     private WordLevelDAO wordLevelDAO;
@@ -66,7 +64,7 @@ public class SampleService {
     }
 
     //TODO get name
-    public Xdxf getDictionary() {
+    public Xdxf getDictionary(File file) {
         try {
             JAXBContext jc = JAXBContext.newInstance(Xdxf.class);
 
@@ -77,8 +75,6 @@ public class SampleService {
             spf.setValidating(false);
 
             XMLReader xmlReader = spf.newSAXParser().getXMLReader();
-            URL url = SampleService.class.getClassLoader().getResource(DICT_NAME);
-            File file = new File(url.toURI());
             InputSource inputSource = new InputSource(new FileReader(file));
             SAXSource source = new SAXSource(xmlReader, inputSource);
 
@@ -86,7 +82,7 @@ public class SampleService {
 
             return (Xdxf) unmarshaller.unmarshal(source);
 
-        } catch (JAXBException | SAXException | ParserConfigurationException | FileNotFoundException | URISyntaxException e) {
+        } catch (JAXBException | SAXException | ParserConfigurationException | FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -94,8 +90,8 @@ public class SampleService {
 
     public List<Dictionary> getDictionaries() {
         List<Dictionary> result = new ArrayList<>();
-        result.add(new Dictionary(1L, "RUS", "ENG", "format", "revision", "fullName", 10L, 120000L));
-        result.add(new Dictionary(2L, "ENG", "RUS", "format2", "revision2", "Tro lo lo", 20000L, 1000000L));
+        result.add(new Dictionary(1L, "RUS", "ENG", "format", "revision", "fullName", 10L, 120000L, ""));
+        result.add(new Dictionary(2L, "ENG", "RUS", "format2", "revision2", "Tro lo lo", 20000L, 1000000L, ""));
         return result;
         //TODO enable
         //return dictionaryDAO.findAll();

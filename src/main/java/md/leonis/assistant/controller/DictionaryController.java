@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import lombok.SneakyThrows;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import md.leonis.assistant.service.SampleService;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 @Controller
@@ -65,7 +68,7 @@ public class DictionaryController {
             cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
             text.wrappingWidthProperty().bind(descrColumn.widthProperty());
             text.textProperty().bind(cell.itemProperty());
-            return cell ;
+            return cell;
         });
 
         //wordsTable.getSortOrder().add(wordColumn);
@@ -77,8 +80,13 @@ public class DictionaryController {
         wordsTable.setItems(sortedData);
     }
 
+    @SneakyThrows
     private void initData() {
-        Xdxf xdxf = sampleService.getDictionary();
+        //TODO rewrite, get first from DB for now
+        String DICT_NAME = "_resources/files/dictionaries/mueller24/dict.xdxf";
+        URL url = SampleService.class.getClassLoader().getResource(DICT_NAME);
+        File file = new File(url.toURI());
+        Xdxf xdxf = sampleService.getDictionary(file);
         List<Ar> arList = xdxf.getAr();
         //arMap = arList.stream().collect(Collectors.toMap(Ar::getValue, ar -> ar));
         ObservableList<Ar> wordData = FXCollections.observableArrayList(arList);

@@ -30,4 +30,6 @@ public class Dictionary {
 
     private long recordsCount;
 
+    private String path;
+
 }
