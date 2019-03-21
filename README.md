@@ -46,6 +46,7 @@ https://mvnrepository.com/artifact/org.apache.lucene.morphology
 
 * v English::Russian
 
+* Dictionary importer
 
 
 #TODO bugs
