@@ -28,6 +28,6 @@ public class Dictionary {
 
     private long size;
 
-    private long records;
+    private long recordsCount;
 
 }

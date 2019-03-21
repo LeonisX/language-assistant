@@ -68,4 +68,8 @@ public class DashboardController {
     public void onDictionaryClick(ActionEvent actionEvent) {
         stageManager.showNewWindow(FxmlView.DICTIONARY);
     }
+
+    public void onImportDictionaryClick(ActionEvent actionEvent) {
+        stageManager.showNewWindow(FxmlView.DICTIONARY_IMPORTER);
+    }
 }

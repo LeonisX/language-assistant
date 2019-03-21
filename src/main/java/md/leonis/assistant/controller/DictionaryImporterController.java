@@ -1,40 +1,39 @@
 package md.leonis.assistant.controller;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import md.leonis.assistant.domain.xdxf.lousy.Ar;
-import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
+import md.leonis.assistant.domain.standard.Dictionary;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-
 @Controller
 public class DictionaryImporterController {
 
     @FXML
-    public TableView<Ar> wordsTable;
+    public TableView<Dictionary> dictionariesTable;
 
     @FXML
-    public TableColumn<Ar, String> wordColumn;
+    public TableColumn<Dictionary, String> directionColumn;
     @FXML
-    public TableColumn<Ar, String> transcrColumn;
+    public TableColumn<Dictionary, String> titleColumn;
     @FXML
-    public TableColumn<Ar, String> descrColumn;
+    public TableColumn<Dictionary, String> otherColumn;
 
-    public TextField searchWordField;
-    public TextArea textArea;
+    public Button removeButton;
 
-    private FilteredList<Ar> filteredData;
+    private SortedList<Dictionary> dictionaries;
 
     @Autowired
     private SampleService sampleService;
@@ -43,61 +42,57 @@ public class DictionaryImporterController {
     @Autowired
     private StageManager stageManager;
 
+    private BooleanProperty isSelectedRow = new SimpleBooleanProperty(false);
+
     @FXML
     private void initialize() {
         initData();
 
-        wordColumn.setCellValueFactory(new PropertyValueFactory<>("k"));
-        wordColumn.setComparator(String::compareToIgnoreCase);
+        //TODO id, revision, format, size, recordsCount
 
-        transcrColumn.setCellValueFactory(new PropertyValueFactory<>("tr"));
-        transcrColumn.setComparator(null);
-        //transcrColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getLevel().getTitle()));
-        transcrColumn.sortTypeProperty();
-        descrColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-        descrColumn.setComparator(null);
+        directionColumn.setCellValueFactory(new PropertyValueFactory<>("k"));
+        directionColumn.setComparator(String::compareToIgnoreCase);
+        directionColumn.setCellValueFactory(d ->
+                new SimpleStringProperty(d.getValue().getLangFrom() + " -> " + d.getValue().getLangTo()));
+
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        //titleColumn.setComparator(null);
         //xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
 
-        descrColumn.setCellFactory(tc -> {
-            TableCell<Ar, String> cell = new TableCell<>();
+        titleColumn.setCellFactory(tc -> {
+            TableCell<Dictionary, String> cell = new TableCell<>();
             Text text = new Text();
             cell.setGraphic(text);
             cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
-            text.wrappingWidthProperty().bind(descrColumn.widthProperty());
+            text.wrappingWidthProperty().bind(titleColumn.widthProperty());
             text.textProperty().bind(cell.itemProperty());
             return cell ;
         });
 
-        //wordsTable.getSortOrder().add(wordColumn);
+        otherColumn.setCellValueFactory(new PropertyValueFactory<>("recordsCount"));
+        otherColumn.setComparator(null);
+        otherColumn.sortTypeProperty();
 
-        SortedList<Ar> sortedData = new SortedList<>(filteredData);
+        dictionaries.comparatorProperty().bind(dictionariesTable.comparatorProperty());
 
-        sortedData.comparatorProperty().bind(wordsTable.comparatorProperty());
+        dictionariesTable.setItems(dictionaries);
 
-        wordsTable.setItems(sortedData);
+        dictionariesTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->
+                isSelectedRow.setValue(dictionariesTable.getSelectionModel().getSelectedItem() != null));
+
+        removeButton.disableProperty().bind(isSelectedRow);
     }
 
     private void initData() {
-        Xdxf xdxf = sampleService.getDictionary();
-        List<Ar> arList = xdxf.getAr();
-        //arMap = arList.stream().collect(Collectors.toMap(Ar::getValue, ar -> ar));
-        ObservableList<Ar> wordData = FXCollections.observableArrayList(arList);
-        filteredData = new FilteredList<>(wordData);
-        filteredData.setPredicate(p -> true); // Initial: show all rows
-        textArea.setText(xdxf.toString());
+        ObservableList<Dictionary> observableList = FXCollections.observableArrayList(sampleService.getDictionaries());
+        dictionaries = new SortedList<>(observableList);
     }
 
-    public void searchWordFieldKeyReleased() {
-        updatePredicate();
+    //TODO
+    public void importClick(ActionEvent actionEvent) {
     }
 
-    private void updatePredicate() {
-        filteredData.setPredicate((data) -> {
-            boolean showItem = true;
-            if (!searchWordField.getText().isEmpty()) {
-                showItem = data.getK().toLowerCase().startsWith(searchWordField.getText().toLowerCase());
-            }
-            return showItem;
-        });
+    //TODO
+    public void removeClick(ActionEvent actionEvent) {
     }
 }

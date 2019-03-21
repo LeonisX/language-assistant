@@ -68,6 +68,6 @@ CREATE TABLE Test.Dictionary (
     Format NVARCHAR(255),
     Revision NVARCHAR(255),
     FullName NVARCHAR(255),
-    Size BIGINT NOT NULL DEFAULT 0
+    Size BIGINT NOT NULL DEFAULT 0,
     Records BIGINT NOT NULL DEFAULT 0
 );
