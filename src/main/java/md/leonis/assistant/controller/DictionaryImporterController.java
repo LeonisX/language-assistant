@@ -1,12 +1,12 @@
 package md.leonis.assistant.controller;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,6 +21,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class DictionaryImporterController {
@@ -32,12 +35,14 @@ public class DictionaryImporterController {
     public TableColumn<Dictionary, String> directionColumn;
     @FXML
     public TableColumn<Dictionary, String> titleColumn;
-    @FXML
-    public TableColumn<Dictionary, String> otherColumn;
 
     public Button removeButton;
-
-    private SortedList<Dictionary> dictionaries;
+    public Button removeOrphanedButton;
+    public TableColumn<Dictionary, Long> idColumn;
+    public TableColumn<Dictionary, String> revisionColumn;
+    public TableColumn<Dictionary, String> formatColumn;
+    public TableColumn<Dictionary, String> sizeColumn;
+    public TableColumn<Dictionary, Integer> recordsCountColumn;
 
     @Autowired
     private SampleService sampleService;
@@ -46,13 +51,18 @@ public class DictionaryImporterController {
     @Autowired
     private StageManager stageManager;
 
-    private BooleanProperty isSelectedRow = new SimpleBooleanProperty(false);
+    private BooleanProperty isNotSelectedRow = new SimpleBooleanProperty(true);
 
     @FXML
     private void initialize() {
-        initData();
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        //TODO id, revision, format, size, recordsCount
+        revisionColumn.setCellValueFactory(new PropertyValueFactory<>("revision"));
+        formatColumn.setCellValueFactory(new PropertyValueFactory<>("format"));
+        sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
+        sizeColumn.setCellValueFactory(d -> new SimpleStringProperty(Long.toString(d.getValue().getSize() / 1024)));
+        recordsCountColumn.setCellValueFactory(new PropertyValueFactory<>("recordsCount"));
+
 
         directionColumn.setCellValueFactory(new PropertyValueFactory<>("k"));
         directionColumn.setComparator(String::compareToIgnoreCase);
@@ -73,43 +83,70 @@ public class DictionaryImporterController {
             return cell ;
         });
 
-        otherColumn.setCellValueFactory(new PropertyValueFactory<>("recordsCount"));
-        otherColumn.setComparator(null);
-        otherColumn.sortTypeProperty();
-
-        dictionaries.comparatorProperty().bind(dictionariesTable.comparatorProperty());
-
-        dictionariesTable.setItems(dictionaries);
+        initData();
 
         dictionariesTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->
-                isSelectedRow.setValue(dictionariesTable.getSelectionModel().getSelectedItem() != null));
+                isNotSelectedRow.setValue(dictionariesTable.getSelectionModel().getSelectedItem() == null));
 
-        removeButton.disableProperty().bind(isSelectedRow);
+        removeButton.disableProperty().bind(isNotSelectedRow);
+        BooleanBinding booleanBinding = new BooleanBinding() {
+            @Override
+            protected boolean computeValue() {
+                return dictionariesTable.getItems().isEmpty();
+            }
+        };
+        removeOrphanedButton.disableProperty().bind(booleanBinding);
     }
 
     private void initData() {
         ObservableList<Dictionary> observableList = FXCollections.observableArrayList(sampleService.getDictionaries());
-        dictionaries = new SortedList<>(observableList);
+        SortedList<Dictionary> dictionaries = new SortedList<>(observableList);
+        dictionariesTable.setItems(dictionaries);
+        dictionaries.comparatorProperty().bind(dictionariesTable.comparatorProperty());
     }
 
+    // TODO do not add duplicates
+    //TODO keep last directory
     public void importClick() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("~/")); //TODO
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home"))); //TODO
         fileChooser.setInitialFileName("dict.xdxf");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("XDXF Dictionaries", "*.xdxf"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
 
-        //TODO null???
         File file = fileChooser.showOpenDialog(dictionariesTable.getScene().getWindow());
-        Xdxf xdxf = sampleService.getDictionary(file);
-        //TODO xdxf -> dict
-        //TODO to DB
-        //TODO refresh
+        if (file != null) {
+            Xdxf xdxf = sampleService.getDictionary(file);
+            Dictionary dictionary = xdxf.toDictionary(file);
+            sampleService.saveDictionary(dictionary);
+            initData();
+        }
     }
 
-    //TODO
-    public void removeClick(ActionEvent actionEvent) {
+    public void removeClick() {
+        if (!isNotSelectedRow.getValue()) {
+            sampleService.deleteDictionary(dictionariesTable.getSelectionModel().getSelectedItem().getId());
+            initData();
+        }
+    }
+
+    public void onRemoveOrphaned() {
+        List<Dictionary> orphaned = sampleService.getDictionaries().stream().filter(d -> !(new File(d.getPath()).exists())).collect(Collectors.toList());
+        if (orphaned.isEmpty()) {
+            stageManager.showWarningAlert("Nothing to delete", "All dictionaries are attached", "");
+            return;
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm to delete?");
+        alert.setHeaderText("Delete these dictionaries?");
+        alert.setContentText(orphaned.stream().map(Dictionary::getFullName).collect(Collectors.joining("\n")));
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            sampleService.deleteAllDictionaries(orphaned);
+        }
+        initData();
     }
 }

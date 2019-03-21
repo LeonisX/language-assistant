@@ -10,9 +10,13 @@
     <center>
         <TableView fx:id="dictionariesTable" prefHeight="200.0" prefWidth="750.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn fx:id="directionColumn" editable="false" prefWidth="160.0" text="Direction" />
-                <TableColumn fx:id="titleColumn" editable="false" prefWidth="180.0" text="Title" />
-                <TableColumn fx:id="otherColumn" editable="false" prefWidth="390.0" text="###" />
+                <TableColumn fx:id="idColumn" editable="false" prefWidth="40.0" text="ID" />
+                <TableColumn fx:id="directionColumn" editable="false" prefWidth="100.0" text="Direction" />
+                <TableColumn fx:id="titleColumn" editable="false" prefWidth="350.0" text="Title" />
+                <TableColumn fx:id="recordsCountColumn" editable="false" prefWidth="100.0" text="# Records" />
+                <TableColumn fx:id="sizeColumn" editable="false" prefWidth="100.0" text="Size (Kb)" />
+                <TableColumn fx:id="revisionColumn" editable="false" prefWidth="10.0" text="Revision" />
+                <TableColumn fx:id="formatColumn" editable="false" prefWidth="10.0" text="Format" />
             </columns>
         </TableView>
     </center>
@@ -21,6 +25,7 @@
          <children>
           <Button mnemonicParsing="false" onAction="#importClick" text="Import new dictionary" />
             <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeClick" text="Remove from DB" />
+            <Button fx:id="removeOrphanedButton" mnemonicParsing="false" onAction="#onRemoveOrphaned" text="Remove orphaned dictionaries" />
          </children>
       </HBox>
    </top>

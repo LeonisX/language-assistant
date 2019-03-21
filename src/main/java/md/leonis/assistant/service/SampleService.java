@@ -102,4 +102,8 @@ public class SampleService {
     public void deleteDictionary(Long id) {
         dictionaryDAO.deleteById(id);
     }
+
+    public void deleteAllDictionaries(List<Dictionary> dictionaries) {
+        dictionaryDAO.deleteAll(dictionaries);
+    }
 }
