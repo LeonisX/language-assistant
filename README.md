@@ -18,6 +18,8 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO video
 
+* Allow to see different dictionaries, change by ComboBox
+
 * WatchScript: Tab with table & words frequency & level & sort (as in WordBank)
 
 * Templates to separate folder
