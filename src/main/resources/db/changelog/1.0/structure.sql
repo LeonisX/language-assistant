@@ -55,5 +55,19 @@ CREATE TABLE Test.UserWordBank (
     Writing BOOLEAN DEFAULT FALSE,
     Smoked BIGINT NOT NULL DEFAULT 0,
     Read BIGINT NOT NULL DEFAULT 0,
-    Written BIGINT NOT NULL DEFAULT 0,
+    Written BIGINT NOT NULL DEFAULT 0
+);
+
+--changeset leonis:1.0.6
+-- trim sizes if need, add null restrictions
+
+CREATE TABLE Test.Dictionary (
+    Id BIGINT IDENTITY PRIMARY KEY,
+    LangFrom NVARCHAR(255),
+    LangTo NVARCHAR(255),
+    Format NVARCHAR(255),
+    Revision NVARCHAR(255),
+    FullName NVARCHAR(255),
+    Size BIGINT NOT NULL DEFAULT 0
+    Records BIGINT NOT NULL DEFAULT 0
 );

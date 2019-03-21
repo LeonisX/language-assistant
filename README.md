@@ -28,6 +28,12 @@ This is a model of the project, designed to simplify the study of foreign langua
 https://github.com/akuznetsov/russianmorphology
 https://mvnrepository.com/artifact/org.apache.lucene.morphology
 
+TODO sourcerer - 
+
+git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch PATH-TO-YOUR-FILE-WITH-SENSITIVE-DATA' --prune-empty --tag-name-filter cat -- --all
+
+git push origin --force --all
+
 
 ### TODO DBs
 

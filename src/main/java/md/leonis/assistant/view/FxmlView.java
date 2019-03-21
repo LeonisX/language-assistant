@@ -10,7 +10,8 @@ public enum FxmlView {
     VIDEO_LIST("videoList.title", "videoList"),
     WATCH_SCRIPT("watchScript.title", "watchScript"),
     WATCH_VIDEO("watchVideo.title", "watchVideo"),
-    DICTIONARY("dictionary.title", "dictionary");
+    DICTIONARY("dictionary.title", "dictionary"),
+    DICTIONARY_IMPORTER("dictionaryImporter.title", "dictionaryImporter");
 
     private static String fxmlPath = "/fxml/%s.fxml";
 
