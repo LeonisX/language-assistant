@@ -97,6 +97,27 @@ http://erfoundation.org/wordpress/graded-readers/
 LeoLingo
 
 
+https://www.readbeyond.it/aeneas/
+
+https://stackoverflow.com/questions/46598539/how-to-synchronize-mp3-audio-with-text
+https://stackoverflow.com/questions/40206029/android-sync-audio-with-text
+https://stackoverflow.com/questions/13422673/looking-for-a-working-example-of-addtimedtextsource-for-adding-subtitle-to-a-vid
+https://en.wikipedia.org/wiki/LRC_(file_format)
+
+https://github.com/synalp/jtrans
+
+https://stackoverflow.com/questions/6970013/getting-current-youtube-video-time
+
+https://github.com/IonicaBizau/text-to-speech
+
+https://github.com/pettarin/forced-alignment-tools
+
+https://sourceforge.net/projects/cmusphinx/files/sphinx4/5prealpha/
+https://github.com/cmusphinx/sphinx4
+
+http://labbcat.sourceforge.net/
+
+https://www.geeksforgeeks.org/converting-text-speech-java/
 
 ### Dictionaries
 

@@ -25,6 +25,9 @@ Atlantida Multilingual Dictionary + Source + Sound
 https://web.archive.org/web/20061207035813/http://atla.revdanica.com/ru/
 https://sourceforge.net/projects/atla/files/
 
+fluentizer.com
+https://www.apkandroid.ru/fluent-english-pro-old/fluentizer.narr/
+
 
 ### DSL, Mova, PtkDict/phpMyLingvo MySQL dumps, Sdictionary
 JaLingo
@@ -60,6 +63,8 @@ https://4pda.ru/forum/index.php?showtopic=189915&st=620#entry8942509
 
 http://mueller-dic.chat.ru/Mueller24_koi.html
 
+
+https://sourceforge.net/projects/freedict/
 
 ## DTD to Java Classes
 

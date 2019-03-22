@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -9,9 +10,10 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.DictionaryController">
     <top>
-        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <HBox prefHeight="51.0" prefWidth="750.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <TextField fx:id="searchWordField" onKeyReleased="#searchWordFieldKeyReleased" />
+            <ComboBox fx:id="dictionariesComboBox" onAction="#onDictionariesComboBoxAction" prefHeight="26.0" prefWidth="461.0" />
             </children>
         </HBox>
     </top>
