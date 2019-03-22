@@ -72,3 +72,15 @@ CREATE TABLE Test.Dictionary (
     RecordsCount INT NOT NULL DEFAULT 0,
     Path NVARCHAR(255),
 );
+
+--changeset leonis:1.0.7
+
+CREATE TABLE Test.WordToLearn (
+    Word NVARCHAR(136) PRIMARY KEY,
+    Smoke BOOLEAN DEFAULT FALSE,
+    Reading BOOLEAN DEFAULT FALSE,
+    Writing BOOLEAN DEFAULT FALSE,
+    Smoked BIGINT NOT NULL DEFAULT 0,
+    Read BIGINT NOT NULL DEFAULT 0,
+    Written BIGINT NOT NULL DEFAULT 0
+);

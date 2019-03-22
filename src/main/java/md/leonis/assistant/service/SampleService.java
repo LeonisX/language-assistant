@@ -1,9 +1,6 @@
 package md.leonis.assistant.service;
 
-import md.leonis.assistant.dao.standard.DictionaryDAO;
-import md.leonis.assistant.dao.standard.UserWordBankDAO;
-import md.leonis.assistant.dao.standard.WordFrequencyDAO;
-import md.leonis.assistant.dao.standard.WordLevelDAO;
+import md.leonis.assistant.dao.standard.*;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.standard.Dictionary;
 import md.leonis.assistant.domain.standard.UserWordBank;
@@ -50,6 +47,9 @@ public class SampleService {
 
     @Autowired
     private UserWordBankDAO userWordBankDAO;
+
+    @Autowired
+    private WordToLearnDAO wordToLearnDAO;
 
     public void echo() {
         System.out.println("ECHO");
@@ -139,5 +139,9 @@ public class SampleService {
 
     public List<UserWordBank> getUserWordBank() {
         return userWordBankDAO.findAll();
+    }
+
+    public void saveWordToLearn(UserWordBank wordToLearn) {
+        wordToLearnDAO.save(wordToLearn);
     }
 }

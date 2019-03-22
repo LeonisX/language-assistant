@@ -1,13 +1,17 @@
 package md.leonis.assistant.controller;
 
 import javafx.concurrent.Worker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import md.leonis.assistant.config.ConfigHolder;
+import md.leonis.assistant.domain.standard.UserWordBank;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.utils.CssGenerator;
 import md.leonis.assistant.utils.HtmlFormatter;
@@ -30,6 +34,7 @@ import java.io.StringWriter;
 @Controller
 public class WatchScriptController {
 
+    public ListView<String> listView;
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -92,8 +97,8 @@ public class WatchScriptController {
                 styleNode.appendChild(styleContent);
                 doc.getDocumentElement().getElementsByTagName("head").item(0).appendChild(styleNode);
 
-                //TODO add to unknown list
-                EventListener clickEventListener = ev -> System.out.println(((Element) ev.getTarget()).getTextContent());
+                EventListener clickEventListener = ev ->
+                        listView.getItems().add(((Element) ev.getTarget()).getTextContent());
                 EventListener overEventListener = ev -> webView.setCursor(Cursor.HAND);
                 EventListener outEventListener = ev -> webView.setCursor(Cursor.MOVE);
 
@@ -184,5 +189,21 @@ public class WatchScriptController {
 
     public void sourceCodeClick() {
         refreshWebView();
+    }
+
+    public void onListViewMouseClicked() {
+        String value = listView.getSelectionModel().getSelectedItem();
+        if (value != null) {
+            listView.getItems().remove(value);
+        }
+    }
+
+    public void onNeedToLearnClick() {
+        listView.getItems().forEach(word -> {
+            UserWordBank wordToLearn = new UserWordBank();
+            wordToLearn.setWord(word);
+            sampleService.saveWordToLearn(wordToLearn);
+        });
+        listView.getItems().clear();
     }
 }
