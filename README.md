@@ -18,7 +18,7 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO video
 
-* Allow to see different dictionaries, change by ComboBox
+* v Allow to see different dictionaries, change by ComboBox
 
 * WatchScript: Tab with table & words frequency & level & sort (as in WordBank)
 
@@ -54,7 +54,7 @@ git push origin --force --all
 
 * v English::Russian
 
-* Dictionary importer
+* v Dictionary importer
 
 
 #TODO bugs
