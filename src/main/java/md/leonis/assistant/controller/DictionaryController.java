@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 import lombok.SneakyThrows;
+import md.leonis.assistant.domain.standard.Dictionary;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import md.leonis.assistant.service.SampleService;
@@ -18,7 +20,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,6 +38,9 @@ public class DictionaryController {
 
     public TextField searchWordField;
     public TextArea textArea;
+    public ComboBox<Dictionary> dictionariesComboBox;
+
+    private ObservableList<Dictionary> dictionaries;
 
     private FilteredList<Ar> filteredData;
 
@@ -48,6 +53,26 @@ public class DictionaryController {
 
     @FXML
     private void initialize() {
+        dictionariesComboBox.setConverter(new StringConverter<Dictionary>() {
+
+            @Override
+            public String toString(Dictionary dictionary) {
+                return dictionary.getFullName();
+            }
+
+            @Override
+            public Dictionary fromString(String string) {
+                return dictionariesComboBox.getItems().stream().filter(d ->
+                        d.getFullName().equals(string)).findFirst().orElse(null);
+            }
+        });
+
+        dictionaries = FXCollections.observableArrayList(sampleService.getDictionaries());
+        dictionariesComboBox.setItems(dictionaries);
+        //if (!dictionaries.isEmpty()) {
+        dictionariesComboBox.getSelectionModel().select(0);
+        //}
+
         initData();
 
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("k"));
@@ -70,29 +95,32 @@ public class DictionaryController {
             text.textProperty().bind(cell.itemProperty());
             return cell;
         });
-
-        //wordsTable.getSortOrder().add(wordColumn);
-
-        SortedList<Ar> sortedData = new SortedList<>(filteredData);
-
-        sortedData.comparatorProperty().bind(wordsTable.comparatorProperty());
-
-        wordsTable.setItems(sortedData);
     }
 
     @SneakyThrows
     private void initData() {
-        //TODO rewrite, get first from DB for now
-        String DICT_NAME = "_resources/files/dictionaries/mueller24/dict.xdxf";
-        URL url = SampleService.class.getClassLoader().getResource(DICT_NAME);
-        File file = new File(url.toURI());
-        Xdxf xdxf = sampleService.getDictionary(file);
-        List<Ar> arList = xdxf.getAr();
-        //arMap = arList.stream().collect(Collectors.toMap(Ar::getValue, ar -> ar));
-        ObservableList<Ar> wordData = FXCollections.observableArrayList(arList);
-        filteredData = new FilteredList<>(wordData);
-        filteredData.setPredicate(p -> true); // Initial: show all rows
-        textArea.setText(xdxf.toString());
+        Dictionary dictionary = dictionariesComboBox.getSelectionModel().getSelectedItem();
+        if (dictionary != null) {
+            File file = new File(dictionary.getPath());
+            //TODO loader, depends on format
+            Xdxf xdxf = sampleService.getDictionary(file);
+            List<Ar> arList = xdxf.getAr();
+            ObservableList<Ar> wordData = FXCollections.observableArrayList(arList);
+
+            searchWordField.setText("");
+
+            filteredData = new FilteredList<>(wordData);
+            filteredData.setPredicate(p -> true); // Initial: show all rows
+
+            //wordsTable.getSortOrder().add(wordColumn);
+            SortedList<Ar> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(wordsTable.comparatorProperty());
+
+            wordsTable.setItems(sortedData);
+            textArea.setText(xdxf.toString());
+        } else {
+            filteredData = new FilteredList<>(FXCollections.observableArrayList(new ArrayList<>()));
+        }
     }
 
     public void searchWordFieldKeyReleased() {
@@ -107,5 +135,9 @@ public class DictionaryController {
             }
             return showItem;
         });
+    }
+
+    public void onDictionariesComboBoxAction() {
+        initData();
     }
 }

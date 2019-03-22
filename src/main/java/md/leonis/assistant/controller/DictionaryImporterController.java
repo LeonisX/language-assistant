@@ -1,6 +1,5 @@
 package md.leonis.assistant.controller;
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -53,6 +52,8 @@ public class DictionaryImporterController {
 
     private BooleanProperty isNotSelectedRow = new SimpleBooleanProperty(true);
 
+    private static String lastVisitedDirectory = System.getProperty("user.home");
+
     @FXML
     private void initialize() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -80,7 +81,7 @@ public class DictionaryImporterController {
             cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
             text.wrappingWidthProperty().bind(titleColumn.widthProperty());
             text.textProperty().bind(cell.itemProperty());
-            return cell ;
+            return cell;
         });
 
         initData();
@@ -89,13 +90,6 @@ public class DictionaryImporterController {
                 isNotSelectedRow.setValue(dictionariesTable.getSelectionModel().getSelectedItem() == null));
 
         removeButton.disableProperty().bind(isNotSelectedRow);
-        BooleanBinding booleanBinding = new BooleanBinding() {
-            @Override
-            protected boolean computeValue() {
-                return dictionariesTable.getItems().isEmpty();
-            }
-        };
-        removeOrphanedButton.disableProperty().bind(booleanBinding);
     }
 
     private void initData() {
@@ -103,13 +97,13 @@ public class DictionaryImporterController {
         SortedList<Dictionary> dictionaries = new SortedList<>(observableList);
         dictionariesTable.setItems(dictionaries);
         dictionaries.comparatorProperty().bind(dictionariesTable.comparatorProperty());
+
+        removeOrphanedButton.setDisable(dictionariesTable.getItems().isEmpty());
     }
 
-    // TODO do not add duplicates
-    //TODO keep last directory
     public void importClick() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home"))); //TODO
+        fileChooser.setInitialDirectory(new File(lastVisitedDirectory));
         fileChooser.setInitialFileName("dict.xdxf");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("XDXF Dictionaries", "*.xdxf"),
@@ -117,11 +111,16 @@ public class DictionaryImporterController {
         );
 
         File file = fileChooser.showOpenDialog(dictionariesTable.getScene().getWindow());
+        lastVisitedDirectory = (file != null) ? file.getParent() : System.getProperty("user.home");
         if (file != null) {
-            Xdxf xdxf = sampleService.getDictionary(file);
-            Dictionary dictionary = xdxf.toDictionary(file);
-            sampleService.saveDictionary(dictionary);
-            initData();
+            if (dictionariesTable.getItems().stream().noneMatch(d -> d.getPath().equals(file.getAbsolutePath()))) {
+                Xdxf xdxf = sampleService.getDictionary(file);
+                Dictionary dictionary = xdxf.toDictionary(file);
+                sampleService.saveDictionary(dictionary);
+                initData();
+            } else {
+                stageManager.showWarningAlert("Already imported!", "", "");
+            }
         }
     }
 
@@ -144,7 +143,7 @@ public class DictionaryImporterController {
         alert.setContentText(orphaned.stream().map(Dictionary::getFullName).collect(Collectors.joining("\n")));
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             sampleService.deleteAllDictionaries(orphaned);
         }
         initData();
