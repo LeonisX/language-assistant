@@ -3,13 +3,16 @@ package md.leonis.assistant.controller;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import md.leonis.assistant.config.ConfigHolder;
+import md.leonis.assistant.domain.standard.Dictionary;
 import md.leonis.assistant.domain.standard.WordToLearn;
+import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.utils.CssGenerator;
 import md.leonis.assistant.utils.HtmlFormatter;
@@ -26,13 +29,17 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.io.StringWriter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 //TODO table tab: word || frequency || level + filter + sort
 @Controller
 public class WatchScriptController {
 
     public ListView<String> listView;
+    public Button removeButton;
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -72,6 +79,8 @@ public class WatchScriptController {
 
     private HtmlFormatter htmlFormatter;
 
+    List<Ar> ars;
+
     //TODO read from video || DB
     String text = "I don't see how this can be done without a loop. \n" +
             "A string is more or less an group of characters. \n" +
@@ -82,6 +91,7 @@ public class WatchScriptController {
 
     @FXML
     private void initialize() {
+        initDictionary();
 
         webView.setCursor(Cursor.DEFAULT);
 
@@ -95,10 +105,32 @@ public class WatchScriptController {
                 styleNode.appendChild(styleContent);
                 doc.getDocumentElement().getElementsByTagName("head").item(0).appendChild(styleNode);
 
-                EventListener clickEventListener = ev ->
-                        listView.getItems().add(((Element) ev.getTarget()).getTextContent());
-                EventListener overEventListener = ev -> webView.setCursor(Cursor.HAND);
-                EventListener outEventListener = ev -> webView.setCursor(Cursor.MOVE);
+                EventListener clickEventListener = ev -> {
+                    String word = ((Element) ev.getTarget()).getTextContent();
+                    if (!listView.getItems().contains(word)) {
+                        listView.getItems().add(word);
+                    }
+                };
+
+                EventListener overEventListener = ev -> {
+                    webView.setCursor(Cursor.HAND);
+                    showTranslation(((Element) ev.getTarget()).getTextContent());
+                    String clazz = ((Element) ev.getTarget()).getAttribute("class");
+                    if (!clazz.endsWith("decorated")) {
+                        clazz = clazz + " " + "decorated";
+                        ((Element) ev.getTarget()).setAttribute("class", clazz);
+                    }
+                };
+
+                EventListener outEventListener = ev -> {
+                    webView.setCursor(Cursor.MOVE);
+                    showTranslation("");
+                    String clazz = ((Element) ev.getTarget()).getAttribute("class");
+                    if (clazz.endsWith("decorated")) {
+                        clazz = clazz.replace("decorated", "").trim();
+                        ((Element) ev.getTarget()).setAttribute("class", clazz);
+                    }
+                };
 
                 NodeList nodeList = doc.getElementsByTagName("span");
 
@@ -122,6 +154,14 @@ public class WatchScriptController {
         htmlFormatter = new HtmlFormatter(text, sampleService);
 
         webView.getEngine().loadContent("<html><body> " + htmlFormatter.getHtml() + " </body></html>");
+    }
+
+    //TODO one dictionary for APP
+    private void initDictionary() {
+        //TODO select right dictionary, not Mueller only
+        Dictionary dictionary = sampleService.getDictionaries().get(0);
+        //TODO File in service
+        ars = sampleService.getDictionary(new File(dictionary.getPath())).getAr();
     }
 
     private void refreshWebView() {
@@ -190,10 +230,7 @@ public class WatchScriptController {
     }
 
     public void onListViewMouseClicked() {
-        String value = listView.getSelectionModel().getSelectedItem();
-        if (value != null) {
-            listView.getItems().remove(value);
-        }
+        showTranslation(listView.getSelectionModel().getSelectedItem());
     }
 
     public void onNeedToLearnClick() {
@@ -204,4 +241,15 @@ public class WatchScriptController {
         });
         listView.getItems().clear();
     }
+
+    public void onRemoveButtonClick() {
+        listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
+    }
+
+    private void showTranslation(String word) {
+        textArea.setText(ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(word))
+                //TODO checks in AR
+                .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n")));
+    }
+
 }

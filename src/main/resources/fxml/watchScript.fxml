@@ -54,7 +54,12 @@
             <ListView fx:id="listView" onMouseClicked="#onListViewMouseClicked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
          <bottom>
-            <Button mnemonicParsing="false" onAction="#onNeedToLearnClick" text="Need to learn" BorderPane.alignment="CENTER" />
+            <HBox prefHeight="42.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onNeedToLearnClick" text="Need to learn" />
+                  <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemoveButtonClick" text="Remove" />
+               </children>
+            </HBox>
          </bottom>
       </BorderPane>
    </right>

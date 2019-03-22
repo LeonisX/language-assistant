@@ -33,6 +33,8 @@ public class CssGenerator {
         if (hideKnownWords) {
             css += String.format(TEMPLATE, "known", WHITE);
         }
+        css += " .decorated { background-color: #DDDDEE }";
+        //css += " .decorated { background-color: #DDDDEE; text-decoration: underline; }";
         return css;
     }
 
