@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.DashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="627.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.DashboardController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -36,9 +36,9 @@
             <children>
                 <HBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#wordBankShow" text="Словарный запас" />
+                        <Button mnemonicParsing="false" onAction="#wordToLearnShow" text="Слова для заучивания" />
                         <Button mnemonicParsing="false" onAction="#watchVideoShow" text="Просмотр видео" />
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#wordBankShow" text="Словарный запас" />
                     </children>
                 </HBox>
                 <HBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">

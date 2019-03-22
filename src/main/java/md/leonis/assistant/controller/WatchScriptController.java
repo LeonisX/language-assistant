@@ -1,17 +1,15 @@
 package md.leonis.assistant.controller;
 
 import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import md.leonis.assistant.config.ConfigHolder;
-import md.leonis.assistant.domain.standard.UserWordBank;
+import md.leonis.assistant.domain.standard.WordToLearn;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.utils.CssGenerator;
 import md.leonis.assistant.utils.HtmlFormatter;
@@ -200,7 +198,7 @@ public class WatchScriptController {
 
     public void onNeedToLearnClick() {
         listView.getItems().forEach(word -> {
-            UserWordBank wordToLearn = new UserWordBank();
+            WordToLearn wordToLearn = new WordToLearn();
             wordToLearn.setWord(word);
             sampleService.saveWordToLearn(wordToLearn);
         });

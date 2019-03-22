@@ -71,4 +71,8 @@ public class DashboardController {
     public void onImportDictionaryClick() {
         stageManager.showNewWindow(FxmlView.DICTIONARY_IMPORTER);
     }
+
+    public void wordToLearnShow() {
+        stageManager.showNewWindow(FxmlView.WORD_TO_LEARN);
+    }
 }

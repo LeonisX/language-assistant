@@ -2,10 +2,7 @@ package md.leonis.assistant.service;
 
 import md.leonis.assistant.dao.standard.*;
 import md.leonis.assistant.domain.LanguageLevel;
-import md.leonis.assistant.domain.standard.Dictionary;
-import md.leonis.assistant.domain.standard.UserWordBank;
-import md.leonis.assistant.domain.standard.WordFrequency;
-import md.leonis.assistant.domain.standard.WordLevel;
+import md.leonis.assistant.domain.standard.*;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,7 +138,11 @@ public class SampleService {
         return userWordBankDAO.findAll();
     }
 
-    public void saveWordToLearn(UserWordBank wordToLearn) {
+    public void saveWordToLearn(WordToLearn wordToLearn) {
         wordToLearnDAO.save(wordToLearn);
+    }
+
+    public List<WordToLearn> getWordsToLearn() {
+        return wordToLearnDAO.findAll();
     }
 }
