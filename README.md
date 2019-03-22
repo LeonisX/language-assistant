@@ -96,6 +96,7 @@ http://erfoundation.org/wordpress/graded-readers/
 
 LeoLingo
 
+https://dic.1963.ru/
 
 https://www.readbeyond.it/aeneas/
 

@@ -43,7 +43,7 @@ public class Xdxf {
 
     public List<Ar> getAr() {
         if (ar == null) {
-            ar = new ArrayList<Ar>();
+            ar = new ArrayList<>();
         }
         return this.ar;
     }

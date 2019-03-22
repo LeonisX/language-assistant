@@ -1,5 +1,6 @@
 package md.leonis.assistant.controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -82,7 +83,11 @@ public class DictionaryController {
         transcrColumn.setComparator(null);
         //transcrColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getLevel().getTitle()));
         transcrColumn.sortTypeProperty();
-        descrColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+
+        //descrColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        descrColumn.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getFullValue()));
+
         descrColumn.setComparator(null);
         //xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
 
