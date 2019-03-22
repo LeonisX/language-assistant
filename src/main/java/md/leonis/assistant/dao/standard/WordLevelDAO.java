@@ -11,4 +11,5 @@ public interface WordLevelDAO extends CrudRepository<WordLevel, Long> {
 
     List<WordLevel> findByWord(String word);
 
+    List<WordLevel> findByWordContainingIgnoreCase(String word);
 }

@@ -2,9 +2,12 @@ package md.leonis.assistant.service;
 
 import md.leonis.assistant.dao.standard.DictionaryDAO;
 import md.leonis.assistant.dao.standard.UserWordBankDAO;
+import md.leonis.assistant.dao.standard.WordFrequencyDAO;
 import md.leonis.assistant.dao.standard.WordLevelDAO;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.standard.Dictionary;
+import md.leonis.assistant.domain.standard.UserWordBank;
+import md.leonis.assistant.domain.standard.WordFrequency;
 import md.leonis.assistant.domain.standard.WordLevel;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import org.slf4j.Logger;
@@ -37,10 +40,16 @@ public class SampleService {
     private WordLevelDAO wordLevelDAO;
 
     @Autowired
+    private WordFrequencyDAO wordFrequencyDAO;
+
+    @Autowired
     private UserWordBankDAO wordBankDAO;
 
     @Autowired
     private DictionaryDAO dictionaryDAO;
+
+    @Autowired
+    private UserWordBankDAO userWordBankDAO;
 
     public void echo() {
         System.out.println("ECHO");
@@ -48,7 +57,6 @@ public class SampleService {
 
     public LanguageLevel getLevel(String word) {
         List<WordLevel> wordLevelList = wordLevelDAO.findByWord(word);
-        System.out.println(wordLevelList.size());
         if (wordLevelList.isEmpty()) {
             return LanguageLevel.UNK;
         }
@@ -56,6 +64,28 @@ public class SampleService {
             log.info(wordLevelList.toString());
         }
         return wordLevelList.stream().min(Comparator.comparing(WordLevel::getWord)).get().getLevel();
+    }
+
+    public WordLevel getWordLevel(String word) {
+        List<WordLevel> wordLevelList = wordLevelDAO.findByWord(word);
+        if (wordLevelList.isEmpty()) {
+            return new WordLevel();
+        }
+        if (wordLevelList.size() > 1) {
+            log.info(wordLevelList.toString());
+        }
+        return wordLevelList.stream().min(Comparator.comparing(WordLevel::getWord)).get();
+    }
+
+    public WordFrequency getWordFrequency(String word) {
+        List<WordFrequency> wordFrequencies = wordFrequencyDAO.findByWord(word);
+        if (wordFrequencies.isEmpty()) {
+            return new WordFrequency();
+        }
+        if (wordFrequencies.size() > 1) {
+            log.info(wordFrequencies.toString());
+        }
+        return wordFrequencies.stream().min(Comparator.comparing(WordFrequency::getWord)).get();
     }
 
     public boolean getKnownStatus(String word) {
@@ -105,5 +135,9 @@ public class SampleService {
 
     public void deleteAllDictionaries(List<Dictionary> dictionaries) {
         dictionaryDAO.deleteAll(dictionaries);
+    }
+
+    public List<UserWordBank> getUserWordBank() {
+        return userWordBankDAO.findAll();
     }
 }

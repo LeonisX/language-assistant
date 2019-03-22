@@ -9,10 +9,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.ScriptWord;
+import md.leonis.assistant.domain.standard.UserWordBank;
+import md.leonis.assistant.domain.standard.WordFrequency;
+import md.leonis.assistant.domain.standard.WordLevel;
+import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class WordBankController {
@@ -35,13 +42,18 @@ public class WordBankController {
     @Autowired
     private StageManager stageManager;
 
+    @Autowired
+    private SampleService sampleService;
+
     @FXML
     private void initialize() {
         initData();
 
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
         //transcrColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
-        levelColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getLevel().getTitle()));
+        //levelColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getLevel().getTitle()));
+        levelColumn.setCellValueFactory(word -> new SimpleStringProperty(
+                word.getValue().getLevel() == null ? "" : word.getValue().getLevel().name()));
         levelColumn.sortTypeProperty();
         frequencyColumn.setCellValueFactory(new PropertyValueFactory<>("frequency"));
         xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
@@ -51,12 +63,20 @@ public class WordBankController {
 
     //TODO from DB
     private void initData() {
-        wordData.add(new ScriptWord("select", LanguageLevel.A1, 4, ""));
+        List<UserWordBank> userWordBanks = sampleService.getUserWordBank();
+        List<ScriptWord> scriptWords = userWordBanks.stream().map(wb -> {
+            String word = wb.getWord().toLowerCase();
+            WordLevel wordLevel = sampleService.getWordLevel(word);
+            WordFrequency wordFrequency = sampleService.getWordFrequency(word);
+            return new ScriptWord(wb.getWord(), wordLevel.getLevel(), wordFrequency.getFrequency(), "");
+        }).collect(Collectors.toList());
+        wordData.addAll(scriptWords);
+        /*wordData.add(new ScriptWord("select", LanguageLevel.A1, 4, ""));
         wordData.add(new ScriptWord("before", LanguageLevel.A2, 56, ""));
         wordData.add(new ScriptWord("daughter", LanguageLevel.C1, 66, ""));
         wordData.add(new ScriptWord("the", LanguageLevel.C2, 7, ""));
         wordData.add(new ScriptWord("add", LanguageLevel.B2, 1, ""));
-        wordData.add(new ScriptWord("mirror", LanguageLevel.B1P, 99, ""));
+        wordData.add(new ScriptWord("mirror", LanguageLevel.B1P, 99, ""));*/
     }
 
 }

@@ -1,6 +1,5 @@
 package md.leonis.assistant.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import md.leonis.assistant.config.ConfigHolder;
@@ -23,7 +22,7 @@ public class DashboardController {
     private StageManager stageManager;
 
     @Autowired
-    ConfigHolder configHolder;
+    private ConfigHolder configHolder;
 
     @FXML
     private void initialize() {
@@ -57,19 +56,19 @@ public class DashboardController {
 
     }
 
-    public void wordBankShow(ActionEvent actionEvent) {
+    public void wordBankShow() {
         stageManager.showNewWindow(FxmlView.WORD_BANK);
     }
 
-    public void watchVideoShow(ActionEvent actionEvent) {
+    public void watchVideoShow() {
         stageManager.showNewWindow(FxmlView.VIDEO_LIST);
     }
 
-    public void onDictionaryClick(ActionEvent actionEvent) {
+    public void onDictionaryClick() {
         stageManager.showNewWindow(FxmlView.DICTIONARY);
     }
 
-    public void onImportDictionaryClick(ActionEvent actionEvent) {
+    public void onImportDictionaryClick() {
         stageManager.showNewWindow(FxmlView.DICTIONARY_IMPORTER);
     }
 }
