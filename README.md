@@ -142,7 +142,8 @@ http://norvig.com/google-books-common-words.txt
 http://ucrel.lancs.ac.uk/bncfreq/
 http://ucrel.lancs.ac.uk/bncfreq/flists.html
 http://www.kilgarriff.co.uk/bnc-readme.html
-
+https://github.com/hackerb9/gwordlist
+http://storage.googleapis.com/books/ngrams/books/datasetsv2.html
 
 TODO very cool
 https://www.english.com/gse/teacher-toolkit/user/vocabulary?page=1&sort=gse;asc&gseRange=10;90&audience=GL
@@ -165,9 +166,12 @@ https://www.myvocab.info/articles
 http://www.speakrus.ru/dict/
 http://linguists.narod.ru/downloads5.html#slav
 https://pishu-pravilno.livejournal.com/591215.html
-http://www.ruscorpora.ru/corpora-freq.html
 http://ruscorpora.ru/corpora-freq.html
+http://opencorpora.org/?page=downloads
 
 #### Other
 
 https://puzzle-english.com/vocabulary
+
+
+https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ru&hl=en&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&otf=2&ssel=0&tsel=0&kc=1&q=" + textEncoded;

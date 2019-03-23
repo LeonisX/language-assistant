@@ -15,6 +15,7 @@ import md.leonis.assistant.domain.standard.WordToLearn;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.utils.CssGenerator;
+import md.leonis.assistant.utils.GoogleApi;
 import md.leonis.assistant.utils.HtmlFormatter;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -247,9 +248,21 @@ public class WatchScriptController {
     }
 
     private void showTranslation(String word) {
-        textArea.setText(ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(word))
+        if (word.trim().isEmpty()) {
+            textArea.setText("");
+            return;
+        }
+        String translation = ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(word))
                 //TODO checks in AR
-                .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n")));
+                .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n"));
+        //TODO I need 100% working version of GoogleApi
+        /*if (translation.isEmpty()) {
+            translation = GoogleApi.translate(word);
+            if (translation == null) {
+                translation = "";
+            }
+        }*/
+        textArea.setText(translation);
     }
 
 }
