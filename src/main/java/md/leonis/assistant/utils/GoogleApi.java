@@ -11,6 +11,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPInputStream;
 
 // https://pastebin.com/A96mfdBZ
+
+//https://github.com/chrishumphreys/p2j
+//https://www.jython.org/archive/21/docs/jythonc.html
+//https://stackoverflow.com/questions/14205464/converting-jython-code-into-a-java-class
+
 // TODO https://github.com/ssut/py-googletrans
 // TODO https://github.com/matheuss/google-translate-api
 // TODO https://github.com/cjvnjde/google-translate-api-browser
