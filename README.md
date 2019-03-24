@@ -122,6 +122,14 @@ https://www.geeksforgeeks.org/converting-text-speech-java/
 
 ### Dictionaries
 
+#### Libre Office, Firefox
+
+https://github.com/marcoagpinto/aoo-mozilla-en-dict
+https://github.com/LibreOffice/dictionaries
+https://en.wiktionary.org/wiki/recruit
+
+
+
 #### English
 
 https://www.cambridgeenglish.org/learning-english/exam-preparation/
