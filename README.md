@@ -140,30 +140,87 @@ https://www.flocabulary.com/wordlists/
 https://www.ef.com/wwen/english-resources/english-vocabulary/
 https://www.wordfrequency.info/top5000.asp
 http://martinweisser.org/corpora_site/word_lists.html
-http://www.kilgarriff.co.uk/bnc-readme.html
 https://www.victoria.ac.nz/lals/resources/academicwordlist
-http://number27.org/assets/misc/words.txt
-https://www.wordandphrase.info/frequencyList.asp
-https://github.com/first20hours/google-10000-english
-http://www.naturalenglish.club/esl/1000.php
-http://norvig.com/google-books-common-words.txt
+
+https://www.english-corpora.org/coca/
+
+
+
+
+##### Word banks
+
 http://ucrel.lancs.ac.uk/bncfreq/
-http://ucrel.lancs.ac.uk/bncfreq/flists.html
-http://www.kilgarriff.co.uk/bnc-readme.html
-https://github.com/hackerb9/gwordlist
-http://storage.googleapis.com/books/ngrams/books/datasetsv2.html
+**http://ucrel.lancs.ac.uk/bncfreq/flists.html**
+Слова и их формы, так же частота, тип. Очень здорово
+	book	NoC	%	374	100	0.95
+	@	@	book	243	100	0.95
+	@	@	books	131	100	0.94
+
+**http://storage.googleapis.com/books/ngrams/books/datasetsv2.html**
+Тут есть распределение слов по годам (Google Books), громадные банки слов для многих распространенных языков. Очень много шлака, но можно вычислить популярность слов.
+Так же можно видеть фразы до 5 слов.
+
+**https://github.com/hackerb9/gwordlist**
+Обработанные списки, шлака почти нет.
+
+**http://norvig.com/google-books-common-words.txt**
+Ещё список с частотами
+
+**https://github.com/first20hours/google-10000-english**
+10000-20000 слов из того же банка, есть фильтры по матерным словам
+
+**http://number27.org/assets/misc/words.txt**
+(the, 6.510891, 0), примерно 87000 слов
+
+**http://www.kilgarriff.co.uk/bnc-readme.html**
+BNC database and word frequency lists. Adam Kilgarriff
+4907 1222 worldwide adv: ~6000 слов (без мн. чисел)
+
+13073 books nn2 2186
+70 books nn2-vvz 64
+3 books np0 3
+10 books vvz 10 - все слова, указаны их состояния, частота но без связи с основным словом
 
 TODO very cool
-https://www.english.com/gse/teacher-toolkit/user/vocabulary?page=1&sort=gse;asc&gseRange=10;90&audience=GL
+**https://www.english.com/gse/teacher-toolkit/user/vocabulary?page=1&sort=gse;asc&gseRange=10;90&audience=GL**
+Просто очень крутой сайтъ. Уважаю.
 
 ##### Levels
 
-http://www.eltcloseup.com/a1-student-zone/alphabetical-word-list
+http://www.eltcloseup.com/a1-student-zone/alphabetical-word-list - A1+ -C2 в основном упор на географию, но общее представление можно сделать.
+
+https://www.toe.gr/course/view.php?id=27
+https://www.toe.gr/pluginfile.php?file=%2F2139%2Fmod_resource%2Fcontent%2F1%2FLevel%20A1%20Word%20List.pdf
+https://www.toe.gr/pluginfile.php?file=%2F2140%2Fmod_resource%2Fcontent%2F1%2FLevel%20A2%20Word%20List.pdf
+https://www.toe.gr/pluginfile.php?file=%2F2141%2Fmod_resource%2Fcontent%2F1%2FLevel%20B1%20Word%20List.pdf
 https://www.toe.gr/pluginfile.php?file=%2F2142%2Fmod_resource%2Fcontent%2F1%2FLevel%20B2%20Word%20List.pdf
-https://www.vocabulary.com/lists/search?query=a1
+https://www.toe.gr/pluginfile.php?file=%2F2143%2Fmod_resource%2Fcontent%2F1%2FLevel%20C1%20Word%20List.pdf
+https://www.toe.gr/pluginfile.php?file=%2F2144%2Fmod_resource%2Fcontent%2F1%2FLevel%20C2%20Word%20List.pdf
+Банки слов составлены по English Profile, вытащить вероятно будет непросто
+
+
+https://www.vocabulary.com/lists/search?query=a1 - тут надо внимательно смотреть. Банки слов загружают юзеры
+
 https://www.cambridgeenglish.org/Images/22105-ket-vocabulary-list.pdf
-https://quizlet.com/46488736/esl-vocabulary-b2-wordlist-english-upper-intermediate-flash-cards/
-https://www.pearson.ch/LanguageTeaching/tab2740/Wordlists
+https://www.cambridgeenglish.org/Images/84669-pet-vocabulary-list.pdf
+https://www.cambridgeenglish.org/Images/22099-vocabulary-list.pdf
+https://www.cambridgeenglish.org/Images/351851-a2-flyers-word-list-2018.pdf
+https://www.cambridgeenglish.org/images/149681-yle-flyers-word-list.pdf
+https://www.cambridgeenglish.org/images/149680-yle-movers-word-list.pdf
+https://www.cambridgeenglish.org/Images/506166-starters-movers-flyers-word-list-2018.pdf
+https://www.cambridgeenglish.org/exams-and-tests/starters/preparation/
+Своя система уровней, по-идее, для каждого можно найти банк слов
+
+https://quizlet.com/46488736/esl-vocabulary-b2-wordlist-english-upper-intermediate-flash-cards/ - в основном фразы и слова для разных уровней
+https://www.pearson.ch/LanguageTeaching/tab2740/Wordlists - очень много разнообразных списков слов ждя разных уровней. Использовать тяжело
+
+
+#### Other
+
+https://puzzle-english.com/vocabulary
+https://puzzle-english.com/vocabulary/6737816?r=b096eea74f
+Полноценная платформа для изучения инглиша. Довольно круто. Много моих идей уже реализовано
+
 
 
 
@@ -176,10 +233,3 @@ http://linguists.narod.ru/downloads5.html#slav
 https://pishu-pravilno.livejournal.com/591215.html
 http://ruscorpora.ru/corpora-freq.html
 http://opencorpora.org/?page=downloads
-
-#### Other
-
-https://puzzle-english.com/vocabulary
-
-
-https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ru&hl=en&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&otf=2&ssel=0&tsel=0&kc=1&q=" + textEncoded;
