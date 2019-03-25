@@ -18,6 +18,22 @@ This is a model of the project, designed to simplify the study of foreign langua
 * WatchVideo screen (mock-up)
 * Dictionary screen (mock-up)
 
+### TODO
+
+http://ucrel.lancs.ac.uk/bncfreq/flists.html
+http://ucrel.lancs.ac.uk/bncfreq/lists/1_1_all_fullalpha.txt.Z
+
+Clean this list.
+1. Combine to groups (normal -> sub)
+2. Clear groups w/o children
+3. Convert any &rehy;, &mdash; to symbols
+4. a_bit -> a bit 
+5. May be remove duplicated children
+6. Map type (see banks/screenshot)
+7. Generate text to check
+8. Smt else
+9. Export to DB
+
 ### TODO video
 
 * v Allow to see different dictionaries, change by ComboBox
