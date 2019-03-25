@@ -132,22 +132,60 @@ https://en.wiktionary.org/wiki/recruit
 
 #### English
 
-https://www.cambridgeenglish.org/learning-english/exam-preparation/
+
 http://testyourvocab.com/
-http://www.manythings.org/vocabulary/lists/a/
+
 https://www.universeofmemory.com/how-many-words-you-should-know/
-https://www.flocabulary.com/wordlists/
-https://www.ef.com/wwen/english-resources/english-vocabulary/
-https://www.wordfrequency.info/top5000.asp
-http://martinweisser.org/corpora_site/word_lists.html
-https://www.victoria.ac.nz/lals/resources/academicwordlist
+https://apps.ankiweb.net/
+
+
+
+
+##### Word/Text Banks
 
 https://www.english-corpora.org/coca/
+https://www.corpusdata.org/purchase.asp
+Полная база стоит денег, но можно искать, смотреть тест где используется
+
+https://www.victoria.ac.nz/lals/resources/academicwordlist
+База академических слов
+
+
+##### Old word banks
+
+http://web.archive.org/web/20070214114211/http://www.dcs.shef.ac.uk/research/ilash/Moby/
 
 
 
+
+##### Word banks links
+
+**http://www.manythings.org/vocabulary/lists/a/**
+Слова, разнесённые по категориям
+
+
+**http://gen.lib.rus.ec/search.php?&req=Wordlist&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=2**
+Cutting Edge 3 Edition Elementary Wordlist
+
+**https://www.wordfrequency.info/purchase.asp**
+Бесплатно 5000 слов. Платно - все банки. 
+
+**http://martinweisser.org/corpora_site/word_lists.html**
+
+http://www.bmanuel.org/clr2_et.html#Moby_Shakespeare
+http://www.bmanuel.org/clr/clr2_et.html
+
+http://iteslj.org/links/ESL/Vocabulary/Lists/
+http://iteslj.org/links/ESL/Vocabulary/Lists/p2.html
 
 ##### Word banks
+
+**https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists#English**
+Частота слов
+
+**http://www.lexically.net/downloads/e_lemma.zip**
+Примерно 12000 слов (нормальная форма -> связи)
+book -> books,booking,booked
 
 http://ucrel.lancs.ac.uk/bncfreq/
 **http://ucrel.lancs.ac.uk/bncfreq/flists.html**
@@ -201,6 +239,7 @@ https://www.toe.gr/pluginfile.php?file=%2F2144%2Fmod_resource%2Fcontent%2F1%2FLe
 
 https://www.vocabulary.com/lists/search?query=a1 - тут надо внимательно смотреть. Банки слов загружают юзеры
 
+https://www.cambridgeenglish.org/learning-english/exam-preparation/
 https://www.cambridgeenglish.org/Images/22105-ket-vocabulary-list.pdf
 https://www.cambridgeenglish.org/Images/84669-pet-vocabulary-list.pdf
 https://www.cambridgeenglish.org/Images/22099-vocabulary-list.pdf
@@ -214,6 +253,8 @@ https://www.cambridgeenglish.org/exams-and-tests/starters/preparation/
 https://quizlet.com/46488736/esl-vocabulary-b2-wordlist-english-upper-intermediate-flash-cards/ - в основном фразы и слова для разных уровней
 https://www.pearson.ch/LanguageTeaching/tab2740/Wordlists - очень много разнообразных списков слов ждя разных уровней. Использовать тяжело
 
+**http://gen.lib.rus.ec/search.php?&req=Wordlist&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=2**
+Cutting Edge 3 Edition Elementary Wordlist
 
 #### Other
 
