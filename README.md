@@ -70,7 +70,8 @@ Shut down sound from browser when window is closed
 * https://tracktest.eu/english-levels-cefr/
 * http://vocabularypreview.englishprofile.org/staticfiles/about.html
 * Far perspective: keep in DB as language settings
-* https://www.efset.org/english-score/
+* https://en.wikipedia.org/wiki/EF_Standard_English_Test
+
 
 Minimal:
 
@@ -134,6 +135,9 @@ https://en.wiktionary.org/wiki/recruit
 
 
 http://testyourvocab.com/
+
+* https://www.efset.org/english-score/
+* https://www.efset.org/ru/english-score/cefr/
 
 https://www.universeofmemory.com/how-many-words-you-should-know/
 https://apps.ankiweb.net/
