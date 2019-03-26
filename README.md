@@ -23,6 +23,16 @@ This is a model of the project, designed to simplify the study of foreign langua
 http://ucrel.lancs.ac.uk/bncfreq/flists.html
 http://ucrel.lancs.ac.uk/bncfreq/lists/1_1_all_fullalpha.txt.Z
 
+Фактически, на базе этого надо сделать несколько списков.
+
+1. Полный, как есть (20 Мб)
+2. Для поиска вариантов (3-4 Мб)
+3. Какой-то ещё
+
+На самом деле, тут не полный список, следует свериться с https://en.wiktionary.org/wiki/appetitively
+И совместить два списка, т.е. если у слова 1	0.00 или что-то похожее, но есть статья в вики, то не удаляем
+
+
 Clean this list.
 1. Combine to groups (normal -> sub)
 2. Clear groups w/o children
@@ -33,6 +43,13 @@ Clean this list.
 7. Generate text to check
 8. Smt else
 9. Export to DB
+
+### TODO
+
+1. Import to DB only headwords (word, ), no variants
+2. Investigate strange Parts of Speech
+3. May be optimize
+
 
 ### TODO video
 
@@ -80,7 +97,11 @@ git push origin --force --all
 Shut down sound from browser when window is closed
 
 
+### Online translators:
 
+Google
+https://www.thefreedictionary.com/appetitively
+Many others. Investigate lingualeo google chrome plugin
 
 
 LeoLingo

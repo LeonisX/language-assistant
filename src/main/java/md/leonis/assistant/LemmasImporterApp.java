@@ -27,6 +27,14 @@ public class LemmasImporterApp {
 
         log.info("Importing");
 
+
+        //Word = Word type (headword followed by any variant forms) - see pp.4-5
+        //PoS  = Part of speech (grammatical word class - see pp. 12-13)
+        //Freq = Rounded frequency per million word tokens (down to a minimum of 10 occurrences of a lemma per million)- see pp. 5
+        //Ra   = Range: number of sectors of the corpus (out of a maximum of 100) in which the word occurs
+        //Disp = Dispersion value (Juilland's D) from a minimum of 0.00 to a maximum of 1.00.
+
+        //  Word PoS Freq Ra Disp
         //	%	NoC	%	6	53	0.64
 
         //	book	NoC	%	374	100	0.95
