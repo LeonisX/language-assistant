@@ -1,5 +1,7 @@
 package md.leonis.assistant;
 
+import md.leonis.assistant.dao.standard.VarianceDAO;
+import md.leonis.assistant.domain.standard.Variance;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +78,26 @@ public class LemmasImporterApp {
         }
         writer.close();
 
-        //System.out.println(chunks);
+        Map<String, String> keyValues = new LinkedHashMap<>();
+        map.forEach((key, value) -> value.forEach(v -> {
+            if (!v[2].equalsIgnoreCase(key[0])) {
+                keyValues.put(v[2], key[0]);
+            }
+        }));
+
+        FileWriter writer2 = new FileWriter(home + File.separatorChar + "1_1_all_fullalpha3.txt");
+        for (Map.Entry<String, String> entry : keyValues.entrySet()) {
+            writer2.write(format(entry.getKey()) + " \t" + format(entry.getValue()) + "\n");
+        }
+        writer2.close();
+
+        VarianceDAO varianceDAO = springContext.getBean(VarianceDAO.class);
+
+        for (Map.Entry<String, String> entry : keyValues.entrySet()) {
+            varianceDAO.save(new Variance(entry.getKey(), entry.getValue()));
+        }
+
+        System.out.println(keyValues);
     }
 
     private static String format(String text) {

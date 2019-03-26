@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SampleService {
@@ -47,6 +48,9 @@ public class SampleService {
 
     @Autowired
     private WordToLearnDAO wordToLearnDAO;
+
+    @Autowired
+    private VarianceDAO varianceDAO;
 
     public void echo() {
         System.out.println("ECHO");
@@ -144,5 +148,13 @@ public class SampleService {
 
     public List<WordToLearn> getWordsToLearn() {
         return wordToLearnDAO.findAll();
+    }
+
+    //TODO get only word
+    public String getVariance(String word) {
+        //varianceDAO.findByVarianceEqualsIgnoreCase(word);
+        Optional<Variance> variance = varianceDAO.findByVarianceEqualsIgnoreCase(word);
+        return variance.isPresent() ? variance.get().getWord() : "";
+        //return "";
     }
 }

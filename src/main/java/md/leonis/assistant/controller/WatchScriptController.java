@@ -80,15 +80,15 @@ public class WatchScriptController {
 
     private HtmlFormatter htmlFormatter;
 
-    List<Ar> ars;
+    private List<Ar> ars;
 
     //TODO read from video || DB
-    String text = "I don't see how this can be done without a loop. \n" +
+    private String text = "I don't see how this can be done without a loop. \n" +
             "A string is more or less an group of characters. \n" +
             "If it is a group (collection, array, etc) then no matter if it is internal or external to the native code, \n" +
             "I would expect that you would need a loop in order to find something within the \"group\". \n" +
             "I believe \"without using a loop?\" is more like \"without writing my own loop?\" \n" +
-            "Mortal mortal Kombat rare sponge";
+            "Mortal mortal Kombat rare sponge, writings, stone, stones";
 
     @FXML
     private void initialize() {
@@ -160,8 +160,10 @@ public class WatchScriptController {
     //TODO one dictionary for APP
     private void initDictionary() {
         //TODO select right dictionary, not Mueller only
+        //TODO need to be sure that we have at once 1 dictionary
         Dictionary dictionary = sampleService.getDictionaries().get(0);
-        //TODO File in service
+        //TODO new File in service
+        //TODO may be convert all dictionaries to DB
         ars = sampleService.getDictionary(new File(dictionary.getPath())).getAr();
     }
 
@@ -262,6 +264,13 @@ public class WatchScriptController {
                 translation = "";
             }
         }*/
+        if (translation.isEmpty()) {
+            String newWord = sampleService.getVariance(word);
+            translation = ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(newWord))
+                    //TODO checks in AR
+                    .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n"));
+        }
+        //TODO if still empty - find online
         textArea.setText(translation);
     }
 
