@@ -19,6 +19,40 @@ import java.util.stream.Collectors;
 
 //http://ucrel.lancs.ac.uk/bncfreq/flists.html
 //http://ucrel.lancs.ac.uk/bncfreq/lists/1_1_all_fullalpha.txt.Z
+
+
+/*http://ucrel.lancs.ac.uk/bncfreq/flists.html
+        http://ucrel.lancs.ac.uk/bncfreq/lists/1_1_all_fullalpha.txt.Z
+
+        Фактически, на базе этого надо сделать несколько списков.
+
+        1. Полный, как есть (20 Мб) - необходимо замапить на наши объекты и сохранить в базу
+        2. Для поиска вариантов (3-4 Мб) key:value - готово
+        3. Какой-то ещё
+
+        На самом деле, тут не полный список, следует свериться с https://en.wiktionary.org/wiki/appetitively
+        И совместить два списка, т.е. если у слова 1	0.00 или что-то похожее, но есть статья в вики, то не удаляем
+
+
+        Clean this list.
+        1. v Combine to groups (normal -> sub)
+        2. v Clear groups w/o children
+        3. v Convert any &rehy;, &mdash; to symbols
+        4. v a_bit -> a bit
+        5. May be remove duplicated children
+        6. Map type (see banks/screenshot) (PartOfSpeech enum is ready)
+        7. v Generate text to check
+        8. Smt else
+        9. Export to DB (only for simply list)
+
+        ### TODO
+
+        1. Import to DB only headwords (word, ), no variants
+        2. Investigate strange Parts of Speech
+        3. May be optimize
+        */
+
+
 @SpringBootApplication
 public class LemmasImporterApp {
 

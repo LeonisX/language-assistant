@@ -20,35 +20,21 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO
 
-http://ucrel.lancs.ac.uk/bncfreq/flists.html
-http://ucrel.lancs.ac.uk/bncfreq/lists/1_1_all_fullalpha.txt.Z
+Lemma Importer. Problem writing: 
 
-Фактически, на базе этого надо сделать несколько списков.
+	write	Verb	%	400	100	0.96
+	@	@	write	109	100	0.95
+	@	@	writes	26	99	0.89
+	@	@	writing	63	100	0.95
+	@	@	written	103	100	0.96
+	@	@	wrote	99	100	0.90
+	writing	NoC	%	64	100	0.92
+	@	@	writing	53	100	0.92
+	@	@	writings	11	89	0.89
 
-1. Полный, как есть (20 Мб)
-2. Для поиска вариантов (3-4 Мб) key:value
-3. Какой-то ещё
+Need ID
 
-На самом деле, тут не полный список, следует свериться с https://en.wiktionary.org/wiki/appetitively
-И совместить два списка, т.е. если у слова 1	0.00 или что-то похожее, но есть статья в вики, то не удаляем
-
-
-Clean this list.
-1. Combine to groups (normal -> sub)
-2. Clear groups w/o children
-3. Convert any &rehy;, &mdash; to symbols
-4. a_bit -> a bit 
-5. May be remove duplicated children
-6. Map type (see banks/screenshot)
-7. Generate text to check
-8. Smt else
-9. Export to DB
-
-### TODO
-
-1. Import to DB only headwords (word, ), no variants
-2. Investigate strange Parts of Speech
-3. May be optimize
+TODO precache/cache translations in WatchScriptController
 
 
 ### TODO video

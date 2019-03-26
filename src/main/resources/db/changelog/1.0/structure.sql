@@ -88,6 +88,7 @@ CREATE TABLE Test.WordToLearn (
 --changeset leonis:1.0.8
 
 CREATE TABLE Test.Variance (
-    Variance NVARCHAR(136) PRIMARY KEY,
+    Id BIGINT IDENTITY PRIMARY KEY,
+    Variance NVARCHAR(136) NOT NULL,
     Word NVARCHAR(136) NOT NULL
 );
