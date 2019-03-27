@@ -11,6 +11,8 @@ TODO Mueller24 is truncated. Either 7, or import from En_Ru_Muller_(18Mb).7z
 
 Other alternatives: Fora dictionaries
 
+Hunspell
+
 ## Scratch
 
 ### Done
