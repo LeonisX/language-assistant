@@ -15,7 +15,6 @@ import md.leonis.assistant.domain.standard.WordToLearn;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.utils.CssGenerator;
-import md.leonis.assistant.utils.GoogleApi;
 import md.leonis.assistant.utils.HtmlFormatter;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,7 +144,7 @@ public class WatchScriptController {
                 }
             } else if (newState == Worker.State.FAILED) {
                 //TODO test
-                stageManager.showErrorAlert("Error loading text",  "Failed to display the text in the browser",
+                stageManager.showErrorAlert("Error loading text", "Failed to display the text in the browser",
                         "WebView Worker Exception == " + webView.getEngine().getLoadWorker().getException());
                 Stage stage = (Stage) webView.getScene().getWindow();
                 stage.close();
@@ -254,9 +253,13 @@ public class WatchScriptController {
             textArea.setText("");
             return;
         }
-        String translation = ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(word))
-                //TODO checks in AR
-                .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n"));
+        String translation = findTranslation(word);
+
+        if (translation.isEmpty()) {
+            translation = sampleService.getVariances(word).stream()
+                    .map(v -> findTranslation(v.getWord())).filter(w -> !w.isEmpty()).collect(Collectors.joining("\n\n"));
+        }
+        //TODO if still empty - find online
         //TODO I need 100% working version of GoogleApi
         /*if (translation.isEmpty()) {
             translation = GoogleApi.translate(word);
@@ -264,14 +267,14 @@ public class WatchScriptController {
                 translation = "";
             }
         }*/
-        if (translation.isEmpty()) {
-            String newWord = sampleService.getVariance(word);
-            translation = ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(newWord))
-                    //TODO checks in AR
-                    .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n"));
-        }
-        //TODO if still empty - find online
         textArea.setText(translation);
+    }
+
+    private String findTranslation(String word) {
+        return ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(word))
+                //TODO checks in AR
+                .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n"));
+
     }
 
 }

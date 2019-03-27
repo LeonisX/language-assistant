@@ -128,7 +128,7 @@ public class LemmasImporterApp {
         VarianceDAO varianceDAO = springContext.getBean(VarianceDAO.class);
 
         for (Map.Entry<String, String> entry : keyValues.entrySet()) {
-            varianceDAO.save(new Variance(entry.getKey(), entry.getValue()));
+            varianceDAO.save(new Variance(null, entry.getKey(), entry.getValue()));
         }
 
         System.out.println(keyValues);

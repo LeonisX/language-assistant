@@ -5,6 +5,11 @@
 This is a model of the project, designed to simplify the study of foreign languages. For now, just a sketch of the integration of Spring Boot 2 and JavaFX 8.
 
 **ANKI**
+//TODO import cards and learn words
+
+TODO Mueller24 is truncated. Either 7, or import from En_Ru_Muller_(18Mb).7z
+
+Other alternatives: Fora dictionaries
 
 ## Scratch
 
@@ -31,6 +36,15 @@ Lemma Importer. Problem writing:
 	writing	NoC	%	64	100	0.92
 	@	@	writing	53	100	0.92
 	@	@	writings	11	89	0.89
+
+//TODO in the future
+Actually we need another approach -> convert normal words to variants.
+For clean results, need to study again
+https://www.english.com/gse/teacher-toolkit/user/vocabulary?page=518&sort=vocabulary;asc&gseRange=10;90&audience=GL
+(has grammatical categories)
+
+//TODO need to identify and translate phrases
+
 
 Need ID
 

@@ -150,11 +150,7 @@ public class SampleService {
         return wordToLearnDAO.findAll();
     }
 
-    //TODO get only word
-    public String getVariance(String word) {
-        //varianceDAO.findByVarianceEqualsIgnoreCase(word);
-        Optional<Variance> variance = varianceDAO.findByVarianceEqualsIgnoreCase(word);
-        return variance.isPresent() ? variance.get().getWord() : "";
-        //return "";
+    public List<Variance> getVariances(String word) {
+        return varianceDAO.findByVarianceEqualsIgnoreCase(word);
     }
 }
