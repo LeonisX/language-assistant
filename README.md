@@ -6,6 +6,12 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 **ANKI**
 //TODO import cards and learn words
+Vanilla SQLite + files
+https://github.com/ankidroid/Anki-Android/wiki/Database-Structure
+https://decks.fandom.com/wiki/Anki_APKG_format_documentation
+https://github.com/dae/anki
+
+
 
 TODO Mueller24 is truncated. Either 7, or import from En_Ru_Muller_(18Mb).7z
 Other alternatives: Fora dictionaries, but need import
