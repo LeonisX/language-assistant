@@ -8,10 +8,15 @@ This is a model of the project, designed to simplify the study of foreign langua
 //TODO import cards and learn words
 
 TODO Mueller24 is truncated. Either 7, or import from En_Ru_Muller_(18Mb).7z
+Other alternatives: Fora dictionaries, but need import
 
-Other alternatives: Fora dictionaries
 
-Hunspell
+
+Hunspell - best solution for search word worms
+https://github.com/LibreOffice/dictionaries
+https://extensions.libreoffice.org/extensions/english-dictionaries
+https://extensions.libreoffice.org/extensions/russian-dictionary-pack
+
 
 ## Scratch
 
