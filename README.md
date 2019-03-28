@@ -25,6 +25,15 @@ TODO list:
 * After every action save
 
 
+#### Study
+
+https://www.youtube.com/watch?time_continue=68&v=UHGWre0Nq4g
+https://ru.wikipedia.org/wiki/Mnemosyne
+https://github.com/helloworld1/AnyMemo
+https://4pda.ru/forum/index.php?showtopic=182901
+https://www.supermemo.com/en/apps
+
+
 
 
 TODO Mueller24 is truncated. Either 7, or import from En_Ru_Muller_(18Mb).7z
