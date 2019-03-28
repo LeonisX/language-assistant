@@ -12,7 +12,8 @@ public enum FxmlView {
     WATCH_VIDEO("watchVideo.title", "watchVideo"),
     DICTIONARY("dictionary.title", "dictionary"),
     DICTIONARY_IMPORTER("dictionaryImporter.title", "dictionaryImporter"),
-    WORD_TO_LEARN("wordToLearn.title", "wordToLearn");
+    WORD_TO_LEARN("wordToLearn.title", "wordToLearn"),
+    LEARN_WORDS("learnWords.title", "learnWords");
 
     private static String fxmlPath = "/fxml/%s.fxml";
 

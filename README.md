@@ -12,6 +12,20 @@ https://decks.fandom.com/wiki/Anki_APKG_format_documentation
 https://github.com/dae/anki
 
 
+TODO list:
+
+*** Memorization algorithm (simplified ANKI):
+
+* Window
+* LearnWordsController
+* Button in Dashboard, Words to Learn
+* Get questions from dictionary
+** Get material from ANKI
+* Words to learn (modify db): repeated, next repeat
+* After every action save
+
+
+
 
 TODO Mueller24 is truncated. Either 7, or import from En_Ru_Muller_(18Mb).7z
 Other alternatives: Fora dictionaries, but need import

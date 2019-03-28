@@ -75,4 +75,8 @@ public class DashboardController {
     public void wordToLearnShow() {
         stageManager.showNewWindow(FxmlView.WORD_TO_LEARN);
     }
+
+    public void learnWordsClick() {
+        stageManager.showNewWindow(FxmlView.LEARN_WORDS);
+    }
 }

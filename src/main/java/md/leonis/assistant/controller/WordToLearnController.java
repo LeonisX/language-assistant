@@ -12,6 +12,7 @@ import md.leonis.assistant.domain.standard.WordFrequency;
 import md.leonis.assistant.domain.standard.WordLevel;
 import md.leonis.assistant.domain.standard.WordToLearn;
 import md.leonis.assistant.service.SampleService;
+import md.leonis.assistant.view.FxmlView;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -78,4 +79,7 @@ public class WordToLearnController {
         wordData.add(new ScriptWord("mirror", LanguageLevel.B1P, 99, ""));*/
     }
 
+    public void startToLearnClick() {
+        stageManager.showNewWindow(FxmlView.LEARN_WORDS);
+    }
 }

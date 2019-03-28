@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.WordToLearnController">
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#startToLearnClick" text="Start to learn" />
+         </children></HBox>
    </top>
    <center>
       <TableView fx:id="wordsTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -16,7 +19,7 @@
           <TableColumn fx:id="wordColumn" editable="false" prefWidth="300.0" text="Word" />
           <TableColumn fx:id="levelColumn" editable="false" minWidth="0.0" prefWidth="67.0" text="Level" />
             <TableColumn fx:id="frequencyColumn" editable="false" prefWidth="120.0" text="Frequency" />
-            <TableColumn fx:id="xColumn" editable="false" minWidth="0.0" prefWidth="106.0" text="Column X" />
+            <TableColumn editable="false" minWidth="0.0" prefWidth="106.0" text="Column X" fx:id="xColumn" />
         </columns>
       </TableView>
    </center>

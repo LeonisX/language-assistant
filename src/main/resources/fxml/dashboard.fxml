@@ -45,6 +45,7 @@
                     <children>
                         <Button mnemonicParsing="false" onAction="#onDictionaryClick" text="Dictionary" />
                         <Button mnemonicParsing="false" onAction="#onImportDictionaryClick" text="Import Dictionary" />
+                  <Button mnemonicParsing="false" onAction="#learnWordsClick" text="Learn Words" />
                     </children>
                 </HBox>
                 <HBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
