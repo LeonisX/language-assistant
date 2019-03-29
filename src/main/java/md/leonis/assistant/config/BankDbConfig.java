@@ -34,7 +34,7 @@ public class BankDbConfig {
     entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("bankDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("md.leonis.assistant.domain.bank")
+                .packages("md.leonis.assistant.domain.bank", "md.leonis.assistant.source.gse.domain")
                 .persistenceUnit("bank")
                 .build();
     }

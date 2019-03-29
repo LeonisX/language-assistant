@@ -1,4 +1,4 @@
-package md.leonis.assistant.domain.bank.raw;
+package md.leonis.assistant.source.gse.domain.parsed;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

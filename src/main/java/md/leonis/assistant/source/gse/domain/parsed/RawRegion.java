@@ -1,4 +1,4 @@
-package md.leonis.assistant.domain.bank.raw;
+package md.leonis.assistant.source.gse.domain.parsed;
 
 import lombok.Data;
 
