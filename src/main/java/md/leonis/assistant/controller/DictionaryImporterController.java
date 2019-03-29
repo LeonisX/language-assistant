@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
-import md.leonis.assistant.service.SampleService;
+import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -44,7 +44,7 @@ public class DictionaryImporterController {
     public TableColumn<Dictionary, Integer> recordsCountColumn;
 
     @Autowired
-    private SampleService sampleService;
+    private TestService testService;
 
     @Lazy
     @Autowired
@@ -93,7 +93,7 @@ public class DictionaryImporterController {
     }
 
     private void initData() {
-        ObservableList<Dictionary> observableList = FXCollections.observableArrayList(sampleService.getDictionaries());
+        ObservableList<Dictionary> observableList = FXCollections.observableArrayList(testService.getDictionaries());
         SortedList<Dictionary> dictionaries = new SortedList<>(observableList);
         dictionariesTable.setItems(dictionaries);
         dictionaries.comparatorProperty().bind(dictionariesTable.comparatorProperty());
@@ -114,9 +114,9 @@ public class DictionaryImporterController {
         lastVisitedDirectory = (file != null) ? file.getParent() : System.getProperty("user.home");
         if (file != null) {
             if (dictionariesTable.getItems().stream().noneMatch(d -> d.getPath().equals(file.getAbsolutePath()))) {
-                Xdxf xdxf = sampleService.getDictionary(file);
+                Xdxf xdxf = testService.getDictionary(file);
                 Dictionary dictionary = xdxf.toDictionary(file);
-                sampleService.saveDictionary(dictionary);
+                testService.saveDictionary(dictionary);
                 initData();
             } else {
                 stageManager.showWarningAlert("Already imported!", "", "");
@@ -126,13 +126,13 @@ public class DictionaryImporterController {
 
     public void removeClick() {
         if (!isNotSelectedRow.getValue()) {
-            sampleService.deleteDictionary(dictionariesTable.getSelectionModel().getSelectedItem().getId());
+            testService.deleteDictionary(dictionariesTable.getSelectionModel().getSelectedItem().getId());
             initData();
         }
     }
 
     public void onRemoveOrphaned() {
-        List<Dictionary> orphaned = sampleService.getDictionaries().stream().filter(d -> !(new File(d.getPath()).exists())).collect(Collectors.toList());
+        List<Dictionary> orphaned = testService.getDictionaries().stream().filter(d -> !(new File(d.getPath()).exists())).collect(Collectors.toList());
         if (orphaned.isEmpty()) {
             stageManager.showWarningAlert("Nothing to delete", "All dictionaries are attached", "");
             return;
@@ -144,7 +144,7 @@ public class DictionaryImporterController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            sampleService.deleteAllDictionaries(orphaned);
+            testService.deleteAllDictionaries(orphaned);
         }
         initData();
     }

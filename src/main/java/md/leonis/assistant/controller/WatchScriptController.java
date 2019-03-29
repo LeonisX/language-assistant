@@ -13,7 +13,8 @@ import md.leonis.assistant.config.ConfigHolder;
 import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.user.WordToLearn;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
-import md.leonis.assistant.service.SampleService;
+import md.leonis.assistant.service.TestService;
+import md.leonis.assistant.service.UserService;
 import md.leonis.assistant.utils.CssGenerator;
 import md.leonis.assistant.utils.HtmlFormatter;
 import md.leonis.assistant.view.StageManager;
@@ -48,7 +49,10 @@ public class WatchScriptController {
     private ConfigHolder configHolder;
 
     @Autowired
-    private SampleService sampleService;
+    private TestService testService;
+
+    @Autowired
+    private UserService userService;
 
     @FXML
     private WebView webView;
@@ -151,7 +155,7 @@ public class WatchScriptController {
             }
         });
 
-        htmlFormatter = new HtmlFormatter(text, sampleService);
+        htmlFormatter = new HtmlFormatter(text, testService);
 
         webView.getEngine().loadContent("<html><body> " + htmlFormatter.getHtml() + " </body></html>");
     }
@@ -160,10 +164,10 @@ public class WatchScriptController {
     private void initDictionary() {
         //TODO select right dictionary, not Mueller only
         //TODO need to be sure that we have at once 1 dictionary
-        Dictionary dictionary = sampleService.getDictionaries().get(0);
+        Dictionary dictionary = testService.getDictionaries().get(0);
         //TODO new File in service
         //TODO may be convert all dictionaries to DB
-        ars = sampleService.getDictionary(new File(dictionary.getPath())).getAr();
+        ars = testService.getDictionary(new File(dictionary.getPath())).getAr();
     }
 
     private void refreshWebView() {
@@ -239,7 +243,7 @@ public class WatchScriptController {
         listView.getItems().forEach(word -> {
             WordToLearn wordToLearn = new WordToLearn();
             wordToLearn.setWord(word);
-            sampleService.saveWordToLearn(wordToLearn);
+            userService.saveWordToLearn(wordToLearn);
         });
         listView.getItems().clear();
     }
@@ -256,7 +260,7 @@ public class WatchScriptController {
         String translation = findTranslation(word);
 
         if (translation.isEmpty()) {
-            translation = sampleService.getVariances(word).stream()
+            translation = testService.getVariances(word).stream()
                     .map(v -> findTranslation(v.getWord())).filter(w -> !w.isEmpty()).collect(Collectors.joining("\n\n"));
         }
         //TODO if still empty - find online

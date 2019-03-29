@@ -6,10 +6,11 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### Refactor
 
-* 3 DBs: bank, user, test
-* 3 Controllers. Sample -> Test
+* v 3 DBs: bank, user, test
+* v 3 Services. Sample -> Test
 * Sources: source/english/... / ... / domain / ...
 * From sources: SourceFactory -> crawlers, importers, matchers (noun, verb), levels 
+* Controls to setup initial data (dictionaries, user word bank, ...)
 
 
 **ANKI**

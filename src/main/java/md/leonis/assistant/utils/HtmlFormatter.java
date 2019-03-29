@@ -3,7 +3,7 @@ package md.leonis.assistant.utils;
 import lombok.Getter;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.ScriptWord;
-import md.leonis.assistant.service.SampleService;
+import md.leonis.assistant.service.TestService;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -22,13 +22,13 @@ public class HtmlFormatter {
 
     private final String text;
     private final String html;
-    private final SampleService sampleService;
+    private final TestService testService;
 
     private final Map<String, ScriptWord> wordsMap = new HashMap<>();
 
-    public HtmlFormatter(String text, SampleService sampleService) {
+    public HtmlFormatter(String text, TestService testService) {
         this.text = text;
-        this.sampleService = sampleService;
+        this.testService = testService;
         this.html = toHtml(text);
     }
 
@@ -71,12 +71,12 @@ public class HtmlFormatter {
     }
 
     private LanguageLevel getLevel(String word) {
-        return sampleService.getLevel(word);
+        return testService.getLevel(word);
         //return LanguageLevel.values()[random.nextInt(LanguageLevel.values().length - 1) + 1];
     }
 
     private String getKnownStatus(String word) {
-        return sampleService.getKnownStatus(word) ? "known" : "unknown";
+        return testService.getKnownStatus(word) ? "known" : "unknown";
         //return random.nextBoolean() ? "known" : "unknown";
     }
 }

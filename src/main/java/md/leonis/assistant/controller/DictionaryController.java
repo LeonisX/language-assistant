@@ -14,7 +14,7 @@ import lombok.SneakyThrows;
 import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
-import md.leonis.assistant.service.SampleService;
+import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -46,7 +46,7 @@ public class DictionaryController {
     private FilteredList<Ar> filteredData;
 
     @Autowired
-    private SampleService sampleService;
+    private TestService testService;
 
     @Lazy
     @Autowired
@@ -68,7 +68,7 @@ public class DictionaryController {
             }
         });
 
-        dictionaries = FXCollections.observableArrayList(sampleService.getDictionaries());
+        dictionaries = FXCollections.observableArrayList(testService.getDictionaries());
         dictionariesComboBox.setItems(dictionaries);
         //if (!dictionaries.isEmpty()) {
         dictionariesComboBox.getSelectionModel().select(0);
@@ -108,7 +108,7 @@ public class DictionaryController {
         if (dictionary != null) {
             File file = new File(dictionary.getPath());
             //TODO loader, depends on format
-            Xdxf xdxf = sampleService.getDictionary(file);
+            Xdxf xdxf = testService.getDictionary(file);
             List<Ar> arList = xdxf.getAr();
             ObservableList<Ar> wordData = FXCollections.observableArrayList(arList);
 

@@ -1,6 +1,6 @@
 package md.leonis.assistant;
 
-import md.leonis.assistant.service.SampleService;
+import md.leonis.assistant.service.TestService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class MainAppTests {
 
     @Autowired
-    private SampleService sampleService;
+    private TestService testService;
 
     @Test
     public void contextLoads() {
-        sampleService.echo();
+        testService.echo();
     }
 
 }

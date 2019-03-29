@@ -11,7 +11,8 @@ import md.leonis.assistant.domain.ScriptWord;
 import md.leonis.assistant.domain.user.UserWordBank;
 import md.leonis.assistant.domain.test.WordFrequency;
 import md.leonis.assistant.domain.test.WordLevel;
-import md.leonis.assistant.service.SampleService;
+import md.leonis.assistant.service.TestService;
+import md.leonis.assistant.service.UserService;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -42,7 +43,10 @@ public class WordBankController {
     private StageManager stageManager;
 
     @Autowired
-    private SampleService sampleService;
+    private TestService testService;
+
+    @Autowired
+    private UserService userService;
 
     @FXML
     private void initialize() {
@@ -62,11 +66,11 @@ public class WordBankController {
 
     //TODO from DB
     private void initData() {
-        List<UserWordBank> userWordBanks = sampleService.getUserWordBank();
+        List<UserWordBank> userWordBanks = userService.getUserWordBank();
         List<ScriptWord> scriptWords = userWordBanks.stream().map(wb -> {
             String word = wb.getWord().toLowerCase();
-            WordLevel wordLevel = sampleService.getWordLevel(word);
-            WordFrequency wordFrequency = sampleService.getWordFrequency(word);
+            WordLevel wordLevel = testService.getWordLevel(word);
+            WordFrequency wordFrequency = testService.getWordFrequency(word);
             return new ScriptWord(wb.getWord(), wordLevel.getLevel(), wordFrequency.getFrequency(), "");
         }).collect(Collectors.toList());
         wordData.addAll(scriptWords);

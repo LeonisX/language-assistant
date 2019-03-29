@@ -1,12 +1,15 @@
 package md.leonis.assistant.service;
 
-import md.leonis.assistant.dao.test.*;
+import md.leonis.assistant.dao.test.DictionaryDAO;
+import md.leonis.assistant.dao.test.VarianceDAO;
+import md.leonis.assistant.dao.test.WordFrequencyDAO;
+import md.leonis.assistant.dao.test.WordLevelDAO;
 import md.leonis.assistant.dao.user.UserWordBankDAO;
-import md.leonis.assistant.dao.user.WordToLearnDAO;
 import md.leonis.assistant.domain.LanguageLevel;
-import md.leonis.assistant.domain.test.*;
-import md.leonis.assistant.domain.user.UserWordBank;
-import md.leonis.assistant.domain.user.WordToLearn;
+import md.leonis.assistant.domain.test.Dictionary;
+import md.leonis.assistant.domain.test.Variance;
+import md.leonis.assistant.domain.test.WordFrequency;
+import md.leonis.assistant.domain.test.WordLevel;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +33,9 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class SampleService {
+public class TestService {
 
-    private static final Logger log = LoggerFactory.getLogger(SampleService.class);
+    private static final Logger log = LoggerFactory.getLogger(TestService.class);
 
     @Autowired
     private WordLevelDAO wordLevelDAO;
@@ -45,12 +48,6 @@ public class SampleService {
 
     @Autowired
     private DictionaryDAO dictionaryDAO;
-
-    @Autowired
-    private UserWordBankDAO userWordBankDAO;
-
-    @Autowired
-    private WordToLearnDAO wordToLearnDAO;
 
     @Autowired
     private VarianceDAO varianceDAO;
@@ -141,19 +138,8 @@ public class SampleService {
         dictionaryDAO.deleteAll(dictionaries);
     }
 
-    public List<UserWordBank> getUserWordBank() {
-        return userWordBankDAO.findAll();
-    }
-
-    public void saveWordToLearn(WordToLearn wordToLearn) {
-        wordToLearnDAO.save(wordToLearn);
-    }
-
-    public List<WordToLearn> getWordsToLearn() {
-        return wordToLearnDAO.findAll();
-    }
-
     public List<Variance> getVariances(String word) {
         return varianceDAO.findByVarianceEqualsIgnoreCase(word);
     }
+
 }
