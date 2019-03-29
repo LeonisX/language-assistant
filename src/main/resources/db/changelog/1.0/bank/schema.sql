@@ -1,5 +1,5 @@
 --liquibase formatted sql
 
---changeset leonis:b1.0.1
+--changeset leonis:bank:1.0.1
 
 CREATE SCHEMA Bank;

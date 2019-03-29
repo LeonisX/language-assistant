@@ -1,30 +1,18 @@
 package md.leonis.assistant.controller;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
-import javafx.util.StringConverter;
 import lombok.SneakyThrows;
-import md.leonis.assistant.domain.standard.Dictionary;
+import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
-import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class LearnWordsController {

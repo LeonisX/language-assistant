@@ -1,8 +1,12 @@
 package md.leonis.assistant.service;
 
-import md.leonis.assistant.dao.standard.*;
+import md.leonis.assistant.dao.test.*;
+import md.leonis.assistant.dao.user.UserWordBankDAO;
+import md.leonis.assistant.dao.user.WordToLearnDAO;
 import md.leonis.assistant.domain.LanguageLevel;
-import md.leonis.assistant.domain.standard.*;
+import md.leonis.assistant.domain.test.*;
+import md.leonis.assistant.domain.user.UserWordBank;
+import md.leonis.assistant.domain.user.WordToLearn;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +28,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SampleService {

@@ -1,6 +1,5 @@
 --liquibase formatted sql
 
---changeset leonis:1.0.1
+--changeset leonis:test:1.0.1
 
---todo rename
 CREATE SCHEMA Test;

@@ -24,8 +24,8 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableAutoConfiguration(exclude = {  DataSourceAutoConfiguration.class })
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", basePackages = {"md.leonis.assistant.dao.standard"})
-public class DefaultDbConfig {
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", basePackages = {"md.leonis.assistant.dao.test"})
+public class TestDbConfig {
 
     @Primary
     @Bean(name = "dataSource")
@@ -35,14 +35,14 @@ public class DefaultDbConfig {
     }
 
     @Primary
-    @PersistenceContext(unitName = "standard")
+    @PersistenceContext(unitName = "test")
     @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean
     entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("dataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("md.leonis.assistant.domain.standard")
-                .persistenceUnit("standard")
+                .packages("md.leonis.assistant.domain.test")
+                .persistenceUnit("test")
                 .build();
     }
 

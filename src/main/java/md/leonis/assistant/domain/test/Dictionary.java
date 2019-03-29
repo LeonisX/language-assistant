@@ -1,4 +1,4 @@
-package md.leonis.assistant.domain.standard;
+package md.leonis.assistant.domain.test;
 
 import lombok.*;
 

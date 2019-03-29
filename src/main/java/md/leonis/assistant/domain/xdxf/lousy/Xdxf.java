@@ -1,6 +1,6 @@
 package md.leonis.assistant.domain.xdxf.lousy;
 
-import md.leonis.assistant.domain.standard.Dictionary;
+import md.leonis.assistant.domain.test.Dictionary;
 
 import java.io.File;
 import java.util.ArrayList;

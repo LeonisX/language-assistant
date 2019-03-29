@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset leonis:1.0.2
+--changeset leonis:test:1.0.2
 
 CREATE TABLE Test.WordPlace (
     Word NVARCHAR(136) PRIMARY KEY,
@@ -20,8 +20,10 @@ CREATE TABLE Test.WordLevel (
     Definition TEXT
 );
 
+CREATE INDEX words ON Test.WordLevel (Word);
+
 -- trim sizes if need, add null restrictions
---changeset leonis:1.0.3
+--changeset leonis:test:1.0.3
 
 CREATE TABLE Test.ParsedRawData (
     itemId NVARCHAR(255) PRIMARY KEY,
@@ -42,11 +44,7 @@ CREATE TABLE Test.ParsedRawData (
     highlight TEXT,
 );
 
---changeset leonis:1.0.4
-
-CREATE INDEX words ON Test.WordLevel (Word);
-
---changeset leonis:1.0.5
+--changeset leonis:test:1.0.4
 
 CREATE TABLE Test.UserWordBank (
     Word NVARCHAR(136) PRIMARY KEY,
@@ -58,7 +56,7 @@ CREATE TABLE Test.UserWordBank (
     Written BIGINT NOT NULL DEFAULT 0
 );
 
---changeset leonis:1.0.6
+--changeset leonis:test:1.0.5
 -- trim sizes if need, add null restrictions
 
 CREATE TABLE Test.Dictionary (
@@ -73,19 +71,7 @@ CREATE TABLE Test.Dictionary (
     Path NVARCHAR(255),
 );
 
---changeset leonis:1.0.7
-
-CREATE TABLE Test.WordToLearn (
-    Word NVARCHAR(136) PRIMARY KEY,
-    Smoke BOOLEAN DEFAULT FALSE,
-    Reading BOOLEAN DEFAULT FALSE,
-    Writing BOOLEAN DEFAULT FALSE,
-    Smoked BIGINT NOT NULL DEFAULT 0,
-    Read BIGINT NOT NULL DEFAULT 0,
-    Written BIGINT NOT NULL DEFAULT 0
-);
-
---changeset leonis:1.0.8
+--changeset leonis:test:1.0.6
 
 CREATE TABLE Test.Variance (
     Id BIGINT IDENTITY PRIMARY KEY,

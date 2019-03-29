@@ -1,7 +1,7 @@
 package md.leonis.assistant;
 
-import md.leonis.assistant.dao.standard.VarianceDAO;
-import md.leonis.assistant.domain.standard.Variance;
+import md.leonis.assistant.dao.test.VarianceDAO;
+import md.leonis.assistant.domain.test.Variance;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

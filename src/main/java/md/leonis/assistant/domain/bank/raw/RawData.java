@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import md.leonis.assistant.domain.LanguageLevel;
-import md.leonis.assistant.domain.standard.ParsedRawData;
-import md.leonis.assistant.domain.standard.WordLevel;
+import md.leonis.assistant.domain.test.ParsedRawData;
+import md.leonis.assistant.domain.test.WordLevel;
 
 import java.util.List;
 

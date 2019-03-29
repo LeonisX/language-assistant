@@ -19,40 +19,40 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "bankEntityManagerFactory",
-        transactionManagerRef = "bankTransactionManager", basePackages = {"md.leonis.assistant.dao.bank"})
-public class BankDbConfig {
+@EnableJpaRepositories(entityManagerFactoryRef = "userEntityManagerFactory",
+        transactionManagerRef = "userTransactionManager", basePackages = {"md.leonis.assistant.dao.user"})
+public class UserDbConfig {
 
-    @Bean(name = "bankDataSource")
-    @ConfigurationProperties(prefix = "bank.datasource")
+    @Bean(name = "userDataSource")
+    @ConfigurationProperties(prefix = "user.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "bankEntityManagerFactory")
+    @Bean(name = "userEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean
-    entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("bankDataSource") DataSource dataSource) {
+    entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("userDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("md.leonis.assistant.domain.bank")
-                .persistenceUnit("bank")
+                .packages("md.leonis.assistant.domain.user")
+                .persistenceUnit("user")
                 .build();
     }
 
-    @Bean(name = "bankTransactionManager")
+    @Bean(name = "userTransactionManager")
     public PlatformTransactionManager
-    transactionManager(@Qualifier("bankEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+    transactionManager(@Qualifier("userEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "bank.datasource.liquibase")
-    public LiquibaseProperties bankLiquibaseProperties() {
+    @ConfigurationProperties(prefix = "user.datasource.liquibase")
+    public LiquibaseProperties userLiquibaseProperties() {
         return new LiquibaseProperties();
     }
 
     @Bean
-    public SpringLiquibase bankLiquibase() {
-        return TestDbConfig.springLiquibase(dataSource(), bankLiquibaseProperties());
+    public SpringLiquibase userLiquibase() {
+        return TestDbConfig.springLiquibase(dataSource(), userLiquibaseProperties());
     }
 }

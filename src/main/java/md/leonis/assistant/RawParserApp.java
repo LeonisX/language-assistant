@@ -2,11 +2,11 @@ package md.leonis.assistant;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import md.leonis.assistant.dao.bank.RawDAO;
-import md.leonis.assistant.dao.standard.ParsedRawDataDAO;
-import md.leonis.assistant.dao.standard.WordLevelDAO;
+import md.leonis.assistant.dao.test.ParsedRawDataDAO;
+import md.leonis.assistant.dao.test.WordLevelDAO;
 import md.leonis.assistant.domain.bank.raw.RawContainer;
 import md.leonis.assistant.domain.bank.raw.RawData;
-import md.leonis.assistant.domain.standard.WordLevel;
+import md.leonis.assistant.domain.test.WordLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

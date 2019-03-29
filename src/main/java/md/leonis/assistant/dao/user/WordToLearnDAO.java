@@ -1,6 +1,6 @@
-package md.leonis.assistant.dao.standard;
+package md.leonis.assistant.dao.user;
 
-import md.leonis.assistant.domain.standard.WordToLearn;
+import md.leonis.assistant.domain.user.WordToLearn;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

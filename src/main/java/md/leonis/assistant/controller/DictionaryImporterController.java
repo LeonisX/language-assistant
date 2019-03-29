@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import md.leonis.assistant.domain.standard.Dictionary;
+import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import md.leonis.assistant.service.SampleService;
 import md.leonis.assistant.view.StageManager;

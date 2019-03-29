@@ -1,10 +1,10 @@
 package md.leonis.assistant;
 
-import md.leonis.assistant.dao.standard.WordFrequencyDAO;
-import md.leonis.assistant.dao.standard.WordLevelDAO;
-import md.leonis.assistant.dao.standard.WordPlaceDAO;
-import md.leonis.assistant.domain.standard.WordFrequency;
-import md.leonis.assistant.domain.standard.WordPlace;
+import md.leonis.assistant.dao.test.WordFrequencyDAO;
+import md.leonis.assistant.dao.test.WordLevelDAO;
+import md.leonis.assistant.dao.test.WordPlaceDAO;
+import md.leonis.assistant.domain.test.WordFrequency;
+import md.leonis.assistant.domain.test.WordPlace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

@@ -1,6 +1,6 @@
-package md.leonis.assistant.dao.standard;
+package md.leonis.assistant.dao.test;
 
-import md.leonis.assistant.domain.standard.WordFrequency;
+import md.leonis.assistant.domain.test.WordFrequency;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

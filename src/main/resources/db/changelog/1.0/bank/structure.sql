@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset leonis:b1.0.4
+--changeset leonis:bank:1.0.2
 
 CREATE TABLE Bank.Raws (
     Id BIGINT IDENTITY PRIMARY KEY,

@@ -1,6 +1,6 @@
-package md.leonis.assistant.dao.standard;
+package md.leonis.assistant.dao.test;
 
-import md.leonis.assistant.domain.standard.Dictionary;
+import md.leonis.assistant.domain.test.Dictionary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

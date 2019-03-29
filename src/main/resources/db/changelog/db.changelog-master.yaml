@@ -1,7 +1,7 @@
 databaseChangeLog:
   - include:
       relativeToChangelogFile: true
-      file: 1.0/schema.sql
+      file: 1.0/test/schema.sql
   - include:
       relativeToChangelogFile: true
-      file: 1.0/structure.sql
+      file: 1.0/test/structure.sql
