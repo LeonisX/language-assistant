@@ -4,6 +4,14 @@
 
 This is a model of the project, designed to simplify the study of foreign languages. For now, just a sketch of the integration of Spring Boot 2 and JavaFX 8.
 
+### Refactor
+
+* 3 DBs: bank, user, test
+* 3 Controllers. Sample -> Test
+* Sources: source/english/... / ... / domain / ...
+* From sources: SourceFactory -> crawlers, importers, matchers (noun, verb), levels 
+
+
 **ANKI**
 //TODO import cards and learn words
 Vanilla SQLite + files
