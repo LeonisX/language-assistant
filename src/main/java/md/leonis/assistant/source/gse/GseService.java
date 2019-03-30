@@ -74,13 +74,20 @@ public class GseService implements md.leonis.assistant.source.Service {
         return parser;
     }
 
-
     public ParsedRawData saveParsedRawData(ParsedRawData parsedRawData) {
         return parsedRawDataDAO.save(parsedRawData);
     }
 
     public long getRawDataCount() {
         return parsedRawDataDAO.count();
+    }
+
+    public List<ParsedRawData> getParsedRawData() {
+        return parsedRawDataDAO.findAll();
+    }
+
+    public List<String> findAllWords() {
+        return parsedRawDataDAO.findAllWords();
     }
 
     @Override

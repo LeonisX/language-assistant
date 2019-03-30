@@ -35,6 +35,10 @@ public class DashboardController {
     public Label wordListLabel;
     public Button wordListImportButton;
 
+    public HBox userWordBankHBox;
+    public Label userWordBankLabel;
+    public Button userWordBankGenerateButton;
+
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -117,6 +121,11 @@ public class DashboardController {
         long wordLevelCount = testService.getWordLevelCount();
         wordListLabel.setText(String.format("Word Level Count: %d", wordLevelCount));
         wordListImportButton.setVisible(wordLevelCount == 0);
+
+        //TODO method for count
+        long userWordBankCount = userService.getUserWordBank().size();
+        userWordBankLabel.setText(String.format("User Word Bank Count: %d", userWordBankCount));
+        userWordBankGenerateButton.setVisible(userWordBankCount == 0);
     }
 
     public void gseCrawlButtonClick() {
@@ -146,6 +155,17 @@ public class DashboardController {
             stageManager.showInformationAlert("Word Levels Imported", String.format("Word Levels Count: %d", wordLevels.size()), "");
         } catch (Exception e) {
             stageManager.showErrorAlert("Word Levels Import Error", e.getMessage(), "");
+        }
+        refreshDiagnosticControls();
+    }
+
+    public void userWordBankGenerateClick() {
+        try {
+            userService.generateUserWordBank(gseService.findAllWords());
+            //TODO method for count
+            stageManager.showInformationAlert("User Word Bank Generated", String.format("User Word Bank: %d", userService.getUserWordBank().size()), "");
+        } catch (Exception e) {
+            stageManager.showErrorAlert("User Word Bank Generation Error", e.getMessage(), "");
         }
         refreshDiagnosticControls();
     }
