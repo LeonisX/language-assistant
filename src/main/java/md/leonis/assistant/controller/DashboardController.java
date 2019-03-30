@@ -54,6 +54,10 @@ public class DashboardController {
     public Label userWordBankLabel;
     public Button userWordBankGenerateButton;
 
+    public HBox variancesHBox;
+    public Label variancesLabel;
+    public Button variancesImportButton;
+
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -152,6 +156,10 @@ public class DashboardController {
         wordPlaceLabel.setText(String.format("Word Place Count: %d", wordPlaceCount));
         wordPlaceImportButton.setVisible(wordPlaceCount == 0);
 
+        long variancesCount = testService.getVariancesCount();
+        variancesLabel.setText(String.format("Variances Count: %d", variancesCount));
+        variancesImportButton.setVisible(variancesCount == 0);
+
         long userWordBankCount = userService.getUserWordBankCount();
         userWordBankLabel.setText(String.format("User Word Bank Count: %d", userWordBankCount));
         userWordBankGenerateButton.setVisible(userWordBankCount == 0);
@@ -214,6 +222,16 @@ public class DashboardController {
             stageManager.showInformationAlert("Word Places Imported", String.format("Word Places Count: %d", testService.getWordPlacesCount()), "");
         } catch (Exception e) {
             stageManager.showErrorAlert("Word Places Import Error", e.getMessage(), "");
+        }
+        refreshDiagnosticControls();
+    }
+
+    public void variancesImportButtonClick() {
+        try {
+            testService.importVariances();
+            stageManager.showInformationAlert("Variances Imported", String.format("Variances Count: %d", testService.getVariancesCount()), "");
+        } catch (Exception e) {
+            stageManager.showErrorAlert("Variances Import Error", e.getMessage(), "");
         }
         refreshDiagnosticControls();
     }
