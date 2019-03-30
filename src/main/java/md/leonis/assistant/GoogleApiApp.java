@@ -8,12 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class TestApp {
+public class GoogleApiApp {
 
-    private static final Logger log = LoggerFactory.getLogger(TestApp.class);
+    private static final Logger log = LoggerFactory.getLogger(GoogleApiApp.class);
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext springContext = SpringApplication.run(TestApp.class, args);
+        ConfigurableApplicationContext springContext = SpringApplication.run(GoogleApiApp.class, args);
 
         log.info("Translating");
 
