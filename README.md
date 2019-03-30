@@ -4,28 +4,7 @@
 
 This is a model of the project, designed to simplify the study of foreign languages. For now, just a sketch of the integration of Spring Boot 2 and JavaFX 8.
 
-### Refactor
-
-* v 3 DBs: bank, user, test
-* v 3 Services. Sample -> Test
-* v Sources: source/english/... / ... / domain / ...
-* v From sources: SourceFactory -> crawlers, importers, matchers (noun, verb), levels 
-* Controls to setup initial data (dictionaries, user word bank, ...)
-* matchers (noun, verb), levels to sources
-
-Bank.Variance
-
-
-
-**ANKI**
-//TODO import cards and learn words
-Vanilla SQLite + files
-https://github.com/ankidroid/Anki-Android/wiki/Database-Structure
-https://decks.fandom.com/wiki/Anki_APKG_format_documentation
-https://github.com/dae/anki
-https://play.google.com/store/apps/details?id=io.lingvist.android&hl=ru
-
-TODO list:
+### TODO list:
 
 *** Memorization algorithm (simplified ANKI):
 
@@ -36,6 +15,15 @@ TODO list:
 ** Get material from ANKI
 * Words to learn (modify db): repeated, next repeat
 * After every action save
+
+
+**ANKI**
+//TODO import cards and learn words
+Vanilla SQLite + files
+https://github.com/ankidroid/Anki-Android/wiki/Database-Structure
+https://decks.fandom.com/wiki/Anki_APKG_format_documentation
+https://github.com/dae/anki
+https://play.google.com/store/apps/details?id=io.lingvist.android&hl=ru
 
 
 #### Study
