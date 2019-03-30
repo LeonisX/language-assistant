@@ -1,6 +1,6 @@
-package md.leonis.assistant.dao.test;
+package md.leonis.assistant.source.gse.dao;
 
-import md.leonis.assistant.domain.test.ParsedRawData;
+import md.leonis.assistant.source.gse.domain.ParsedRawData;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

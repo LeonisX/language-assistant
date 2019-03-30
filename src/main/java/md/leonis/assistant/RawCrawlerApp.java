@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class RawImporterApp {
+public class RawCrawlerApp {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext springContext = SpringApplication.run(RawImporterApp.class, args);
+        ConfigurableApplicationContext springContext = SpringApplication.run(RawCrawlerApp.class, args);
 
         springContext.getBean(GseSourceFactory.class).getCrawler().crawl();
     }

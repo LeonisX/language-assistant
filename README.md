@@ -19,7 +19,7 @@ Vanilla SQLite + files
 https://github.com/ankidroid/Anki-Android/wiki/Database-Structure
 https://decks.fandom.com/wiki/Anki_APKG_format_documentation
 https://github.com/dae/anki
-
+https://play.google.com/store/apps/details?id=io.lingvist.android&hl=ru
 
 TODO list:
 

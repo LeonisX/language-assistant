@@ -66,7 +66,7 @@ public class TestDbConfig {
         return springLiquibase(dataSource(), liquibaseProperties());
     }
 
-    static SpringLiquibase springLiquibase(DataSource dataSource, LiquibaseProperties properties) {
+    public static SpringLiquibase springLiquibase(DataSource dataSource, LiquibaseProperties properties) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog(properties.getChangeLog());

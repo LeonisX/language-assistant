@@ -6,5 +6,7 @@ public interface SourceFactory {
 
     Parser getParser();
 
+    Service getService();
+
     //TODO matchers, levels
 }

@@ -1,13 +1,13 @@
 package md.leonis.assistant.source.gse;
 
 import lombok.SneakyThrows;
-import md.leonis.assistant.dao.bank.RawDAO;
 import md.leonis.assistant.source.Crawler;
 import md.leonis.assistant.source.gse.domain.Raw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -27,11 +27,15 @@ public class GseCrawler implements Crawler {
 
     private static final Random random = new Random();
 
-    @Value("${gse.very.recommendable.url}")
+    @Value("${gse.url}")
     private String prefix;
 
+    @Value("${gse.pages.count}")
+    private int pagesCount;
+
+    @Lazy
     @Autowired
-    private RawDAO rawDAO;
+    private GseService gseService;
 
     @Override
     @SneakyThrows
@@ -39,11 +43,11 @@ public class GseCrawler implements Crawler {
 
         log.info("Crawling");
 
-        long startIndex = rawDAO.count();
+        long startIndex = gseService.getRawCount();
 
-        // 34911
-        // 3492
-        for (long i = startIndex + 1; i <= 3492; i++) {
+        // totalCount: 34911
+        // pagesCount == 3492
+        for (long i = startIndex + 1; i <= pagesCount; i++) {
             int delay = random.nextInt(1100) + 400;
             log.info("{}: {}", i, delay);
             String url = String.format("%s/api/v1/vocabulary/search?filters={\"gseRange\":{\"from\":\"10\",\"to\":\"90\"},\"topics\":[],\"audiences\":[\"GL\"],\"grammaticalCategories\":[]}&page=%d&query_string=*&sort=expression.raw", prefix, i);
@@ -67,8 +71,22 @@ public class GseCrawler implements Crawler {
             } else {
                 response = toString(urlConnection.getInputStream());
             }
-            rawDAO.save(new Raw(i, response));
+            gseService.saveRaw(new Raw(i, response));
             Thread.sleep(delay);
+        }
+    }
+
+    @Override
+    public boolean isCrawled() {
+        return gseService.getRawCount() == pagesCount;
+    }
+
+    @Override
+    public String getStatus() {
+        if (isCrawled()) {
+            return "OK";
+        } else {
+            return String.format("%d/%d", gseService.getRawCount(), pagesCount);
         }
     }
 

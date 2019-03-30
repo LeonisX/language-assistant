@@ -1,6 +1,6 @@
 package md.leonis.assistant;
 
-import md.leonis.assistant.dao.test.ParsedRawDataDAO;
+import md.leonis.assistant.source.gse.dao.ParsedRawDataDAO;
 import md.leonis.assistant.dao.user.UserWordBankDAO;
 import md.leonis.assistant.domain.user.UserWordBank;
 import org.slf4j.Logger;

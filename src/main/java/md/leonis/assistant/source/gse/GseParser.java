@@ -1,21 +1,17 @@
 package md.leonis.assistant.source.gse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import md.leonis.assistant.dao.bank.RawDAO;
-import md.leonis.assistant.dao.test.ParsedRawDataDAO;
-import md.leonis.assistant.dao.test.WordLevelDAO;
-import md.leonis.assistant.domain.test.WordLevel;
+import lombok.SneakyThrows;
 import md.leonis.assistant.source.Parser;
 import md.leonis.assistant.source.gse.domain.parsed.RawContainer;
-import md.leonis.assistant.source.gse.domain.parsed.RawData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
@@ -23,39 +19,36 @@ public class GseParser implements Parser {
 
     private static final Logger log = LoggerFactory.getLogger(GseParser.class);
 
+    @Lazy
     @Autowired
-    private RawDAO rawDAO;
+    private GseService gseService;
 
-    @Autowired
-    private ParsedRawDataDAO parsedRawDataDAO;
+    @Value("${gse.pages.count}")
+    private int pagesCount;
 
-    @Autowired
-    private WordLevelDAO wordLevelDAO;
+    @Value("${gse.total.count}")
+    private int totalCount;
 
+    @SneakyThrows
     public void parse() {
-
         log.info("Parsing...");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        if (3492 != rawDAO.count()) {
+        if (pagesCount != gseService.getRawCount()) {
             throw new RuntimeException();
         }
 
-        // 3492
-        /*for (long i = 1; i <= rawDAO.count(); i++) {
-            String json = rawDAO.findById(i).get().getRaw();
-
+        // verify
+        for (long i = 1; i <= pagesCount; i++) {
+            String json = gseService.findRawById(i).get().getRaw();
             RawContainer rawContainer = objectMapper.readValue(json, RawContainer.class);
-            System.out.println(i);
-            List<RawData> rawData = rawContainer.getData();
-            if (34911 != rawContainer.getCount()) {
+            if (totalCount != rawContainer.getCount()) {
                 throw new RuntimeException();
             }
+        }
 
-        }*/
-
-        List<WordLevel> wordLevels = StreamSupport.stream(rawDAO.findAll().spliterator(), false)
+        StreamSupport.stream(gseService.findAllRaw().spliterator(), false)
                 .flatMap(r -> {
                     try {
                         return objectMapper.readValue(r.getRaw(), RawContainer.class).getData().stream();
@@ -64,9 +57,20 @@ public class GseParser implements Parser {
                     }
                     return null;
                 })
-                .peek(r -> parsedRawDataDAO.save(r.toParsedRawData()))
-                .map(RawData::toWordLevel).collect(Collectors.toList());
+                .forEach(r -> gseService.saveParsedRawData(r.toParsedRawData()));
+    }
 
-        wordLevelDAO.saveAll(wordLevels);
+    @Override
+    public boolean isParsed() {
+        return totalCount == gseService.getRawDataCount();
+    }
+
+    @Override
+    public String getStatus() {
+        if (isParsed()) {
+            return "OK";
+        } else {
+            return String.format("%d/%d", gseService.getRawDataCount(), totalCount);
+        }
     }
 }

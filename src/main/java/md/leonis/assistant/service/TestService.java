@@ -142,4 +142,11 @@ public class TestService {
         return varianceDAO.findByVarianceEqualsIgnoreCase(word);
     }
 
+    public Iterable<WordLevel> saveWordLevels(Iterable<WordLevel> wordLevels) {
+        return wordLevelDAO.saveAll(wordLevels);
+    }
+
+    public long getWordLevelCount() {
+        return wordLevelDAO.count();
+    }
 }

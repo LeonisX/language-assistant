@@ -1,4 +1,4 @@
-package md.leonis.assistant.dao.bank;
+package md.leonis.assistant.source.gse.dao;
 
 import md.leonis.assistant.source.gse.domain.Raw;
 import org.springframework.data.repository.CrudRepository;

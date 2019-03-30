@@ -2,17 +2,17 @@
 
 --changeset leonis:test:1.0.2
 
-CREATE TABLE Test.WordPlace (
+CREATE TABLE Bank.WordPlace (
     Word NVARCHAR(136) PRIMARY KEY,
     Place BIGINT NOT NULL
 );
 
-CREATE TABLE Test.WordFrequency (
+CREATE TABLE Bank.WordFrequency (
     Word NVARCHAR(136) PRIMARY KEY,
     Frequency BIGINT NOT NULL
 );
 
-CREATE TABLE Test.WordLevel (
+CREATE TABLE Bank.WordLevel (
     Id BIGINT IDENTITY PRIMARY KEY,
     Word NVARCHAR(136) NOT NULL,
     Level VARCHAR(3) NOT NULL,
@@ -20,33 +20,11 @@ CREATE TABLE Test.WordLevel (
     Definition TEXT
 );
 
-CREATE INDEX words ON Test.WordLevel (Word);
-
--- trim sizes if need, add null restrictions
---changeset leonis:test:1.0.3
-
-CREATE TABLE Test.ParsedRawData (
-    itemId NVARCHAR(255) PRIMARY KEY,
-    expression NVARCHAR(136) NOT NULL,
-    audioFiles TEXT,
-    thesaurus TEXT,
-    definition TEXT,
-    example TEXT,
-    audience TEXT,
-    cefr TEXT,
-    gse TEXT,
-    temporaryGse BOOLEAN,
-    grammaticalCategories TEXT,
-    collos TEXT,
-    variants TEXT,
-    topics TEXT,
-    region TEXT,
-    highlight TEXT,
-);
+CREATE INDEX words ON Bank.WordLevel (Word);
 
 --changeset leonis:test:1.0.4
 
-CREATE TABLE Test.UserWordBank (
+CREATE TABLE Bank.UserWordBank (
     Word NVARCHAR(136) PRIMARY KEY,
     Smoke BOOLEAN DEFAULT FALSE,
     Reading BOOLEAN DEFAULT FALSE,
@@ -59,7 +37,7 @@ CREATE TABLE Test.UserWordBank (
 --changeset leonis:test:1.0.5
 -- trim sizes if need, add null restrictions
 
-CREATE TABLE Test.Dictionary (
+CREATE TABLE Bank.Dictionary (
     Id BIGINT IDENTITY PRIMARY KEY,
     LangFrom NVARCHAR(255),
     LangTo NVARCHAR(255),
@@ -73,7 +51,7 @@ CREATE TABLE Test.Dictionary (
 
 --changeset leonis:test:1.0.6
 
-CREATE TABLE Test.Variance (
+CREATE TABLE Bank.Variance (
     Id BIGINT IDENTITY PRIMARY KEY,
     Variance NVARCHAR(136) NOT NULL,
     Word NVARCHAR(136) NOT NULL

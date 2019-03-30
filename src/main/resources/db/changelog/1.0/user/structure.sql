@@ -2,7 +2,7 @@
 
 --changeset leonis:1.0.2
 
-CREATE TABLE User.UserWordBank (
+CREATE TABLE Bank.UserWordBank (
     Word NVARCHAR(136) PRIMARY KEY,
     Smoke BOOLEAN DEFAULT FALSE,
     Reading BOOLEAN DEFAULT FALSE,
@@ -12,7 +12,7 @@ CREATE TABLE User.UserWordBank (
     Written BIGINT NOT NULL DEFAULT 0
 );
 
-CREATE TABLE User.WordToLearn (
+CREATE TABLE Bank.WordToLearn (
     Word NVARCHAR(136) PRIMARY KEY,
     Smoke BOOLEAN DEFAULT FALSE,
     Reading BOOLEAN DEFAULT FALSE,

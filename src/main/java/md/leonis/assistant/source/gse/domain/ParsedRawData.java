@@ -1,7 +1,8 @@
-package md.leonis.assistant.domain.test;
+package md.leonis.assistant.source.gse.domain;
 
 import lombok.*;
 import md.leonis.assistant.domain.LanguageLevel;
+import md.leonis.assistant.domain.test.WordLevel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
