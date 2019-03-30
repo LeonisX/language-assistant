@@ -38,9 +38,17 @@ public class DashboardController {
     public Label parsedDataLabel;
     public Button parsedDataImportButton;
 
-    public HBox wordListHBox;
-    public Label wordListLabel;
-    public Button wordListImportButton;
+    public HBox wordLevelHBox;
+    public Label wordLevelLabel;
+    public Button wordLevelImportButton;
+
+    public HBox wordFrequencyHBox;
+    public Label wordFrequencyLabel;
+    public Button wordFrequencyImportButton;
+
+    public HBox wordPlaceHBox;
+    public Label wordPlaceLabel;
+    public Button wordPlaceImportButton;
 
     public HBox userWordBankHBox;
     public Label userWordBankLabel;
@@ -132,9 +140,17 @@ public class DashboardController {
         parsedDataLabel.setText(String.format("Parsed Data Count: %d", parsedDataCount));
         parsedDataImportButton.setVisible(parsedDataCount == 0);
 
-        long wordLevelCount = testService.getWordLevelCount();
-        wordListLabel.setText(String.format("Word Level Count: %d", wordLevelCount));
-        wordListImportButton.setVisible(wordLevelCount == 0);
+        long wordLevelCount = testService.getWordLevelsCount();
+        wordLevelLabel.setText(String.format("Word Level Count: %d", wordLevelCount));
+        wordLevelImportButton.setVisible(wordLevelCount == 0);
+
+        long wordFrequencyCount = testService.getWordFrequenciesCount();
+        wordFrequencyLabel.setText(String.format("Word Frequencies Count: %d", wordFrequencyCount));
+        wordFrequencyImportButton.setVisible(wordFrequencyCount == 0);
+
+        long wordPlaceCount = testService.getWordPlacesCount();
+        wordPlaceLabel.setText(String.format("Word Place Count: %d", wordPlaceCount));
+        wordPlaceImportButton.setVisible(wordPlaceCount == 0);
 
         long userWordBankCount = userService.getUserWordBankCount();
         userWordBankLabel.setText(String.format("User Word Bank Count: %d", userWordBankCount));
@@ -171,13 +187,33 @@ public class DashboardController {
         refreshDiagnosticControls();
     }
 
-    public void wordListImportButtonClick() {
+    public void wordLevelImportButtonClick() {
         try {
             List<WordLevel> wordLevels = bankService.getWordLevels();
             testService.saveWordLevels(wordLevels);
             stageManager.showInformationAlert("Word Levels Imported", String.format("Word Levels Count: %d", wordLevels.size()), "");
         } catch (Exception e) {
             stageManager.showErrorAlert("Word Levels Import Error", e.getMessage(), "");
+        }
+        refreshDiagnosticControls();
+    }
+
+    public void wordFrequencyImportButtonClick() {
+        try {
+            testService.importWordFrequencies();
+            stageManager.showInformationAlert("Word Frequencies Imported", String.format("Word Frequencies Count: %d", testService.getWordFrequenciesCount()), "");
+        } catch (Exception e) {
+            stageManager.showErrorAlert("Word Frequencies Import Error", e.getMessage(), "");
+        }
+        refreshDiagnosticControls();
+    }
+
+    public void wordPlaceImportButtonClick() {
+        try {
+            testService.importWordPlaces();
+            stageManager.showInformationAlert("Word Places Imported", String.format("Word Places Count: %d", testService.getWordPlacesCount()), "");
+        } catch (Exception e) {
+            stageManager.showErrorAlert("Word Places Import Error", e.getMessage(), "");
         }
         refreshDiagnosticControls();
     }

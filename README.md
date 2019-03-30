@@ -13,6 +13,10 @@ This is a model of the project, designed to simplify the study of foreign langua
 * Controls to setup initial data (dictionaries, user word bank, ...)
 * matchers (noun, verb), levels to sources
 
+Bank.Variance
+
+
+
 **ANKI**
 //TODO import cards and learn words
 Vanilla SQLite + files

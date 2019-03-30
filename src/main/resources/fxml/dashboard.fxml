@@ -101,15 +101,55 @@
             </VBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
-                    <HBox fx:id="wordListHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
+                    <HBox fx:id="wordLevelHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
                           spacing="5.0">
                         <children>
-                            <Label fx:id="wordListLabel" prefHeight="25.0" prefWidth="800.0"/>
+                            <Label fx:id="wordLevelLabel" prefHeight="25.0" prefWidth="800.0"/>
                             <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
                                   spacing="5.0">
                                 <children>
-                                    <Button fx:id="wordListImportButton" mnemonicParsing="false"
-                                            onAction="#wordListImportButtonClick" text="Parse"/>
+                                    <Button fx:id="wordLevelImportButton" mnemonicParsing="false"
+                                            onAction="#wordLevelImportButtonClick" text="Parse"/>
+                                </children>
+                            </HBox>
+                        </children>
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                    </HBox>
+                </children>
+            </VBox>
+            <VBox prefHeight="47.0" prefWidth="560.0">
+                <children>
+                    <HBox fx:id="wordFrequencyHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
+                          spacing="5.0">
+                        <children>
+                            <Label fx:id="wordFrequencyLabel" prefHeight="25.0" prefWidth="800.0"/>
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
+                                  spacing="5.0">
+                                <children>
+                                    <Button fx:id="wordFrequencyImportButton" mnemonicParsing="false"
+                                            onAction="#wordFrequencyImportButtonClick" text="Import"/>
+                                </children>
+                            </HBox>
+                        </children>
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                    </HBox>
+                </children>
+            </VBox>
+            <VBox prefHeight="47.0" prefWidth="560.0">
+                <children>
+                    <HBox fx:id="wordPlaceHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
+                          spacing="5.0">
+                        <children>
+                            <Label fx:id="wordPlaceLabel" prefHeight="25.0" prefWidth="800.0"/>
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
+                                  spacing="5.0">
+                                <children>
+                                    <Button fx:id="wordPlaceImportButton" mnemonicParsing="false"
+                                            onAction="#wordPlaceImportButtonClick" text="Import"/>
                                 </children>
                             </HBox>
                         </children>

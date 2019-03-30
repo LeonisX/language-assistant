@@ -1,15 +1,10 @@
 package md.leonis.assistant.service;
 
-import md.leonis.assistant.dao.test.DictionaryDAO;
-import md.leonis.assistant.dao.test.VarianceDAO;
-import md.leonis.assistant.dao.test.WordFrequencyDAO;
-import md.leonis.assistant.dao.test.WordLevelDAO;
+import lombok.SneakyThrows;
+import md.leonis.assistant.dao.test.*;
 import md.leonis.assistant.dao.user.UserWordBankDAO;
 import md.leonis.assistant.domain.LanguageLevel;
-import md.leonis.assistant.domain.test.Dictionary;
-import md.leonis.assistant.domain.test.Variance;
-import md.leonis.assistant.domain.test.WordFrequency;
-import md.leonis.assistant.domain.test.WordLevel;
+import md.leonis.assistant.domain.test.*;
 import md.leonis.assistant.domain.xdxf.lousy.Xdxf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +24,11 @@ import javax.xml.transform.sax.SAXSource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TestService {
@@ -42,6 +40,9 @@ public class TestService {
 
     @Autowired
     private WordFrequencyDAO wordFrequencyDAO;
+
+    @Autowired
+    private WordPlaceDAO wordPlaceDAO;
 
     @Autowired
     private UserWordBankDAO wordBankDAO;
@@ -146,7 +147,71 @@ public class TestService {
         return wordLevelDAO.saveAll(wordLevels);
     }
 
-    public long getWordLevelCount() {
+    public long getWordLevelsCount() {
         return wordLevelDAO.count();
     }
+
+    public List<WordFrequency> getWordFrequencies() {
+        return wordFrequencyDAO.findAll();
+    }
+
+    public Iterable<WordFrequency> saveWordFrequencies(Iterable<WordFrequency> wordFrequencies) {
+        return wordFrequencyDAO.saveAll(wordFrequencies);
+    }
+
+    public long getWordFrequenciesCount() {
+        return wordFrequencyDAO.count();
+    }
+
+    public List<WordPlace> getWordPlaces() {
+        return wordPlaceDAO.findAll();
+    }
+
+    public Iterable<WordPlace> saveWordPlaces(Iterable<WordPlace> wordPlaces) {
+        return wordPlaceDAO.saveAll(wordPlaces);
+    }
+
+    public long getWordPlacesCount() {
+        return wordPlaceDAO.count();
+    }
+
+    @SneakyThrows
+    public void importWordFrequencies() {
+        log.info("Importing");
+        wordFrequencyDAO.deleteAll();
+
+        ClassLoader classLoader = TestService.class.getClassLoader();
+        File file = new File(Objects.requireNonNull(classLoader.getResource("banks/nor.txt")).getFile());
+        List<String> list = Files.readAllLines(file.toPath(), Charset.defaultCharset());
+
+        for (String nextLine : list) {
+            String line = nextLine.trim();
+            if (!line.isEmpty() && !line.startsWith("#")) {
+                String[] chunks = line.split("\t");
+                WordFrequency wordFrequency = new WordFrequency(chunks[0], Long.parseLong(chunks[1]));
+                wordFrequencyDAO.save(wordFrequency);
+            }
+        }
+    }
+
+    @SneakyThrows
+    public void importWordPlaces() {
+        log.info("Importing");
+        wordPlaceDAO.deleteAll();
+
+        ClassLoader classLoader = TestService.class.getClassLoader();
+        File file = new File(Objects.requireNonNull(classLoader.getResource("banks/nor.txt")).getFile());
+        List<String> list = Files.readAllLines(file.toPath(), Charset.defaultCharset());
+
+        long place = 1;
+        for (String nextLine : list) {
+            String line = nextLine.trim();
+            if (!line.isEmpty() && !line.startsWith("#")) {
+                String[] chunks = line.split("\t");
+                WordPlace wordPlace = new WordPlace(chunks[0], place++);
+                wordPlaceDAO.save(wordPlace);
+            }
+        }
+    }
+
 }
