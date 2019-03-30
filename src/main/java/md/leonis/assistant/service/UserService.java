@@ -43,6 +43,10 @@ public class UserService {
         return userWordBankDAO.save(userWordBank);
     }
 
+    public long getUserWordBankCount() {
+        return userWordBankDAO.count();
+    }
+
     public void generateUserWordBank(List<String> words) {
         Random random = new Random();
 
@@ -70,4 +74,5 @@ public class UserService {
             saveUserWordBank(userWordBank);
         }
     }
+
 }

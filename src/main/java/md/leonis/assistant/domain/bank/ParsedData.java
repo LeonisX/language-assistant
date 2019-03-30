@@ -1,8 +1,7 @@
-package md.leonis.assistant.source.gse.domain;
+package md.leonis.assistant.domain.bank;
 
 import lombok.*;
 import md.leonis.assistant.domain.LanguageLevel;
-import md.leonis.assistant.domain.bank.ParsedData;
 import md.leonis.assistant.domain.test.WordLevel;
 
 import javax.persistence.Entity;
@@ -14,7 +13,7 @@ import javax.persistence.Id;
 @Setter(value = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
 @Entity
-public class ParsedRawData {
+public class ParsedData {
 
     @Id
     private String itemId;
@@ -61,27 +60,6 @@ public class ParsedRawData {
             case "N/A": return LanguageLevel.UNK;
             default: throw new RuntimeException(cefr);
         }
-    }
-
-    public ParsedData toParsedData() {
-        return ParsedData.builder()
-                .itemId(itemId)
-                .expression(expression)
-                .audioFiles(audioFiles)
-                .thesaurus(thesaurus)
-                .definition(definition)
-                .example(example)
-                .audience(audience)
-                .cefr(cefr)
-                .gse(gse)
-                .temporaryGse(temporaryGse)
-                .grammaticalCategories(grammaticalCategories)
-                .collos(collos)
-                .variants(variants)
-                .topics(topics)
-                .region(region)
-                .highlight(highlight)
-                .build();
     }
 
     private String removeStar(String value) {

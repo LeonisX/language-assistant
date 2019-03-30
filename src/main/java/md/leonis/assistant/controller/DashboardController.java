@@ -9,9 +9,11 @@ import md.leonis.assistant.config.ConfigHolder;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.User;
 import md.leonis.assistant.domain.test.WordLevel;
+import md.leonis.assistant.service.BankService;
 import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.service.UserService;
 import md.leonis.assistant.source.gse.GseService;
+import md.leonis.assistant.source.gse.domain.ParsedRawData;
 import md.leonis.assistant.view.FxmlView;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class DashboardController {
@@ -30,6 +33,10 @@ public class DashboardController {
     public Label gseLabel;
     public Button gseCrawlButton;
     public Button gseParseButton;
+
+    public HBox parsedDataHBox;
+    public Label parsedDataLabel;
+    public Button parsedDataImportButton;
 
     public HBox wordListHBox;
     public Label wordListLabel;
@@ -54,6 +61,9 @@ public class DashboardController {
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private BankService bankService;
 
     @FXML
     private void initialize() {
@@ -118,12 +128,15 @@ public class DashboardController {
         gseCrawlButton.setVisible(!gseService.isCrawled());
         gseParseButton.setVisible(!gseService.isParsed());
 
+        long parsedDataCount = bankService.getParsedRawDataCount();
+        parsedDataLabel.setText(String.format("Parsed Data Count: %d", parsedDataCount));
+        parsedDataImportButton.setVisible(parsedDataCount == 0);
+
         long wordLevelCount = testService.getWordLevelCount();
         wordListLabel.setText(String.format("Word Level Count: %d", wordLevelCount));
         wordListImportButton.setVisible(wordLevelCount == 0);
 
-        //TODO method for count
-        long userWordBankCount = userService.getUserWordBank().size();
+        long userWordBankCount = userService.getUserWordBankCount();
         userWordBankLabel.setText(String.format("User Word Bank Count: %d", userWordBankCount));
         userWordBankGenerateButton.setVisible(userWordBankCount == 0);
     }
@@ -148,9 +161,19 @@ public class DashboardController {
         refreshDiagnosticControls();
     }
 
+    public void parsedDataImportButtonClick() {
+        try {
+            bankService.saveParsedRawData(gseService.getParsedRawData().stream().map(ParsedRawData::toParsedData).collect(Collectors.toList()));
+            stageManager.showInformationAlert("Parsed Data Imported", String.format("Parsed Data Count: %d", bankService.getParsedRawDataCount()), "");
+        } catch (Exception e) {
+            stageManager.showErrorAlert("Parsed Data Import Error", e.getMessage(), "");
+        }
+        refreshDiagnosticControls();
+    }
+
     public void wordListImportButtonClick() {
         try {
-            List<WordLevel> wordLevels = gseService.getWordLevels();
+            List<WordLevel> wordLevels = bankService.getWordLevels();
             testService.saveWordLevels(wordLevels);
             stageManager.showInformationAlert("Word Levels Imported", String.format("Word Levels Count: %d", wordLevels.size()), "");
         } catch (Exception e) {
@@ -161,12 +184,12 @@ public class DashboardController {
 
     public void userWordBankGenerateClick() {
         try {
-            userService.generateUserWordBank(gseService.findAllWords());
-            //TODO method for count
-            stageManager.showInformationAlert("User Word Bank Generated", String.format("User Word Bank: %d", userService.getUserWordBank().size()), "");
+            userService.generateUserWordBank(bankService.findAllWords());
+            stageManager.showInformationAlert("User Word Bank Generated", String.format("User Word Bank: %d", userService.getUserWordBankCount()), "");
         } catch (Exception e) {
             stageManager.showErrorAlert("User Word Bank Generation Error", e.getMessage(), "");
         }
         refreshDiagnosticControls();
     }
+
 }
