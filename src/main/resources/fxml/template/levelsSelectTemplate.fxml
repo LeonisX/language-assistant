@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<fx:root type="javafx.scene.layout.HBox" fx:id="containerHBox" xmlns:fx="http://javafx.com/fxml">
+    <CheckBox fx:id="unkCheckBox" mnemonicParsing="false" text="Unknown level"/>
+    <CheckBox fx:id="a0CheckBox" mnemonicParsing="false" text="A0"/>
+    <CheckBox fx:id="a1CheckBox" mnemonicParsing="false" text="A1"/>
+    <CheckBox fx:id="a2CheckBox" mnemonicParsing="false" text="A2"/>
+    <CheckBox fx:id="a2pCheckBox" mnemonicParsing="false" text="A2+"/>
+    <CheckBox fx:id="b1CheckBox" mnemonicParsing="false" text="B1"/>
+    <CheckBox fx:id="b1pCheckBox" mnemonicParsing="false" text="B1+"/>
+    <CheckBox fx:id="b2CheckBox" mnemonicParsing="false" text="B2"/>
+    <CheckBox fx:id="b2pCheckBox" mnemonicParsing="false" text="B2+"/>
+    <CheckBox fx:id="c1CheckBox" mnemonicParsing="false" text="C1"/>
+    <CheckBox fx:id="c2CheckBox" mnemonicParsing="false" text="C2"/>
+    <CheckBox fx:id="c2pCheckBox" mnemonicParsing="false" text="C2+"/>
+</fx:root>

@@ -1,5 +1,6 @@
 package md.leonis.assistant.source.gse;
 
+import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.source.Crawler;
 import md.leonis.assistant.source.Parser;
 import md.leonis.assistant.source.Service;
@@ -26,5 +27,23 @@ public class GseSourceFactory implements SourceFactory {
     @Override
     public Service getService() {
         return service;
+    }
+
+    @Override
+    public LanguageLevel[] getLanguageLevels() {
+        return new LanguageLevel[]{
+                LanguageLevel.UNK,
+                LanguageLevel.A0,
+                LanguageLevel.A1,
+                LanguageLevel.A2,
+                LanguageLevel.A2P,
+                LanguageLevel.B1,
+                LanguageLevel.B1P,
+                LanguageLevel.B2,
+                LanguageLevel.B2P,
+                LanguageLevel.C1,
+                LanguageLevel.C2
+                //LanguageLevel.C2P,
+        };
     }
 }

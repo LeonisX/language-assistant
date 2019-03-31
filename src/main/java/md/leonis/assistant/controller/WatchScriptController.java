@@ -1,5 +1,8 @@
 package md.leonis.assistant.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -7,17 +10,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import md.leonis.assistant.config.ConfigHolder;
+import md.leonis.assistant.controller.template.LevelsSelectController;
+import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.user.WordToLearn;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.service.UserService;
+import md.leonis.assistant.source.gse.GseSourceFactory;
 import md.leonis.assistant.utils.CssGenerator;
 import md.leonis.assistant.utils.HtmlFormatter;
 import md.leonis.assistant.view.StageManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -39,8 +48,11 @@ import java.util.stream.Collectors;
 @Controller
 public class WatchScriptController {
 
+    private static final Logger log = LoggerFactory.getLogger(WatchScriptController.class);
+
     public ListView<String> listView;
     public Button removeButton;
+    public VBox vBox;
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -53,6 +65,10 @@ public class WatchScriptController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    //TODO generic
+    private GseSourceFactory gseSourceFactory;
 
     @FXML
     private WebView webView;
@@ -68,18 +84,11 @@ public class WatchScriptController {
     //TODO filters: detect endings, upper cases
     public CheckBox unknownWordsCheckBox;
     public CheckBox colorsCheckBox;
-    public CheckBox unkCheckBox;
-    public CheckBox a1CheckBox;
-    public CheckBox a2CheckBox;
-    public CheckBox b1CheckBox;
-    public CheckBox b2CheckBox;
-    public CheckBox c1CheckBox;
-    public CheckBox c2CheckBox;
-    public CheckBox c2pCheckBox;
 
     private Node styleNode;
 
-    private boolean allowRefresh = true;
+    private LevelsSelectController levelsSelectController;
+    private ObservableSet<LanguageLevel> selectedLevels;
 
     private HtmlFormatter htmlFormatter;
 
@@ -95,6 +104,13 @@ public class WatchScriptController {
 
     @FXML
     private void initialize() {
+        //TODO from SourceFactory
+        ObservableSet<LanguageLevel> levels = FXCollections.observableSet(gseSourceFactory.getLanguageLevels());
+        selectedLevels = FXCollections.observableSet(levels);
+        levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels, selectedLevels);
+        selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        vBox.getChildren().add(levelsSelectController);
+
         initDictionary();
 
         webView.setCursor(Cursor.DEFAULT);
@@ -155,7 +171,7 @@ public class WatchScriptController {
             }
         });
 
-        htmlFormatter = new HtmlFormatter(text, testService);
+        htmlFormatter = new HtmlFormatter(text, testService, levels);
 
         webView.getEngine().loadContent("<html><body> " + htmlFormatter.getHtml() + " </body></html>");
     }
@@ -197,38 +213,22 @@ public class WatchScriptController {
         CssGenerator cssGenerator = CssGenerator.builder()
                 .hideKnownWords(unknownWordsCheckBox.isSelected())
                 .showColors(colorsCheckBox.isSelected())
-                .showUnknown(unkCheckBox.isSelected())
-                .showA1(a1CheckBox.isSelected())
-                .showA2(a2CheckBox.isSelected())
-                .showB1(b1CheckBox.isSelected())
-                .showB2(b2CheckBox.isSelected())
-                .showC1(c1CheckBox.isSelected())
-                .showC2(c2CheckBox.isSelected())
-                .showC2p(c2pCheckBox.isSelected())
+                .languageLevels(selectedLevels)
                 .build();
         return webView.getEngine().getDocument().createTextNode(cssGenerator.generate());
     }
 
     public void showAllClick() {
-        allowRefresh = false;
+        selectedLevels.removeListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
         unknownWordsCheckBox.setSelected(false);
         colorsCheckBox.setSelected(true);
-        unkCheckBox.setSelected(true);
-        a1CheckBox.setSelected(true);
-        a2CheckBox.setSelected(true);
-        b1CheckBox.setSelected(true);
-        b2CheckBox.setSelected(true);
-        c1CheckBox.setSelected(true);
-        c2CheckBox.setSelected(true);
-        c2pCheckBox.setSelected(true);
-        allowRefresh = true;
+        levelsSelectController.showAllClick();
+        selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
         refreshWebView();
     }
 
-    public void filterCheckBoxClick() {
-        if (allowRefresh) {
-            refreshWebView();
-        }
+    private void onSelectedListChange() {
+        refreshWebView();
     }
 
     public void sourceCodeClick() {
@@ -278,7 +278,6 @@ public class WatchScriptController {
         return ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(word))
                 //TODO checks in AR
                 .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n"));
-
     }
 
 }

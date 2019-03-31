@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import md.leonis.assistant.config.ConfigHolder;
+import md.leonis.assistant.controller.template.VideoTemplateController;
 import md.leonis.assistant.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

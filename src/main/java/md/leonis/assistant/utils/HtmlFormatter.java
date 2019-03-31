@@ -25,11 +25,13 @@ public class HtmlFormatter {
     private final TestService testService;
 
     private final Map<String, ScriptWord> wordsMap = new HashMap<>();
+    private final Set<LanguageLevel> levels;
 
-    public HtmlFormatter(String text, TestService testService) {
+    public HtmlFormatter(String text, TestService testService, Set<LanguageLevel> levels) {
         this.text = text;
         this.testService = testService;
         this.html = toHtml(text);
+        this.levels = levels;
     }
 
     private String toHtml(String text) {

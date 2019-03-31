@@ -1,5 +1,7 @@
 package md.leonis.assistant.source;
 
+import md.leonis.assistant.domain.LanguageLevel;
+
 public interface SourceFactory {
 
     Crawler getCrawler();
@@ -8,5 +10,7 @@ public interface SourceFactory {
 
     Service getService();
 
-    //TODO matchers, levels
+    LanguageLevel[] getLanguageLevels();
+
+    //TODO matchers
 }

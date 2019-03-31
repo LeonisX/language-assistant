@@ -1,4 +1,4 @@
-package md.leonis.assistant.controller;
+package md.leonis.assistant.controller.template;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +47,7 @@ public class VideoTemplateController extends HBox {
         this.video = video;
 
         //TODO in stageManager
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/videoTemplate.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/template/videoTemplate.fxml"));
         loader.setController(this);
         loader.setRoot(this);
         try {
