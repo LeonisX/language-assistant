@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ParsedDataDAO extends JpaRepository<ParsedData, String> {
 
-    @Query("SELECT raw.expression FROM ParsedRawData raw")
+    @Query("SELECT data.expression FROM ParsedData data")
     List<String> findAllWords();
 }
