@@ -13,7 +13,8 @@ public enum FxmlView {
     DICTIONARY("dictionary.title", "dictionary"),
     DICTIONARY_IMPORTER("dictionaryImporter.title", "dictionaryImporter"),
     WORD_TO_LEARN("wordToLearn.title", "wordToLearn"),
-    LEARN_WORDS("learnWords.title", "learnWords");
+    LEARN_WORDS("learnWords.title", "learnWords"),
+    REPEAT_WORDS("repeatWords.title", "repeatWords");
 
     private static String fxmlPath = "/fxml/%s.fxml";
 

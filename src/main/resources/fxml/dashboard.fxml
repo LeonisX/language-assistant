@@ -11,25 +11,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="627.0"
-            prefWidth="803.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="md.leonis.assistant.controller.DashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="627.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.DashboardController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
+                        <MenuItem mnemonicParsing="false" text="About" />
                     </items>
                 </Menu>
             </menus>
@@ -39,162 +37,142 @@
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <HBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                 <children>
-                    <Button mnemonicParsing="false" onAction="#wordToLearnShow" text="Слова для заучивания"/>
-                    <Button mnemonicParsing="false" onAction="#watchVideoShow" text="Просмотр видео"/>
-                    <Button mnemonicParsing="false" onAction="#wordBankShow" text="Словарный запас"/>
+                    <Button mnemonicParsing="false" onAction="#wordToLearnShow" text="Слова для заучивания" />
+                    <Button mnemonicParsing="false" onAction="#watchVideoShow" text="Просмотр видео" />
+                    <Button mnemonicParsing="false" onAction="#wordBankShow" text="Словарный запас" />
                 </children>
             </HBox>
             <HBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                 <children>
-                    <Button mnemonicParsing="false" onAction="#onDictionaryClick" text="Dictionary"/>
-                    <Button mnemonicParsing="false" onAction="#onImportDictionaryClick" text="Import Dictionary"/>
-                    <Button mnemonicParsing="false" onAction="#learnWordsClick" text="Learn Words"/>
+                    <Button mnemonicParsing="false" onAction="#onDictionaryClick" text="Dictionary" />
+                    <Button mnemonicParsing="false" onAction="#onImportDictionaryClick" text="Import Dictionary" />
+                    <Button mnemonicParsing="false" onAction="#learnWordsClick" text="Learn Words" />
+               <Button mnemonicParsing="false" onAction="#repeatWordsClick" text="Repeat Words" />
                 </children>
             </HBox>
             <HBox prefHeight="35.0" prefWidth="560.0" spacing="5.0">
                 <children>
-                    <Button mnemonicParsing="false" text="Button"/>
-                    <Button mnemonicParsing="false" text="Button"/>
-                    <Button mnemonicParsing="false" text="Button"/>
+                    <Button mnemonicParsing="false" text="Button" />
+                    <Button mnemonicParsing="false" text="Button" />
+                    <Button mnemonicParsing="false" text="Button" />
                 </children>
             </HBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
                     <HBox fx:id="gseHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
                         <children>
-                            <Label fx:id="gseLabel" prefHeight="25.0" prefWidth="800.0"/>
-                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
-                                  spacing="5.0">
+                            <Label fx:id="gseLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
                                 <children>
-                                    <Button fx:id="gseCrawlButton" mnemonicParsing="false"
-                                            onAction="#gseCrawlButtonClick" text="Crawl"/>
-                                    <Button fx:id="gseParseButton" mnemonicParsing="false"
-                                            onAction="#gseParseButtonClick" text="Parse"/>
+                                    <Button fx:id="gseCrawlButton" mnemonicParsing="false" onAction="#gseCrawlButtonClick" text="Crawl" />
+                                    <Button fx:id="gseParseButton" mnemonicParsing="false" onAction="#gseParseButtonClick" text="Parse" />
                                 </children>
                             </HBox>
                         </children>
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                     </HBox>
                 </children>
             </VBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
-                    <HBox fx:id="parsedDataHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
-                          spacing="5.0">
+                    <HBox fx:id="parsedDataHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
                         <children>
-                            <Label fx:id="parsedDataLabel" prefHeight="25.0" prefWidth="800.0"/>
-                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
-                                  spacing="5.0">
+                            <Label fx:id="parsedDataLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
                                 <children>
-                                    <Button fx:id="parsedDataImportButton" mnemonicParsing="false"
-                                            onAction="#parsedDataImportButtonClick" text="Parse"/>
+                                    <Button fx:id="parsedDataImportButton" mnemonicParsing="false" onAction="#parsedDataImportButtonClick" text="Parse" />
                                 </children>
                             </HBox>
                         </children>
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                     </HBox>
                 </children>
             </VBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
-                    <HBox fx:id="wordLevelHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
-                          spacing="5.0">
+                    <HBox fx:id="wordLevelHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
                         <children>
-                            <Label fx:id="wordLevelLabel" prefHeight="25.0" prefWidth="800.0"/>
-                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
-                                  spacing="5.0">
+                            <Label fx:id="wordLevelLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
                                 <children>
-                                    <Button fx:id="wordLevelImportButton" mnemonicParsing="false"
-                                            onAction="#wordLevelImportButtonClick" text="Parse"/>
+                                    <Button fx:id="wordLevelImportButton" mnemonicParsing="false" onAction="#wordLevelImportButtonClick" text="Parse" />
                                 </children>
                             </HBox>
                         </children>
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                     </HBox>
                 </children>
             </VBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
-                    <HBox fx:id="wordFrequencyHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
-                          spacing="5.0">
+                    <HBox fx:id="wordFrequencyHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
                         <children>
-                            <Label fx:id="wordFrequencyLabel" prefHeight="25.0" prefWidth="800.0"/>
-                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
-                                  spacing="5.0">
+                            <Label fx:id="wordFrequencyLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
                                 <children>
-                                    <Button fx:id="wordFrequencyImportButton" mnemonicParsing="false"
-                                            onAction="#wordFrequencyImportButtonClick" text="Import"/>
+                                    <Button fx:id="wordFrequencyImportButton" mnemonicParsing="false" onAction="#wordFrequencyImportButtonClick" text="Import" />
                                 </children>
                             </HBox>
                         </children>
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                     </HBox>
                 </children>
             </VBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
-                    <HBox fx:id="wordPlaceHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
-                          spacing="5.0">
+                    <HBox fx:id="wordPlaceHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
                         <children>
-                            <Label fx:id="wordPlaceLabel" prefHeight="25.0" prefWidth="800.0"/>
-                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
-                                  spacing="5.0">
+                            <Label fx:id="wordPlaceLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
                                 <children>
-                                    <Button fx:id="wordPlaceImportButton" mnemonicParsing="false"
-                                            onAction="#wordPlaceImportButtonClick" text="Import"/>
+                                    <Button fx:id="wordPlaceImportButton" mnemonicParsing="false" onAction="#wordPlaceImportButtonClick" text="Import" />
                                 </children>
                             </HBox>
                         </children>
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                     </HBox>
                 </children>
             </VBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
-                    <HBox fx:id="variancesHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
-                          spacing="5.0">
+                    <HBox fx:id="variancesHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
                         <children>
-                            <Label fx:id="variancesLabel" prefHeight="25.0" prefWidth="800.0"/>
-                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
-                                  spacing="5.0">
+                            <Label fx:id="variancesLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
                                 <children>
-                                    <Button fx:id="variancesImportButton" mnemonicParsing="false"
-                                            onAction="#variancesImportButtonClick" text="Import"/>
+                                    <Button fx:id="variancesImportButton" mnemonicParsing="false" onAction="#variancesImportButtonClick" text="Import" />
                                 </children>
                             </HBox>
                         </children>
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                     </HBox>
                 </children>
             </VBox>
             <VBox prefHeight="47.0" prefWidth="560.0">
                 <children>
-                    <HBox fx:id="userWordBankHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0"
-                          spacing="5.0">
+                    <HBox fx:id="userWordBankHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
                         <children>
-                            <Label fx:id="userWordBankLabel" prefHeight="25.0" prefWidth="800.0"/>
-                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0"
-                                  spacing="5.0">
+                            <Label fx:id="userWordBankLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
                                 <children>
-                                    <Button fx:id="userWordBankGenerateButton" mnemonicParsing="false"
-                                            onAction="#userWordBankGenerateClick" text="Generate"/>
+                                    <Button fx:id="userWordBankGenerateButton" mnemonicParsing="false" onAction="#userWordBankGenerateClick" text="Generate" />
                                 </children>
                             </HBox>
                         </children>
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                     </HBox>
                 </children>
@@ -204,7 +182,7 @@
     <left>
         <VBox prefHeight="571.0" prefWidth="243.0" BorderPane.alignment="CENTER">
             <children>
-                <TextArea fx:id="infoTextArea" prefHeight="408.0" prefWidth="247.0"/>
+                <TextArea fx:id="infoTextArea" prefHeight="408.0" prefWidth="247.0" />
             </children>
         </VBox>
     </left>

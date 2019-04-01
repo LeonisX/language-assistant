@@ -134,6 +134,10 @@ public class DashboardController {
         stageManager.showNewWindow(FxmlView.LEARN_WORDS);
     }
 
+    public void repeatWordsClick() {
+        stageManager.showNewWindow(FxmlView.REPEAT_WORDS);
+    }
+
     private void refreshDiagnosticControls() {
         //gseHBox.setVisible(!gseService.isCrawled() || !gseService.isParsed());
         gseLabel.setText(String.format("Data Source Status: %s", gseService.getStatus()));

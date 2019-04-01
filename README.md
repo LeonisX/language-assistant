@@ -9,7 +9,7 @@ This is a model of the project, designed to simplify the study of foreign langua
 *** Memorization algorithm (simplified ANKI):
 
 * v LevelsTemplate::todo attach, test + Controller + Object for selected levels
-* RepeatWordsController
+* RepeatWordsController - draft
 * LearnWordsController
 * 
 * Object to select next (interface)
