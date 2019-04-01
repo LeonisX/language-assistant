@@ -8,6 +8,10 @@ import md.leonis.assistant.source.SourceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class GseSourceFactory implements SourceFactory {
 
@@ -45,5 +49,10 @@ public class GseSourceFactory implements SourceFactory {
                 LanguageLevel.C2
                 //LanguageLevel.C2P,
         };
+    }
+
+    @Override
+    public Set<LanguageLevel> getLanguageLevelsSet() {
+        return new HashSet<>(Arrays.asList(getLanguageLevels()));
     }
 }

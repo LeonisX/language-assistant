@@ -1,6 +1,5 @@
 package md.leonis.assistant.controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.concurrent.Worker;
@@ -42,6 +41,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 //TODO table tab: word || frequency || level + filter + sort
@@ -76,10 +76,7 @@ public class WatchScriptController {
     @FXML
     public TextArea textArea;
 
-    //TODO dynamically build
-    //TODO dynamically show only relevant checkBoxes
     //TODO also another type of filter with range selection
-    //TODO template + separate controller
 
     //TODO filters: detect endings, upper cases
     public CheckBox unknownWordsCheckBox;
@@ -105,9 +102,10 @@ public class WatchScriptController {
     @FXML
     private void initialize() {
         //TODO from SourceFactory
-        ObservableSet<LanguageLevel> levels = FXCollections.observableSet(gseSourceFactory.getLanguageLevels());
-        selectedLevels = FXCollections.observableSet(levels);
-        levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels, selectedLevels);
+        Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
+        levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
+        levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
+        selectedLevels = levelsSelectController.getSelectedLevels();
         selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
         vBox.getChildren().add(levelsSelectController);
 
@@ -218,11 +216,11 @@ public class WatchScriptController {
         return webView.getEngine().getDocument().createTextNode(cssGenerator.generate());
     }
 
-    public void showAllClick() {
+    public void selectAllClick() {
         selectedLevels.removeListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
         unknownWordsCheckBox.setSelected(false);
         colorsCheckBox.setSelected(true);
-        levelsSelectController.showAllClick();
+        levelsSelectController.selectAllButtonClick();
         selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
         refreshWebView();
     }
