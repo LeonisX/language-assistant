@@ -11,6 +11,22 @@ This is a model of the project, designed to simplify the study of foreign langua
 * v LevelsTemplate::todo attach, test + Controller + Object for selected levels
 * RepeatWordsController - draft
 * LearnWordsController
+
+LearnWords:
+list words + clues
+add to wordbank
+
+RepeatWords:
+list words + clues
+update only
+
+Иедя такая:
+- UserWordBank - единственная база.
+- Добавит статус слова (enum)
+- Шаблон показа карточек
+- Два окна: повторять или учить новые. В первом случае фильтр
+- Ограничение 20
+
 * 
 * Object to select next (interface)
 * Button in Dashboard, Words to Learn
