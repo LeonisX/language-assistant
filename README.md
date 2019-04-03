@@ -127,6 +127,8 @@ git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch PATH-
 
 git push origin --force --all
 
+TODO sourcerer - followers, following 2/2 -> 0/0 :(
+
 
 ### TODO DBs
 
