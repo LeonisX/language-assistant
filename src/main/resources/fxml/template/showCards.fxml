@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.web.WebView?>
+
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+    <top>
+        <WebView fx:id="questionWebView" prefHeight="272.0" prefWidth="672.0" BorderPane.alignment="CENTER"/>
+    </top>
+    <center>
+        <WebView fx:id="answerWebView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="88.0" prefWidth="750.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="answerHBox" prefHeight="100.0">
+                <Button mnemonicParsing="false" text="Show answer"/>
+            </HBox>
+            <HBox fx:id="actionHBox" prefHeight="100.0" spacing="5.0">
+                <Button mnemonicParsing="false" text="Don't remember"/>
+                <Button mnemonicParsing="false" text="Remember"/>
+                <Button mnemonicParsing="false" text="Know"/>
+                <Button mnemonicParsing="false" text="Very easy"/>
+            </HBox>
+        </HBox>
+    </bottom>
+</fx:root>

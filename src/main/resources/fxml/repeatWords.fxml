@@ -6,54 +6,41 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.RepeatWordsController">
-   <top>
-      <VBox fx:id="vBox" BorderPane.alignment="CENTER" />
-   </top>
-   <center>
-      <HBox prefHeight="666.0" prefWidth="810.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER_LEFT" prefHeight="714.0" prefWidth="566.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="84.0" prefWidth="566.0">
-                     <children>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0"
+            prefWidth="699.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="md.leonis.assistant.controller.RepeatWordsController">
+    <top>
+        <VBox fx:id="topVBox" BorderPane.alignment="CENTER"/>
+    </top>
+    <center>
+        <VBox fx:id="centerVBox">
+            <HBox fx:id="hBox" prefHeight="666.0" prefWidth="810.0" BorderPane.alignment="CENTER">
+                <VBox alignment="CENTER_LEFT" prefHeight="714.0" prefWidth="566.0">
+                    <HBox alignment="CENTER" prefHeight="84.0" prefWidth="566.0">
                         <VBox prefHeight="172.0" prefWidth="280.0">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
-                                 <children>
-                                    <Label prefHeight="16.0" prefWidth="128.0" text="Word Bank:" />
-                                    <Label fx:id="wordBankLabel" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
-                                 <children>
-                                    <Label prefHeight="16.0" prefWidth="128.0" text="Selected Words:" />
-                                    <Label fx:id="selectedWordsLabel" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
-                                 <children>
-                                    <Label prefHeight="16.0" prefWidth="128.0" text="To Learn:" />
-                                    <Label fx:id="learnCountLabel" text="20" />
-                                 </children>
-                              </HBox>
-                           </children>
+                            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
+                                <Label prefHeight="16.0" prefWidth="128.0" text="Word Bank:"/>
+                                <Label fx:id="wordBankLabel"/>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
+                                <Label prefHeight="16.0" prefWidth="128.0" text="Selected Words:"/>
+                                <Label fx:id="selectedWordsLabel"/>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
+                                <Label prefHeight="16.0" prefWidth="128.0" text="To Learn:"/>
+                                <Label fx:id="learnCountLabel" text="20"/>
+                            </HBox>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="172.0" prefWidth="132.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#studyNowButtonClick" text="Study Now" />
-                           </children>
+                            <Button mnemonicParsing="false" onAction="#studyNowButtonClick"
+                                    text="Study Now"/>
                         </VBox>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox prefHeight="796.0" prefWidth="213.0">
-               <children>
-                  <Label text="TODO live show of words" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-   </center>
+                    </HBox>
+                </VBox>
+                <VBox prefHeight="796.0" prefWidth="213.0">
+                    <Label text="TODO live show of words"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
 </BorderPane>

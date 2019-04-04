@@ -9,7 +9,7 @@ This is a model of the project, designed to simplify the study of foreign langua
 *** Memorization algorithm (simplified ANKI):
 
 * v LevelsTemplate::todo attach, test + Controller + Object for selected levels
-* RepeatWordsController - draft
+* RepeatWordsController - draft v2
 * LearnWordsController
 
 LearnWords:
@@ -20,9 +20,9 @@ RepeatWords:
 list words + clues
 update only
 
-Иедя такая:
+Идея такая:
 - UserWordBank - единственная база.
-- Добавит статус слова (enum)
+- Добавить статус слова (enum)
 - Шаблон показа карточек
 - Два окна: повторять или учить новые. В первом случае фильтр
 - Ограничение 20

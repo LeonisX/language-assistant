@@ -4,9 +4,11 @@ import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import md.leonis.assistant.config.ConfigHolder;
 import md.leonis.assistant.controller.template.LevelsSelectController;
+import md.leonis.assistant.controller.template.ShowCardsController;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
@@ -29,10 +31,14 @@ public class RepeatWordsController {
 
     private static final Logger log = LoggerFactory.getLogger(RepeatWordsController.class);
 
-    public VBox vBox;
+    public VBox topVBox;
+    public VBox centerVBox;
+    public HBox hBox;
+
     public Label wordBankLabel;
     public Label selectedWordsLabel;
     public Label learnCountLabel;
+
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -53,17 +59,21 @@ public class RepeatWordsController {
     private LevelsSelectController levelsSelectController;
     private ObservableSet<LanguageLevel> selectedLevels;
 
+    private ShowCardsController showCardsController;
+
     private List<Ar> ars;
+
+    private Set<LanguageLevel> levels;
 
     @FXML
     private void initialize() {
         //TODO from SourceFactory
-        Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
+        levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
         selectedLevels = levelsSelectController.getSelectedLevels();
         selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
-        vBox.getChildren().add(levelsSelectController);
+        topVBox.getChildren().add(levelsSelectController);
 
         initDictionary();
     }
@@ -90,7 +100,14 @@ public class RepeatWordsController {
     }
 
     public void studyNowButtonClick() {
+        showCardsController = new ShowCardsController(stageManager, configHolder, levels);
         //TODO
-        throw new UnsupportedOperationException();
+        //showCardsController.getSelectAllButton().setOnAction(event -> selectAllClick());
+        //TODO
+        //selectedLevels = showCardsController.getSelectedLevels();
+        //selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        topVBox.getChildren().clear();
+        centerVBox.getChildren().clear();
+        centerVBox.getChildren().add(showCardsController);
     }
 }
