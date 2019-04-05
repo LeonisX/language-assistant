@@ -14,14 +14,14 @@
     </center>
     <bottom>
         <HBox alignment="CENTER" prefHeight="88.0" prefWidth="750.0" spacing="5.0" BorderPane.alignment="CENTER">
-            <HBox fx:id="answerHBox" prefHeight="100.0">
-                <Button mnemonicParsing="false" text="Show answer"/>
+            <HBox fx:id="questionHBox" prefHeight="100.0">
+                <Button mnemonicParsing="false"  fx:id="showAnswerButton" onAction="#showAnswerButtonClick" text="Show answer"/>
             </HBox>
-            <HBox fx:id="actionHBox" prefHeight="100.0" spacing="5.0">
-                <Button mnemonicParsing="false" text="Don't remember"/>
-                <Button mnemonicParsing="false" text="Remember"/>
-                <Button mnemonicParsing="false" text="Know"/>
-                <Button mnemonicParsing="false" text="Very easy"/>
+            <HBox fx:id="answerHBox" prefHeight="100.0" spacing="5.0">
+                <Button mnemonicParsing="false"  fx:id="dontRememberButton" onAction="#dontRememberButtonClick" text="Don't remember"/>
+                <Button mnemonicParsing="false"  fx:id="rememberButton" onAction="#rememberButtonClick" text="Remember"/>
+                <Button mnemonicParsing="false"  fx:id="knowButton" onAction="#knowButtonClick" text="Know"/>
+                <Button mnemonicParsing="false"  fx:id="veryEasyButton" onAction="#veryEasyButtonClick" text="Very easy"/>
             </HBox>
         </HBox>
     </bottom>

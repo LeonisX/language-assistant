@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,8 +31,35 @@ public class UserService {
         return userWordBankDAO.findAll();
     }
 
+    public List<UserWordBank> getUserWordBank(int size) {
+        Pageable page = PageRequest.of(0, size);
+        return userWordBankDAO.findAll(page).getContent();
+    }
+
+    public List<UserWordBank> getUserWordBank(int size, Sort sort) {
+        Pageable page = PageRequest.of(0, size, sort);
+        return userWordBankDAO.findAll(page).getContent();
+    }
+
+    //TODO add ordering by date
     public List<UserWordBank> getWordsToLearn() {
-        return userWordBankDAO.findByLevel(0);
+        return userWordBankDAO.findByLevelOrderByRepeatTimeAsc(0);
+    }
+
+    public List<UserWordBank> getWordsToLearn(int size) {
+        Pageable page = PageRequest.of(0, size, Sort.by("repeatTime").ascending());
+        return userWordBankDAO.findByLevel(0, page);
+    }
+
+    public List<UserWordBank> getWordsToRepeat(int size) {
+        Pageable page = PageRequest.of(0, size, Sort.by("repeatTime").ascending());
+        return userWordBankDAO.findByLevelGreaterThan(0, page);
+    }
+
+
+    public List<UserWordBank> getWordsToRepeat(int size, Sort sort) {
+        Pageable page = PageRequest.of(0, size, Sort.by("repeatTime").ascending().and(sort));
+        return userWordBankDAO.findByLevelGreaterThan(0, page);
     }
 
     public UserWordBank saveUserWordBank(UserWordBank userWordBank) {
@@ -87,4 +117,5 @@ public class UserService {
             saveUserWordBank(wordToLearn);
         });
     }
+
 }

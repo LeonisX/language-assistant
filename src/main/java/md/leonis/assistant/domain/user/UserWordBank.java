@@ -1,9 +1,6 @@
 package md.leonis.assistant.domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

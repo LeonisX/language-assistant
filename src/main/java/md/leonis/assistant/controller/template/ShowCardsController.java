@@ -1,31 +1,48 @@
 package md.leonis.assistant.controller.template;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
-import lombok.SneakyThrows;
+import javafx.stage.Stage;
 import md.leonis.assistant.config.ConfigHolder;
-import md.leonis.assistant.domain.LanguageLevel;
-import md.leonis.assistant.domain.test.Dictionary;
+import md.leonis.assistant.domain.user.MemorizationLevel;
+import md.leonis.assistant.domain.user.UserWordBank;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.view.StageManager;
 
 import java.io.IOException;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShowCardsController extends BorderPane {
 
-    public HBox answerHBox;
-    public HBox actionHBox;
-    public WebView answerWebView;
-    public WebView questionWebView;
+    @FXML
+    private HBox questionHBox;
+    @FXML
+    private HBox answerHBox;
+    @FXML
+    private WebView questionWebView;
+    @FXML
+    private WebView answerWebView;
 
-    private ObservableList<Dictionary> dictionaries;
+    /*private Button showAnswerButton;
+    private Button dontRememberButton;
+    private Button rememberButton;
+    private Button knowButton;
+    private Button veryEasyButton;*/
 
-    private FilteredList<Ar> filteredData;
+    private List<Ar> ars;
+
+    private boolean questionMode;
+
+    private List<UserWordBank> userWordBank;
+
+    private UserWordBank currentWord;
 
     //TODO delete
     private StageManager stageManager;
@@ -33,11 +50,15 @@ public class ShowCardsController extends BorderPane {
     //TODO delete
     private ConfigHolder configHolder;
 
-    public ShowCardsController(StageManager stageManager, ConfigHolder configHolder, Set<LanguageLevel> levels) {
+    private ObservableList<UserWordBank> changedWords;
+
+    //TODO need answers
+    public ShowCardsController(StageManager stageManager, ConfigHolder configHolder, List<Ar> ars, List<UserWordBank> userWordBank) {
         this.stageManager = stageManager;
         this.configHolder = configHolder;
-        /*this.levels = levels;
-        this.selectedLevels = FXCollections.observableSet(new HashSet<>(levels));*/
+        this.changedWords = FXCollections.observableArrayList();
+        this.userWordBank = userWordBank;
+        this.ars = ars;
 
         //TODO in stageManager
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/template/showCards.fxml"));
@@ -45,116 +66,134 @@ public class ShowCardsController extends BorderPane {
         loader.setRoot(this);
         try {
             loader.load();
-
-            /*checkBoxes = containerHBox.getChildren().stream()
-                    .filter(n -> n instanceof CheckBox)
-                    .map(n -> (CheckBox) n)
-                    .peek(c -> {
-                        LanguageLevel languageLevel = getLevel(c);
-                        c.setSelected(selectedLevels.contains(languageLevel));
-                        c.setVisible(levels.contains(languageLevel));
-                        c.managedProperty().bind(c.visibleProperty());
-                    })
-                    .filter(c -> levels.contains(getLevel(c)))
-                    .peek(c -> c.setOnAction(this::filterCheckBoxClick))
-                    .collect(Collectors.toSet());*/
-
         } catch (IOException exc) {
             throw new RuntimeException(exc);
         }
+
+        questionMode = false;
+        currentWord = userWordBank.get(0);
+
+        switchState();
     }
 
-    /*@FXML
-    private void initialize() {
-        dictionariesComboBox.setConverter(new StringConverter<Dictionary>() {
+    private void switchState() {
+        if (currentWord == null) {
+            stageManager.showInformationAlert("Gata", "", "");
+            Stage stage = (Stage) questionHBox.getScene().getWindow();
+            // do what you have to do
+            stage.close();
+            return;
+        }
+        questionMode = !questionMode;
+        //TODO show question
+        /*showAnswerButton.setVisible(questionMode);
+        dontRememberButton.setVisible(!questionMode);
+        rememberButton.setVisible(!questionMode);
+        knowButton.setVisible(!questionMode);
+        veryEasyButton.setVisible(!questionMode);*/
+        questionHBox.setVisible(questionMode);
+        answerWebView.setVisible(!questionMode);
+        answerHBox.setVisible(!questionMode);
+        showQuestion(currentWord.getWord());
+        showAnswer(currentWord.getWord());
+    }
 
-            @Override
-            public String toString(Dictionary dictionary) {
-                return dictionary.getFullName();
-            }
+    public ObservableList<UserWordBank> getChangedWords() {
+        return changedWords;
+    }
 
-            @Override
-            public Dictionary fromString(String string) {
-                return dictionariesComboBox.getItems().stream().filter(d ->
-                        d.getFullName().equals(string)).findFirst().orElse(null);
-            }
-        });
+    public void showAnswerButtonClick() {
+        switchState();
+    }
 
-        dictionaries = FXCollections.observableArrayList(testService.getDictionaries());
-        dictionariesComboBox.setItems(dictionaries);
-        //if (!dictionaries.isEmpty()) {
-        dictionariesComboBox.getSelectionModel().select(0);
-        //}
+    public void dontRememberButtonClick() {
+        UserWordBank firstWord = userWordBank.remove(0);
+        firstWord.setRepeatTime(LocalDateTime.now().plusMinutes(0));
+        firstWord.setStatus(MemorizationLevel.UNKNOWN);
+        changedWords.clear();
+        changedWords.add(firstWord);
+        userWordBank.add(firstWord);
+        currentWord = userWordBank.get(0);
+        switchState();
+    }
 
-        initData();
+    public void rememberButtonClick() {
+        UserWordBank firstWord = userWordBank.remove(0);
+        firstWord.setRepeatTime(LocalDateTime.now().plusMinutes(1));
+        firstWord.setStatus(MemorizationLevel.HARD_REMEMBERED);
+        changedWords.clear();
+        changedWords.add(firstWord);
+        userWordBank.add(firstWord);
+        currentWord = userWordBank.get(0);
+        switchState();
+    }
 
-        wordColumn.setCellValueFactory(new PropertyValueFactory<>("k"));
-        wordColumn.setComparator(String::compareToIgnoreCase);
-
-        transcrColumn.setCellValueFactory(new PropertyValueFactory<>("tr"));
-        transcrColumn.setComparator(null);
-        //transcrColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getLevel().getTitle()));
-        transcrColumn.sortTypeProperty();
-
-
-        //descrColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-        descrColumn.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getFullValue()));
-
-        descrColumn.setComparator(null);
-        //xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
-
-        descrColumn.setCellFactory(tc -> {
-            TableCell<Ar, String> cell = new TableCell<>();
-            Text text = new Text();
-            cell.setGraphic(text);
-            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
-            text.wrappingWidthProperty().bind(descrColumn.widthProperty());
-            text.textProperty().bind(cell.itemProperty());
-            return cell;
-        });
-    }*/
-
-    @SneakyThrows
-    private void initData() {
-        /*Dictionary dictionary = dictionariesComboBox.getSelectionModel().getSelectedItem();
-        if (dictionary != null) {
-            File file = new File(dictionary.getPath());
-            //TODO loader, depends on format
-            Xdxf xdxf = testService.getDictionary(file);
-            List<Ar> arList = xdxf.getAr();
-            ObservableList<Ar> wordData = FXCollections.observableArrayList(arList);
-
-            searchWordField.setText("");
-
-            filteredData = new FilteredList<>(wordData);
-            filteredData.setPredicate(p -> true); // Initial: show all rows
-
-            //wordsTable.getSortOrder().add(wordColumn);
-            SortedList<Ar> sortedData = new SortedList<>(filteredData);
-            sortedData.comparatorProperty().bind(wordsTable.comparatorProperty());
-
-            wordsTable.setItems(sortedData);
-            textArea.setText(xdxf.toString());
+    public void knowButtonClick() {
+        UserWordBank firstWord = userWordBank.remove(0);
+        firstWord.setRepeatTime(LocalDateTime.now().plusDays(1));
+        firstWord.setStatus(MemorizationLevel.KNOWN);
+        changedWords.clear();
+        changedWords.add(firstWord);
+        if (userWordBank.isEmpty()) {
+            currentWord = null;
         } else {
-            filteredData = new FilteredList<>(FXCollections.observableArrayList(new ArrayList<>()));
-        }*/
+            currentWord = userWordBank.get(0);
+        }
+        switchState();
     }
 
-    /*public void searchWordFieldKeyReleased() {
-        updatePredicate();
+    public void veryEasyButtonClick() {
+        UserWordBank firstWord = userWordBank.remove(0);
+        firstWord.setRepeatTime(LocalDateTime.now().plusDays(10));
+        firstWord.setStatus(MemorizationLevel.NATIVE);
+        changedWords.clear();
+        changedWords.add(firstWord);
+        if (userWordBank.isEmpty()) {
+            currentWord = null;
+        } else {
+            currentWord = userWordBank.get(0);
+        }
+        switchState();
     }
 
-    private void updatePredicate() {
-        filteredData.setPredicate((data) -> {
-            boolean showItem = true;
-            if (!searchWordField.getText().isEmpty()) {
-                showItem = data.getK().toLowerCase().startsWith(searchWordField.getText().toLowerCase());
+    private void showQuestion(String word) {
+        if (currentWord != null) {
+            questionWebView.getEngine().loadContent(word);
+        } else {
+            questionWebView.getEngine().loadContent("");
+        }
+    }
+
+    private void showAnswer(String word) {
+        if (currentWord != null) {
+            if (word.trim().isEmpty()) {
+                answerWebView.getEngine().loadContent("");
+                return;
             }
-            return showItem;
-        });
+            String answer = findAnswer(word);
+
+            //TODO need variances here???
+        /*if (translation.isEmpty()) {
+            translation = testService.getVariances(word).stream()
+                    .map(v -> findTranslation(v.getWord())).filter(w -> !w.isEmpty()).collect(Collectors.joining("\n\n"));
+        }*/
+            //TODO if still empty - find online
+            //TODO I need 100% working version of GoogleApi
+        /*if (translation.isEmpty()) {
+            translation = GoogleApi.translate(word);
+            if (translation == null) {
+                translation = "";
+            }
+        }*/
+            answerWebView.getEngine().loadContent(answer);
+        } else {
+            answerWebView.getEngine().loadContent("");
+        }
     }
 
-    public void onDictionariesComboBoxAction() {
-        initData();
-    }*/
+    private String findAnswer(String word) {
+        return ars.stream().filter(ar -> ar.getK().equalsIgnoreCase(word))
+                //TODO checks in AR
+                .map(ar -> ar.getTr() == null ? "" : ar.getTr() + "\n" + ar.getFullValue()).collect(Collectors.joining("\n\n"));
+    }
 }

@@ -10,8 +10,20 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 *** Memorization algorithm (simplified ANKI):
 
+UserWordBank - also store wordLevel
+Refactor RepeatWordsController.
+Use filter by level
+Show all/filtered runtime
+Copy to LearnWordsController
+20 - global value
+
+ShowCards:
+Refactor
+TODO count
+Center buttons
+
 * v LevelsTemplate::todo attach, test + Controller + Object for selected levels
-* RepeatWordsController - draft v2
+* RepeatWordsController - beta v1
 * LearnWordsController
 
 LearnWords:
@@ -23,19 +35,11 @@ list words + clues
 update only
 
 Идея такая:
-- UserWordBank - единственная база.
-- Добавить статус слова (enum)
-- Шаблон показа карточек
+- v UserWordBank - единственная база.
+- v Добавить статус слова (enum)
+- v Шаблон показа карточек
 - Два окна: повторять или учить новые. В первом случае фильтр
 - Ограничение 20
-
-* 
-* Object to select next (interface)
-* Button in Dashboard, Words to Learn
-* Get questions from dictionary
-** Get material from ANKI
-* Words to learn (modify db): repeated, next repeat
-* After every action save
 
 
 **ANKI**

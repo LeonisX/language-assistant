@@ -86,6 +86,8 @@ public class WatchScriptController {
     private LevelsSelectController levelsSelectController;
     private ObservableSet<LanguageLevel> selectedLevels;
 
+    private SetChangeListener<LanguageLevel> changeListener;
+
     private HtmlFormatter htmlFormatter;
 
     private List<Ar> ars;
@@ -101,11 +103,12 @@ public class WatchScriptController {
     @FXML
     private void initialize() {
         //TODO from SourceFactory
+        changeListener = c -> onSelectedListChange();
         Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
         selectedLevels = levelsSelectController.getSelectedLevels();
-        selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        selectedLevels.addListener(changeListener);
         vBox.getChildren().add(levelsSelectController);
 
         initDictionary();
@@ -216,11 +219,11 @@ public class WatchScriptController {
     }
 
     public void selectAllClick() {
-        selectedLevels.removeListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        selectedLevels.removeListener(changeListener);
         unknownWordsCheckBox.setSelected(false);
         colorsCheckBox.setSelected(true);
         levelsSelectController.selectAllButtonClick();
-        selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        selectedLevels.addListener(changeListener);
         refreshWebView();
     }
 

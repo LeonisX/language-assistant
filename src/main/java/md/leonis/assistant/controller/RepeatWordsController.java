@@ -1,5 +1,7 @@
 package md.leonis.assistant.controller;
 
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import md.leonis.assistant.controller.template.LevelsSelectController;
 import md.leonis.assistant.controller.template.ShowCardsController;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.test.Dictionary;
+import md.leonis.assistant.domain.user.UserWordBank;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.service.UserService;
@@ -61,33 +64,34 @@ public class RepeatWordsController {
 
     private ShowCardsController showCardsController;
 
+    private ObservableList<UserWordBank> changedWords;
+
     private List<Ar> ars;
 
     private Set<LanguageLevel> levels;
 
+    private ListChangeListener<UserWordBank> changeListener;
+
+    private SetChangeListener<LanguageLevel> setChangeListener;
+
     @FXML
     private void initialize() {
         //TODO from SourceFactory
+        setChangeListener = c -> onSelectedListChange();
         levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
         selectedLevels = levelsSelectController.getSelectedLevels();
-        selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        selectedLevels.addListener(setChangeListener);
         topVBox.getChildren().add(levelsSelectController);
 
         initDictionary();
     }
 
-    //TODO get user word bank
-    private void initDictionary() {
-        Dictionary dictionary = testService.getDictionaries().get(0);
-        ars = testService.getDictionary(new File(dictionary.getPath())).getAr();
-    }
-
     public void selectAllClick() {
-        selectedLevels.removeListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        selectedLevels.removeListener(setChangeListener);
         levelsSelectController.selectAllButtonClick();
-        selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
+        selectedLevels.addListener(setChangeListener);
         refresh();
     }
 
@@ -100,14 +104,51 @@ public class RepeatWordsController {
     }
 
     public void studyNowButtonClick() {
-        showCardsController = new ShowCardsController(stageManager, configHolder, levels);
-        //TODO
-        //showCardsController.getSelectAllButton().setOnAction(event -> selectAllClick());
-        //TODO
-        //selectedLevels = showCardsController.getSelectedLevels();
-        //selectedLevels.addListener((SetChangeListener<LanguageLevel>) observable -> onSelectedListChange());
-        topVBox.getChildren().clear();
-        centerVBox.getChildren().clear();
-        centerVBox.getChildren().add(showCardsController);
+        //TODO in learn words
+        //List<UserWordBank> userWordBank = userService.getWordsToLearn(20);
+        //if (userWordBank.size() < 20) {
+        //TODO here - get all. In learn words - only older than now()
+        List<UserWordBank> userWordBank = userService.getWordsToRepeat(20);
+        //}
+
+        if (!userWordBank.isEmpty()) {
+            showCardsController = new ShowCardsController(stageManager, configHolder, ars, userWordBank);
+            //TODO
+            //showCardsController.getSelectAllButton().setOnAction(event -> selectAllClick());
+            changedWords = showCardsController.getChangedWords();
+
+            changeListener = c -> onChangedWordsModify();
+            changedWords.addListener(changeListener);
+            topVBox.getChildren().clear();
+            centerVBox.getChildren().clear();
+            centerVBox.getChildren().add(showCardsController);
+        } else {
+            stageManager.showWarningAlert("Nothing to learn!",  "",  "");
+        }
+    }
+
+    private void onChangedWordsModify() {
+        log.info("1");
+        changedWords.removeListener(changeListener);
+        changedWords.forEach(word -> {
+            userService.saveUserWordBank(word);
+            log.info("Updated: {}", word);
+        });
+        changedWords.clear();
+        changedWords.addListener(changeListener);
+        log.info("2");
+    }
+
+
+
+    //TODO unify
+    //TODO one dictionary for APP
+    private void initDictionary() {
+        //TODO select right dictionary, not Mueller only
+        //TODO need to be sure that we have at once 1 dictionary
+        Dictionary dictionary = testService.getDictionaries().get(0);
+        //TODO new File in service
+        //TODO may be convert all dictionaries to DB
+        ars = testService.getDictionary(new File(dictionary.getPath())).getAr();
     }
 }
