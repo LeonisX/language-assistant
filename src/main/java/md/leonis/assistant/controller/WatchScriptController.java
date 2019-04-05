@@ -16,7 +16,6 @@ import md.leonis.assistant.config.ConfigHolder;
 import md.leonis.assistant.controller.template.LevelsSelectController;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.test.Dictionary;
-import md.leonis.assistant.domain.user.WordToLearn;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.service.UserService;
@@ -225,6 +224,10 @@ public class WatchScriptController {
         refreshWebView();
     }
 
+    public void filterCheckBoxClick() {
+        refreshWebView();
+    }
+
     private void onSelectedListChange() {
         refreshWebView();
     }
@@ -238,11 +241,7 @@ public class WatchScriptController {
     }
 
     public void onNeedToLearnClick() {
-        listView.getItems().forEach(word -> {
-            WordToLearn wordToLearn = new WordToLearn();
-            wordToLearn.setWord(word);
-            userService.saveWordToLearn(wordToLearn);
-        });
+        userService.saveWordsToLearn(listView.getItems());
         listView.getItems().clear();
     }
 

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,13 +20,12 @@ public class UserWordBank {
     @Id
     private String word;
 
-    //TODO need boolean???? we can read long values
-    private boolean smoke;
-    private boolean reading;
-    private boolean writing;
-
     private long smoked;
     private long read;
     private long written;
+
+    private MemorizationLevel status;
+    private LocalDateTime repeatTime;
+    private int level;
 
 }

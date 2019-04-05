@@ -6,6 +6,8 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO list:
 
+Слова для заучивания и словарный запас - добавить колонок
+
 *** Memorization algorithm (simplified ANKI):
 
 * v LevelsTemplate::todo attach, test + Controller + Object for selected levels

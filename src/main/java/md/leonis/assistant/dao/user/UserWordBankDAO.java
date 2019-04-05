@@ -4,7 +4,10 @@ import md.leonis.assistant.domain.user.UserWordBank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserWordBankDAO extends JpaRepository<UserWordBank, String> {
 
+    List<UserWordBank> findByLevel(int level);
 }

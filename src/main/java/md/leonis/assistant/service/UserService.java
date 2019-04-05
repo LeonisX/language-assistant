@@ -1,15 +1,15 @@
 package md.leonis.assistant.service;
 
 import md.leonis.assistant.dao.user.UserWordBankDAO;
-import md.leonis.assistant.dao.user.WordToLearnDAO;
+import md.leonis.assistant.domain.user.MemorizationLevel;
 import md.leonis.assistant.domain.user.UserWordBank;
-import md.leonis.assistant.domain.user.WordToLearn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -24,19 +24,12 @@ public class UserService {
     @Autowired
     private UserWordBankDAO userWordBankDAO;
 
-    @Autowired
-    private WordToLearnDAO wordToLearnDAO;
-
     public List<UserWordBank> getUserWordBank() {
         return userWordBankDAO.findAll();
     }
 
-    public void saveWordToLearn(WordToLearn wordToLearn) {
-        wordToLearnDAO.save(wordToLearn);
-    }
-
-    public List<WordToLearn> getWordsToLearn() {
-        return wordToLearnDAO.findAll();
+    public List<UserWordBank> getWordsToLearn() {
+        return userWordBankDAO.findByLevel(0);
     }
 
     public UserWordBank saveUserWordBank(UserWordBank userWordBank) {
@@ -54,7 +47,6 @@ public class UserService {
             int index = random.nextInt(words.size());
             String word = words.get(index);
 
-            boolean smoke = true;
             boolean reading = random.nextInt(3) > 0;
             boolean writing = random.nextInt(2) > 0;
 
@@ -62,17 +54,37 @@ public class UserService {
             long read = reading ? random.nextInt(5) : 0;
             long written = writing ? random.nextInt(3) : 0;
 
+            MemorizationLevel memorizationLevel = MemorizationLevel.values()[random.nextInt(MemorizationLevel.values().length)];
+
+            byte level = (byte) random.nextInt(2);
+
             UserWordBank userWordBank = new UserWordBank(
                     word,
-                    smoke,
-                    reading,
-                    writing,
                     smoked,
                     read,
-                    written
+                    written,
+                    memorizationLevel,
+                    LocalDateTime.now(),
+                    level
             );
+
             saveUserWordBank(userWordBank);
         }
     }
 
+    public void saveWordsToLearn(List<String> words) {
+        words.forEach(word -> {
+            //TODO special constructor
+            UserWordBank wordToLearn = new UserWordBank(
+                    word,
+                    0,
+                    0,
+                    0,
+                    MemorizationLevel.UNKNOWN,
+                    LocalDateTime.now(),
+                    (byte) 0
+            );
+            saveUserWordBank(wordToLearn);
+        });
+    }
 }

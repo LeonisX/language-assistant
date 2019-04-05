@@ -14,8 +14,8 @@
             </HBox>
             <HBox prefHeight="41.0" prefWidth="788.0" spacing="5.0">
                <children>
-                  <CheckBox fx:id="unknownWordsCheckBox" mnemonicParsing="false" text="Скрывать известные слова" />
-                  <CheckBox fx:id="colorsCheckBox" mnemonicParsing="false" selected="true" text="Выделять цветами" />
+                  <CheckBox fx:id="unknownWordsCheckBox" mnemonicParsing="false"  onAction="#filterCheckBoxClick" text="Скрывать известные слова" />
+                  <CheckBox fx:id="colorsCheckBox" mnemonicParsing="false"  onAction="#filterCheckBoxClick" selected="true" text="Выделять цветами" />
                </children>
             </HBox>
          </children>

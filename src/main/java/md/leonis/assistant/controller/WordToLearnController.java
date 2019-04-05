@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import md.leonis.assistant.domain.ScriptWord;
 import md.leonis.assistant.domain.test.WordFrequency;
 import md.leonis.assistant.domain.test.WordLevel;
-import md.leonis.assistant.domain.user.WordToLearn;
+import md.leonis.assistant.domain.user.UserWordBank;
 import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.service.UserService;
 import md.leonis.assistant.view.FxmlView;
@@ -67,7 +67,7 @@ public class WordToLearnController {
 
     //TODO from DB
     private void initData() {
-        List<WordToLearn> wordsToLearn = userService.getWordsToLearn();
+        List<UserWordBank> wordsToLearn = userService.getWordsToLearn();
         List<ScriptWord> scriptWords = wordsToLearn.stream().map(wb -> {
             String word = wb.getWord().toLowerCase();
             WordLevel wordLevel = testService.getWordLevel(word);
