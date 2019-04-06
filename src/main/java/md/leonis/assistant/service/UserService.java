@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     private UserWordBankDAO userWordBankDAO;
 
+    @Autowired
+    private TestService testService;
+
     public List<UserWordBank> getUserWordBank() {
         return userWordBankDAO.findAll();
     }
@@ -90,6 +93,7 @@ public class UserService {
 
             UserWordBank userWordBank = new UserWordBank(
                     word,
+                    testService.getWordLevel(word).getLevel(),
                     smoked,
                     read,
                     written,
@@ -107,6 +111,7 @@ public class UserService {
             //TODO special constructor
             UserWordBank wordToLearn = new UserWordBank(
                     word,
+                    testService.getWordLevel(word).getLevel(),
                     0,
                     0,
                     0,

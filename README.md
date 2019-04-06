@@ -10,7 +10,7 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 *** Memorization algorithm (simplified ANKI):
 
-UserWordBank - also store wordLevel
+v UserWordBank - also store wordLevel
 Refactor RepeatWordsController.
 Use filter by level
 Show all/filtered runtime

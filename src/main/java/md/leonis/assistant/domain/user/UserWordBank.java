@@ -1,8 +1,11 @@
 package md.leonis.assistant.domain.user;
 
 import lombok.*;
+import md.leonis.assistant.domain.LanguageLevel;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
@@ -17,6 +20,9 @@ public class UserWordBank {
 
     @Id
     private String word;
+
+    @Enumerated(EnumType.STRING)
+    private LanguageLevel wordLevel;
 
     private long smoked;
     private long read;
