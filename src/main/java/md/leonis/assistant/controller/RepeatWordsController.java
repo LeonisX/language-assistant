@@ -1,11 +1,12 @@
 package md.leonis.assistant.controller;
 
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.collections.SetChangeListener;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import md.leonis.assistant.config.ConfigHolder;
@@ -42,6 +43,10 @@ public class RepeatWordsController {
     public Label selectedWordsLabel;
     public Label learnCountLabel;
 
+    public TableView<UserWordBank> wordsTableView;
+    public TableColumn<UserWordBank, String> wordColumn;
+    public TableColumn<UserWordBank, String> levelColumn;
+
     @Lazy
     @Autowired
     private StageManager stageManager;
@@ -61,24 +66,20 @@ public class RepeatWordsController {
 
     private LevelsSelectController levelsSelectController;
     private ObservableSet<LanguageLevel> selectedLevels;
-
-    private ShowCardsController showCardsController;
-
-    private ObservableList<UserWordBank> changedWords;
+    private SetChangeListener<LanguageLevel> setChangeListener;
 
     private List<Ar> ars;
 
-    private Set<LanguageLevel> levels;
-
     private ListChangeListener<UserWordBank> changeListener;
 
-    private SetChangeListener<LanguageLevel> setChangeListener;
+    private ObservableList<UserWordBank> changedWords;
+
+    private List<UserWordBank> wordsToRepeat;
 
     @FXML
     private void initialize() {
-        //TODO from SourceFactory
         setChangeListener = c -> onSelectedListChange();
-        levels = gseSourceFactory.getLanguageLevelsSet();
+        Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
         selectedLevels = levelsSelectController.getSelectedLevels();
@@ -86,9 +87,24 @@ public class RepeatWordsController {
         topVBox.getChildren().add(levelsSelectController);
 
         initDictionary();
+
+        //todo for learn getWordsToLearnCount
+        wordBankLabel.setText(userService.getWordsToRepeatCount().toString());
+
+        wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
+        levelColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getWordLevel().name()));
+        //levelColumn.sortTypeProperty();
+
+        refresh();
     }
 
-    public void selectAllClick() {
+    //TODO unify; one dictionary for APP
+    private void initDictionary() {
+        Dictionary dictionary = testService.getDictionaries().get(0);
+        ars = testService.getDictionary(new File(dictionary.getPath())).getAr();
+    }
+
+    private void selectAllClick() {
         selectedLevels.removeListener(setChangeListener);
         levelsSelectController.selectAllButtonClick();
         selectedLevels.addListener(setChangeListener);
@@ -99,22 +115,9 @@ public class RepeatWordsController {
         refresh();
     }
 
-    private void refresh() {
-        //TODO refresh all labels, filter words
-    }
-
     public void studyNowButtonClick() {
-        //TODO in learn words
-        //List<UserWordBank> userWordBank = userService.getWordsToLearn(20);
-        //if (userWordBank.size() < 20) {
-        //TODO here - get all. In learn words - only older than now()
-        List<UserWordBank> userWordBank = userService.getWordsToRepeat(20);
-        //}
-
-        if (!userWordBank.isEmpty()) {
-            showCardsController = new ShowCardsController(stageManager, configHolder, ars, userWordBank);
-            //TODO
-            //showCardsController.getSelectAllButton().setOnAction(event -> selectAllClick());
+        if (!wordsToRepeat.isEmpty()) {
+            ShowCardsController showCardsController = new ShowCardsController(stageManager, configHolder, ars, wordsToRepeat);
             changedWords = showCardsController.getChangedWords();
 
             changeListener = c -> onChangedWordsModify();
@@ -128,7 +131,6 @@ public class RepeatWordsController {
     }
 
     private void onChangedWordsModify() {
-        log.info("1");
         changedWords.removeListener(changeListener);
         changedWords.forEach(word -> {
             userService.saveUserWordBank(word);
@@ -136,19 +138,19 @@ public class RepeatWordsController {
         });
         changedWords.clear();
         changedWords.addListener(changeListener);
-        log.info("2");
     }
 
+    private void refresh() {
+        //TODO in learn words
+        //List<UserWordBank> userWordBank = userService.getWordsToLearn(20);
+        //if (userWordBank.size() < 20) {
+        //TODO here - get all. In learn words - only older than now()
+        wordsToRepeat = userService.getWordsToRepeat(20, selectedLevels);
+        learnCountLabel.setText(Integer.toString(wordsToRepeat.size()));
 
+        selectedWordsLabel.setText(Integer.toString(userService.getWordsToRepeat(selectedLevels).size()));
 
-    //TODO unify
-    //TODO one dictionary for APP
-    private void initDictionary() {
-        //TODO select right dictionary, not Mueller only
-        //TODO need to be sure that we have at once 1 dictionary
-        Dictionary dictionary = testService.getDictionaries().get(0);
-        //TODO new File in service
-        //TODO may be convert all dictionaries to DB
-        ars = testService.getDictionary(new File(dictionary.getPath())).getAr();
+        wordsTableView.setItems(FXCollections.observableList(wordsToRepeat));
     }
+
 }

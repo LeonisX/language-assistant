@@ -2,15 +2,15 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0"
-            prefWidth="699.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="md.leonis.assistant.controller.RepeatWordsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.RepeatWordsController">
     <top>
-        <VBox fx:id="topVBox" BorderPane.alignment="CENTER"/>
+        <VBox fx:id="topVBox" BorderPane.alignment="CENTER" />
     </top>
     <center>
         <VBox fx:id="centerVBox">
@@ -19,26 +19,30 @@
                     <HBox alignment="CENTER" prefHeight="84.0" prefWidth="566.0">
                         <VBox prefHeight="172.0" prefWidth="280.0">
                             <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
-                                <Label prefHeight="16.0" prefWidth="128.0" text="Word Bank:"/>
-                                <Label fx:id="wordBankLabel"/>
+                                <Label prefHeight="16.0" prefWidth="128.0" text="Word Bank:" />
+                                <Label fx:id="wordBankLabel" />
                             </HBox>
                             <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
-                                <Label prefHeight="16.0" prefWidth="128.0" text="Selected Words:"/>
-                                <Label fx:id="selectedWordsLabel"/>
+                                <Label prefHeight="16.0" prefWidth="128.0" text="Selected Words:" />
+                                <Label fx:id="selectedWordsLabel" />
                             </HBox>
                             <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="280.0">
-                                <Label prefHeight="16.0" prefWidth="128.0" text="To Learn:"/>
-                                <Label fx:id="learnCountLabel" text="20"/>
+                                <Label prefHeight="16.0" prefWidth="128.0" text="To Learn:" />
+                                <Label fx:id="learnCountLabel" text="20" />
                             </HBox>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="172.0" prefWidth="132.0">
-                            <Button mnemonicParsing="false" onAction="#studyNowButtonClick"
-                                    text="Study Now"/>
+                            <Button mnemonicParsing="false" onAction="#studyNowButtonClick" text="Study Now" />
                         </VBox>
                     </HBox>
                 </VBox>
-                <VBox prefHeight="796.0" prefWidth="213.0">
-                    <Label text="TODO live show of words"/>
+                <VBox prefHeight="510.0" prefWidth="443.0">
+                    <TableView fx:id="wordsTableView" prefHeight="2000.0">
+                        <columns>
+                            <TableColumn fx:id="wordColumn" prefWidth="223.0" text="Word" />
+                            <TableColumn fx:id="levelColumn" minWidth="1.0" prefWidth="59.0" text="Level" />
+                        </columns>
+                    </TableView>
                 </VBox>
             </HBox>
         </VBox>

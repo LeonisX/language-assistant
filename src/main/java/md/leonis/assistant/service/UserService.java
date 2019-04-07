@@ -1,6 +1,7 @@
 package md.leonis.assistant.service;
 
 import md.leonis.assistant.dao.user.UserWordBankDAO;
+import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.user.MemorizationLevel;
 import md.leonis.assistant.domain.user.UserWordBank;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -54,15 +56,31 @@ public class UserService {
         return userWordBankDAO.findByLevel(0, page);
     }
 
+    public List<UserWordBank> getWordsToRepeat() {
+        return userWordBankDAO.findByLevelGreaterThan(0);
+    }
+
+    public List<UserWordBank> getWordsToRepeat(Set<LanguageLevel> languageLevels) {
+        return userWordBankDAO.findByLevelGreaterThanAndWordLevelIn(0, languageLevels);
+    }
+
     public List<UserWordBank> getWordsToRepeat(int size) {
         Pageable page = PageRequest.of(0, size, Sort.by("repeatTime").ascending());
         return userWordBankDAO.findByLevelGreaterThan(0, page);
     }
 
+    public List<UserWordBank> getWordsToRepeat(int size, Set<LanguageLevel> languageLevels) {
+        Pageable page = PageRequest.of(0, size, Sort.by("repeatTime"));
+        return userWordBankDAO.findByLevelGreaterThanAndWordLevelIn(0, languageLevels, page);
+    }
 
     public List<UserWordBank> getWordsToRepeat(int size, Sort sort) {
         Pageable page = PageRequest.of(0, size, Sort.by("repeatTime").ascending().and(sort));
         return userWordBankDAO.findByLevelGreaterThan(0, page);
+    }
+
+    public Long getWordsToRepeatCount() {
+        return userWordBankDAO.countByLevelGreaterThan(0);
     }
 
     public UserWordBank saveUserWordBank(UserWordBank userWordBank) {
