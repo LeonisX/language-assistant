@@ -32,4 +32,14 @@ public class UserWordBank {
     private LocalDateTime repeatTime;
     private int level;
 
+    public UserWordBank(String word, LanguageLevel wordLevel) {
+        this.word = word;
+        this.wordLevel = wordLevel;
+        this.smoked = 0;
+        this.read = 0;
+        this.written = 0;
+        this.status = MemorizationLevel.UNKNOWN;
+        this.repeatTime = LocalDateTime.now();
+        this.level = (byte) 0;
+    }
 }

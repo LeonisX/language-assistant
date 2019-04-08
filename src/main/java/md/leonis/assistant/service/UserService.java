@@ -32,6 +32,8 @@ public class UserService {
     @Autowired
     private TestService testService;
 
+    // User-Word-Bank
+
     public List<UserWordBank> getUserWordBank() {
         return userWordBankDAO.findAll();
     }
@@ -46,6 +48,16 @@ public class UserService {
         return userWordBankDAO.findAll(page).getContent();
     }
 
+    public long getUserWordBankCount() {
+        return userWordBankDAO.count();
+    }
+
+    public UserWordBank saveUserWordBank(UserWordBank userWordBank) {
+        return userWordBankDAO.save(userWordBank);
+    }
+
+    // Words-To-Learn
+
     //TODO add ordering by date
     public List<UserWordBank> getWordsToLearn() {
         return userWordBankDAO.findByLevelOrderByRepeatTimeAsc(0);
@@ -55,6 +67,12 @@ public class UserService {
         Pageable page = PageRequest.of(0, size, Sort.by("repeatTime").ascending());
         return userWordBankDAO.findByLevel(0, page);
     }
+
+    public void saveWordsToLearn(List<String> words) {
+        words.forEach(word -> saveUserWordBank(new UserWordBank(word, testService.getWordLevel(word).getLevel())));
+    }
+
+    // Words-To-Repeat
 
     public List<UserWordBank> getWordsToRepeat() {
         return userWordBankDAO.findByLevelGreaterThan(0);
@@ -83,13 +101,7 @@ public class UserService {
         return userWordBankDAO.countByLevelGreaterThan(0);
     }
 
-    public UserWordBank saveUserWordBank(UserWordBank userWordBank) {
-        return userWordBankDAO.save(userWordBank);
-    }
-
-    public long getUserWordBankCount() {
-        return userWordBankDAO.count();
-    }
+    // Other
 
     public void generateUserWordBank(List<String> words) {
         Random random = new Random();
@@ -123,22 +135,4 @@ public class UserService {
             saveUserWordBank(userWordBank);
         }
     }
-
-    public void saveWordsToLearn(List<String> words) {
-        words.forEach(word -> {
-            //TODO special constructor
-            UserWordBank wordToLearn = new UserWordBank(
-                    word,
-                    testService.getWordLevel(word).getLevel(),
-                    0,
-                    0,
-                    0,
-                    MemorizationLevel.UNKNOWN,
-                    LocalDateTime.now(),
-                    (byte) 0
-            );
-            saveUserWordBank(wordToLearn);
-        });
-    }
-
 }
