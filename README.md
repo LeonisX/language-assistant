@@ -17,9 +17,10 @@ v Show all/filtered runtime
 v 20 - global value
 
 ShowCards:
-Refactor
+v Refactor
+v Center buttons
 TODO count
-Center buttons
+
 
 Copy to LearnWordsController
 

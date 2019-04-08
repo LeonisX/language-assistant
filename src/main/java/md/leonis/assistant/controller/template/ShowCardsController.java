@@ -51,6 +51,9 @@ public class ShowCardsController extends BorderPane {
 
         stageManager.loadTemplate("showCards", this, () -> {});
 
+        questionHBox.managedProperty().bind(questionHBox.visibleProperty());
+        answerHBox.managedProperty().bind(answerHBox.visibleProperty());
+
         questionMode = false;
         currentWord = userWordBank.get(0);
 
