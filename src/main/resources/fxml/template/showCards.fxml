@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.web.WebView?>
 
-<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="md.leonis.assistant.controller.template.ShowCardsController">
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
     <top>
         <WebView fx:id="questionWebView" prefHeight="272.0" prefWidth="672.0" BorderPane.alignment="CENTER"/>
     </top>

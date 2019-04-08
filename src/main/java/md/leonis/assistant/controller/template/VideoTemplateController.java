@@ -46,13 +46,7 @@ public class VideoTemplateController extends HBox {
         this.configHolder = configHolder;
         this.video = video;
 
-        //TODO in stageManager
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/template/videoTemplate.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
-        try {
-            loader.load();
-
+        stageManager.loadTemplate("videoTemplate", this, () -> {
             title.setText(video.getTitle());
             author.setText(video.getAuthor());
             categories.setText(video.getCategories().toString());
@@ -62,9 +56,7 @@ public class VideoTemplateController extends HBox {
             String youtubeId = VideoUtils.getYoutubeVideoId(video.getUrl());
             Image image = new Image(VideoUtils.getYouTubeThumbnail(youtubeId));
             previewImage.setImage(image);
-        } catch (IOException exc) {
-            throw new RuntimeException(exc);
-        }
+        });
     }
 
     public void studyScriptClick(ActionEvent actionEvent) {

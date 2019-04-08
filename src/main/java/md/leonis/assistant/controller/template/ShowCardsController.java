@@ -3,7 +3,6 @@ package md.leonis.assistant.controller.template;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
@@ -14,7 +13,6 @@ import md.leonis.assistant.domain.user.UserWordBank;
 import md.leonis.assistant.domain.xdxf.lousy.Ar;
 import md.leonis.assistant.view.StageManager;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,15 +49,7 @@ public class ShowCardsController extends BorderPane {
         this.userWordBank = userWordBank;
         this.ars = ars;
 
-        //TODO in stageManager
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/template/showCards.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
-        try {
-            loader.load();
-        } catch (IOException exc) {
-            throw new RuntimeException(exc);
-        }
+        stageManager.loadTemplate("showCards", this, () -> {});
 
         questionMode = false;
         currentWord = userWordBank.get(0);
@@ -69,19 +59,13 @@ public class ShowCardsController extends BorderPane {
 
     private void switchState() {
         if (currentWord == null) {
-            stageManager.showInformationAlert("Gata", "", "");
-            Stage stage = (Stage) questionHBox.getScene().getWindow();
-            // do what you have to do
-            stage.close();
+            //TODO may be show statistics (time)
+            stageManager.showInformationAlert("Well done", "You have finished repeating the words.", "");
+            ((Stage) questionHBox.getScene().getWindow()).close();
             return;
         }
         questionMode = !questionMode;
-        //TODO show question
-        /*showAnswerButton.setVisible(questionMode);
-        dontRememberButton.setVisible(!questionMode);
-        rememberButton.setVisible(!questionMode);
-        knowButton.setVisible(!questionMode);
-        veryEasyButton.setVisible(!questionMode);*/
+
         questionHBox.setVisible(questionMode);
         answerWebView.setVisible(!questionMode);
         answerHBox.setVisible(!questionMode);
@@ -98,45 +82,42 @@ public class ShowCardsController extends BorderPane {
     }
 
     public void dontRememberButtonClick() {
-        UserWordBank firstWord = userWordBank.remove(0);
-        firstWord.setRepeatTime(LocalDateTime.now().plusMinutes(0));
-        firstWord.setStatus(MemorizationLevel.UNKNOWN);
-        changedWords.clear();
-        changedWords.add(firstWord);
-        userWordBank.add(firstWord);
-        currentWord = userWordBank.get(0);
-        switchState();
+        indicateWordKnowledge(MemorizationLevel.UNKNOWN);
     }
 
     public void rememberButtonClick() {
-        UserWordBank firstWord = userWordBank.remove(0);
-        firstWord.setRepeatTime(LocalDateTime.now().plusMinutes(1));
-        firstWord.setStatus(MemorizationLevel.HARD_REMEMBERED);
-        changedWords.clear();
-        changedWords.add(firstWord);
-        userWordBank.add(firstWord);
-        currentWord = userWordBank.get(0);
-        switchState();
+        indicateWordKnowledge(MemorizationLevel.HARD_REMEMBERED);
     }
 
     public void knowButtonClick() {
-        UserWordBank firstWord = userWordBank.remove(0);
-        firstWord.setRepeatTime(LocalDateTime.now().plusDays(1));
-        firstWord.setStatus(MemorizationLevel.KNOWN);
-        changedWords.clear();
-        changedWords.add(firstWord);
-        if (userWordBank.isEmpty()) {
-            currentWord = null;
-        } else {
-            currentWord = userWordBank.get(0);
-        }
-        switchState();
+        indicateWordKnowledge(MemorizationLevel.KNOWN);
     }
 
     public void veryEasyButtonClick() {
+        indicateWordKnowledge(MemorizationLevel.NATIVE);
+    }
+
+    private void indicateWordKnowledge(MemorizationLevel memorizationLevel) {
         UserWordBank firstWord = userWordBank.remove(0);
-        firstWord.setRepeatTime(LocalDateTime.now().plusDays(10));
-        firstWord.setStatus(MemorizationLevel.NATIVE);
+        firstWord.setStatus(memorizationLevel);
+        //TODO more generic? timeUnit in MemorizationLevel?
+        switch (memorizationLevel) {
+            case UNKNOWN:
+                firstWord.setRepeatTime(LocalDateTime.now().plusMinutes(0));
+                break;
+            case HARD_REMEMBERED:
+                firstWord.setRepeatTime(LocalDateTime.now().plusMinutes(1));
+                break;
+            case KNOWN:
+                firstWord.setRepeatTime(LocalDateTime.now().plusDays(1));
+                break;
+            case NATIVE:
+                firstWord.setRepeatTime(LocalDateTime.now().plusDays(10));
+                break;
+        }
+        if (memorizationLevel.ordinal() <= 1) { // repeat
+            userWordBank.add(firstWord);
+        }
         changedWords.clear();
         changedWords.add(firstWord);
         if (userWordBank.isEmpty()) {
@@ -148,11 +129,8 @@ public class ShowCardsController extends BorderPane {
     }
 
     private void showQuestion(String word) {
-        if (currentWord != null) {
-            questionWebView.getEngine().loadContent(word);
-        } else {
-            questionWebView.getEngine().loadContent("");
-        }
+        String content = (currentWord != null) ? word : "";
+        questionWebView.getEngine().loadContent(content);
     }
 
     private void showAnswer(String word) {
@@ -178,7 +156,7 @@ public class ShowCardsController extends BorderPane {
         }*/
             answerWebView.getEngine().loadContent(answer);
         } else {
-            answerWebView.getEngine().loadContent("");
+            answerWebView.getEngine().loadContent("<Sorry, there is no answer>");
         }
     }
 

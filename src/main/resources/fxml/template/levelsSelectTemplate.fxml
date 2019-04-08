@@ -4,7 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root fx:id="containerHBox" alignment="CENTER_LEFT" type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="md.leonis.assistant.controller.template.LevelsSelectController">
+<fx:root fx:id="containerHBox" alignment="CENTER_LEFT" type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
     <CheckBox fx:id="unkCheckBox" mnemonicParsing="false" text="Unknown level" />
     <CheckBox fx:id="a0CheckBox" mnemonicParsing="false" text="A0" />
     <CheckBox fx:id="a1CheckBox" mnemonicParsing="false" text="A1" />

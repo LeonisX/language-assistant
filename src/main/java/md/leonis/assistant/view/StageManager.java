@@ -1,15 +1,15 @@
 package md.leonis.assistant.view;
 
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -129,5 +129,17 @@ public class StageManager {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public void loadTemplate(String templateName, Parent parent, Runnable runnable) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/template/%s.fxml", templateName)));
+        loader.setController(parent);
+        loader.setRoot(parent);
+        try {
+            loader.load();
+            runnable.run();
+        } catch (IOException exc) {
+            throw new RuntimeException(exc);
+        }
     }
 }

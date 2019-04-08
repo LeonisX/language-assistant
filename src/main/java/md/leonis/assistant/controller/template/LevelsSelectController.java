@@ -19,22 +19,36 @@ import java.util.stream.Collectors;
 
 public class LevelsSelectController extends HBox {
 
-    @FXML private CheckBox unkCheckBox;
-    @FXML private CheckBox a0CheckBox;
-    @FXML private CheckBox a1CheckBox;
-    @FXML private CheckBox a2CheckBox;
-    @FXML private CheckBox a2pCheckBox;
-    @FXML private CheckBox b1CheckBox;
-    @FXML private CheckBox b1pCheckBox;
-    @FXML private CheckBox b2CheckBox;
-    @FXML private CheckBox b2pCheckBox;
-    @FXML private CheckBox c1CheckBox;
-    @FXML private CheckBox c2CheckBox;
-    @FXML private CheckBox c2pCheckBox;
+    @FXML
+    private CheckBox unkCheckBox;
+    @FXML
+    private CheckBox a0CheckBox;
+    @FXML
+    private CheckBox a1CheckBox;
+    @FXML
+    private CheckBox a2CheckBox;
+    @FXML
+    private CheckBox a2pCheckBox;
+    @FXML
+    private CheckBox b1CheckBox;
+    @FXML
+    private CheckBox b1pCheckBox;
+    @FXML
+    private CheckBox b2CheckBox;
+    @FXML
+    private CheckBox b2pCheckBox;
+    @FXML
+    private CheckBox c1CheckBox;
+    @FXML
+    private CheckBox c2CheckBox;
+    @FXML
+    private CheckBox c2pCheckBox;
 
-    @FXML private HBox containerHBox;
+    @FXML
+    private HBox containerHBox;
 
-    @FXML private Button selectAllButton;
+    @FXML
+    private Button selectAllButton;
 
     //TODO delete
     private StageManager stageManager;
@@ -54,13 +68,7 @@ public class LevelsSelectController extends HBox {
         this.levels = levels;
         this.selectedLevels = FXCollections.observableSet(new HashSet<>(levels));
 
-        //TODO in stageManager
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/template/levelsSelectTemplate.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
-        try {
-            loader.load();
-
+        stageManager.loadTemplate("levelsSelectTemplate", this, () -> {
             checkBoxes = containerHBox.getChildren().stream()
                     .filter(n -> n instanceof CheckBox)
                     .map(n -> (CheckBox) n)
@@ -74,9 +82,7 @@ public class LevelsSelectController extends HBox {
                     .peek(c -> c.setOnAction(this::filterCheckBoxClick))
                     .collect(Collectors.toSet());
 
-        } catch (IOException exc) {
-            throw new RuntimeException(exc);
-        }
+        });
     }
 
     private void filterCheckBoxClick(ActionEvent actionEvent) {

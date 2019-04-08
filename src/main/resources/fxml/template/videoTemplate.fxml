@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" fx:controller="md.leonis.assistant.controller.template.VideoTemplateController">
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml">
     <VBox prefHeight="250.0" prefWidth="342.0">
         <ImageView fx:id="previewImage" fitHeight="90.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true"/>
         <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
