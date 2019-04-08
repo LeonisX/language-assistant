@@ -11,19 +11,20 @@ This is a model of the project, designed to simplify the study of foreign langua
 *** Memorization algorithm (simplified ANKI):
 
 v UserWordBank - also store wordLevel
-Refactor RepeatWordsController.
-Use filter by level
-Show all/filtered runtime
-Copy to LearnWordsController
-20 - global value
+v Refactor RepeatWordsController.
+v Use filter by level
+v Show all/filtered runtime
+v 20 - global value
 
 ShowCards:
 Refactor
 TODO count
 Center buttons
 
+Copy to LearnWordsController
+
 * v LevelsTemplate::todo attach, test + Controller + Object for selected levels
-* RepeatWordsController - beta v1
+* RepeatWordsController - beta v2
 * LearnWordsController
 
 LearnWords:

@@ -19,11 +19,22 @@ import java.util.stream.Collectors;
 
 public class LevelsSelectController extends HBox {
 
-    @FXML
-    private HBox containerHBox;
+    @FXML private CheckBox unkCheckBox;
+    @FXML private CheckBox a0CheckBox;
+    @FXML private CheckBox a1CheckBox;
+    @FXML private CheckBox a2CheckBox;
+    @FXML private CheckBox a2pCheckBox;
+    @FXML private CheckBox b1CheckBox;
+    @FXML private CheckBox b1pCheckBox;
+    @FXML private CheckBox b2CheckBox;
+    @FXML private CheckBox b2pCheckBox;
+    @FXML private CheckBox c1CheckBox;
+    @FXML private CheckBox c2CheckBox;
+    @FXML private CheckBox c2pCheckBox;
 
-    @FXML
-    private Button selectAllButton;
+    @FXML private HBox containerHBox;
+
+    @FXML private Button selectAllButton;
 
     //TODO delete
     private StageManager stageManager;

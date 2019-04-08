@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.web.WebView?>
 
-<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="md.leonis.assistant.controller.template.ShowCardsController">
     <top>
         <WebView fx:id="questionWebView" prefHeight="272.0" prefWidth="672.0" BorderPane.alignment="CENTER"/>
     </top>
@@ -15,13 +15,13 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="88.0" prefWidth="750.0" spacing="5.0" BorderPane.alignment="CENTER">
             <HBox fx:id="questionHBox" prefHeight="100.0">
-                <Button mnemonicParsing="false"  fx:id="showAnswerButton" onAction="#showAnswerButtonClick" text="Show answer"/>
+                <Button mnemonicParsing="false" onAction="#showAnswerButtonClick" text="Show answer"/>
             </HBox>
             <HBox fx:id="answerHBox" prefHeight="100.0" spacing="5.0">
-                <Button mnemonicParsing="false"  fx:id="dontRememberButton" onAction="#dontRememberButtonClick" text="Don't remember"/>
-                <Button mnemonicParsing="false"  fx:id="rememberButton" onAction="#rememberButtonClick" text="Remember"/>
-                <Button mnemonicParsing="false"  fx:id="knowButton" onAction="#knowButtonClick" text="Know"/>
-                <Button mnemonicParsing="false"  fx:id="veryEasyButton" onAction="#veryEasyButtonClick" text="Very easy"/>
+                <Button mnemonicParsing="false" onAction="#dontRememberButtonClick" text="Don't remember"/>
+                <Button mnemonicParsing="false" onAction="#rememberButtonClick" text="Remember"/>
+                <Button mnemonicParsing="false" onAction="#knowButtonClick" text="Know"/>
+                <Button mnemonicParsing="false" onAction="#veryEasyButtonClick" text="Very easy"/>
             </HBox>
         </HBox>
     </bottom>

@@ -3,45 +3,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml">
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" fx:controller="md.leonis.assistant.controller.template.VideoTemplateController">
     <VBox prefHeight="250.0" prefWidth="342.0">
-        <children>
-            <ImageView fx:id="previewImage" fitHeight="90.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true"/>
-            <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
-                <children>
-                    <Label fx:id="title" text="title"/>
-                </children>
-            </HBox>
-            <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
-                <children>
-                    <Label text="Author"/>
-                    <Label fx:id="author" text="author"/>
-                </children>
-            </HBox>
-            <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
-                <children>
-                    <Label text="Categories"/>
-                    <Label fx:id="categories" text="Label"/>
-                </children>
-            </HBox>
-            <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
-                <children>
-                    <Label text="Tags"/>
-                    <Label fx:id="tags" text="tro lo lo"/>
-                </children>
-            </HBox>
-            <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
-                <children>
-                    <Label text="Rating"/>
-                    <Label fx:id="rating" text="Label"/>
-                </children>
-            </HBox>
-            <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
-                <children>
-                    <Button mnemonicParsing="false" onAction="#studyScriptClick" text="Study Script"/>
-                    <Button mnemonicParsing="false" onAction="#watchClick" text="Watch"/>
-                </children>
-            </HBox>
-        </children>
+        <ImageView fx:id="previewImage" fitHeight="90.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true"/>
+        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+            <Label fx:id="title" text="title"/>
+        </HBox>
+        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+            <Label text="Author"/>
+            <Label fx:id="author" text="author"/>
+        </HBox>
+        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+            <Label text="Categories"/>
+            <Label fx:id="categories" text="Label"/>
+        </HBox>
+        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+            <Label text="Tags"/>
+            <Label fx:id="tags" text="tro lo lo"/>
+        </HBox>
+        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+            <Label text="Rating"/>
+            <Label fx:id="rating" text="Label"/>
+        </HBox>
+        <HBox prefHeight="60.0" prefWidth="150.0" spacing="5.0">
+            <Button mnemonicParsing="false" onAction="#studyScriptClick" text="Study Script"/>
+            <Button mnemonicParsing="false" onAction="#watchClick" text="Watch"/>
+        </HBox>
     </VBox>
 </fx:root>

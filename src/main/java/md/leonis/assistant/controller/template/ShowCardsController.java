@@ -21,20 +21,11 @@ import java.util.stream.Collectors;
 
 public class ShowCardsController extends BorderPane {
 
-    @FXML
-    private HBox questionHBox;
-    @FXML
-    private HBox answerHBox;
-    @FXML
-    private WebView questionWebView;
-    @FXML
-    private WebView answerWebView;
+    @FXML private HBox questionHBox;
+    @FXML private HBox answerHBox;
 
-    /*private Button showAnswerButton;
-    private Button dontRememberButton;
-    private Button rememberButton;
-    private Button knowButton;
-    private Button veryEasyButton;*/
+    @FXML private WebView questionWebView;
+    @FXML private WebView answerWebView;
 
     private List<Ar> ars;
 
