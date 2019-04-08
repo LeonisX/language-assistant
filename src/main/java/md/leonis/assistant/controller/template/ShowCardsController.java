@@ -3,6 +3,7 @@ package md.leonis.assistant.controller.template;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
@@ -25,6 +26,10 @@ public class ShowCardsController extends BorderPane {
     @FXML private WebView questionWebView;
     @FXML private WebView answerWebView;
 
+    @FXML private Label memorizedLabel;
+    @FXML private Label leftLabel;
+    @FXML private Label totalLabel;
+
     private List<Ar> ars;
 
     private boolean questionMode;
@@ -41,6 +46,8 @@ public class ShowCardsController extends BorderPane {
 
     private ObservableList<UserWordBank> changedWords;
 
+    private int memorizedCount;
+
     //TODO need answers
     public ShowCardsController(StageManager stageManager, ConfigHolder configHolder, List<Ar> ars, List<UserWordBank> userWordBank) {
         this.stageManager = stageManager;
@@ -56,6 +63,9 @@ public class ShowCardsController extends BorderPane {
 
         questionMode = false;
         currentWord = userWordBank.get(0);
+
+        memorizedCount = 0;
+        totalLabel.setText(Integer.toString(userWordBank.size()));
 
         switchState();
     }
@@ -74,6 +84,9 @@ public class ShowCardsController extends BorderPane {
         answerHBox.setVisible(!questionMode);
         showQuestion(currentWord.getWord());
         showAnswer(currentWord.getWord());
+
+        memorizedLabel.setText(Integer.toString(memorizedCount));
+        leftLabel.setText(Integer.toString(userWordBank.size()));
     }
 
     public ObservableList<UserWordBank> getChangedWords() {
@@ -120,6 +133,8 @@ public class ShowCardsController extends BorderPane {
         }
         if (memorizationLevel.ordinal() <= 1) { // repeat
             userWordBank.add(firstWord);
+        } else {
+            memorizedCount++;
         }
         changedWords.clear();
         changedWords.add(firstWord);

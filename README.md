@@ -19,7 +19,7 @@ v 20 - global value
 ShowCards:
 v Refactor
 v Center buttons
-TODO count
+v TODO count
 
 
 Copy to LearnWordsController
@@ -40,8 +40,8 @@ update only
 - v UserWordBank - единственная база.
 - v Добавить статус слова (enum)
 - v Шаблон показа карточек
-- Два окна: повторять или учить новые. В первом случае фильтр
-- Ограничение 20
+- v Два окна: повторять или учить новые. В первом случае фильтр
+- v Ограничение 20
 
 
 **ANKI**
