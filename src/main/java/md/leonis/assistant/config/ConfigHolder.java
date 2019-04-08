@@ -24,4 +24,6 @@ public class ConfigHolder {
     );
 
     private Video currentVideo;
+
+    private int wordsToLearnCount = 20;
 }

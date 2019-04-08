@@ -145,7 +145,7 @@ public class RepeatWordsController {
         //List<UserWordBank> userWordBank = userService.getWordsToLearn(20);
         //if (userWordBank.size() < 20) {
         //TODO here - get all. In learn words - only older than now()
-        wordsToRepeat = userService.getWordsToRepeat(20, selectedLevels);
+        wordsToRepeat = userService.getWordsToRepeat(configHolder.getWordsToLearnCount(), selectedLevels);
         learnCountLabel.setText(Integer.toString(wordsToRepeat.size()));
 
         selectedWordsLabel.setText(Integer.toString(userService.getWordsToRepeat(selectedLevels).size()));
