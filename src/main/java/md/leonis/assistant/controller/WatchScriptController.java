@@ -1,6 +1,5 @@
 package md.leonis.assistant.controller;
 
-import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
@@ -84,9 +83,6 @@ public class WatchScriptController {
     private Node styleNode;
 
     private LevelsSelectController levelsSelectController;
-    private ObservableSet<LanguageLevel> selectedLevels;
-
-    private SetChangeListener<LanguageLevel> changeListener;
 
     private HtmlFormatter htmlFormatter;
 
@@ -102,13 +98,10 @@ public class WatchScriptController {
 
     @FXML
     private void initialize() {
-        //TODO from SourceFactory
-        changeListener = c -> onSelectedListChange();
         Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
-        selectedLevels = levelsSelectController.getSelectedLevels();
-        selectedLevels.addListener(changeListener);
+        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
         vBox.getChildren().add(levelsSelectController);
 
         initDictionary();
@@ -213,17 +206,17 @@ public class WatchScriptController {
         CssGenerator cssGenerator = CssGenerator.builder()
                 .hideKnownWords(unknownWordsCheckBox.isSelected())
                 .showColors(colorsCheckBox.isSelected())
-                .languageLevels(selectedLevels)
+                .languageLevels(levelsSelectController.getSelectedLevels())
                 .build();
         return webView.getEngine().getDocument().createTextNode(cssGenerator.generate());
     }
 
-    public void selectAllClick() {
-        selectedLevels.removeListener(changeListener);
+    private void selectAllClick() {
+        levelsSelectController.getSelectedLevels().removeListener(this::onSelectedListChange);
         unknownWordsCheckBox.setSelected(false);
         colorsCheckBox.setSelected(true);
         levelsSelectController.selectAllButtonClick();
-        selectedLevels.addListener(changeListener);
+        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
         refreshWebView();
     }
 
@@ -231,7 +224,7 @@ public class WatchScriptController {
         refreshWebView();
     }
 
-    private void onSelectedListChange() {
+    private void onSelectedListChange(SetChangeListener.Change<? extends LanguageLevel> change) {
         refreshWebView();
     }
 

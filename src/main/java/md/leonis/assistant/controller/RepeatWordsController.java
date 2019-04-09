@@ -1,7 +1,8 @@
 package md.leonis.assistant.controller;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.*;
+import javafx.collections.FXCollections;
+import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -65,25 +66,17 @@ public class RepeatWordsController {
     private GseSourceFactory gseSourceFactory;
 
     private LevelsSelectController levelsSelectController;
-    private ObservableSet<LanguageLevel> selectedLevels;
-    private SetChangeListener<LanguageLevel> setChangeListener;
 
     private List<Ar> ars;
-
-    private ListChangeListener<UserWordBank> changeListener;
-
-    private ObservableList<UserWordBank> changedWords;
 
     private List<UserWordBank> wordsToRepeat;
 
     @FXML
     private void initialize() {
-        setChangeListener = c -> onSelectedListChange();
         Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
-        selectedLevels = levelsSelectController.getSelectedLevels();
-        selectedLevels.addListener(setChangeListener);
+        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
         topVBox.getChildren().add(levelsSelectController);
 
         initDictionary();
@@ -93,7 +86,6 @@ public class RepeatWordsController {
 
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
         levelColumn.setCellValueFactory(word -> new SimpleStringProperty(word.getValue().getWordLevel().name()));
-        //levelColumn.sortTypeProperty();
 
         refresh();
     }
@@ -105,42 +97,18 @@ public class RepeatWordsController {
     }
 
     private void selectAllClick() {
-        selectedLevels.removeListener(setChangeListener);
+        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
         levelsSelectController.selectAllButtonClick();
-        selectedLevels.addListener(setChangeListener);
+        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
         refresh();
     }
 
-    private void onSelectedListChange() {
+    private void onSelectedListChange(SetChangeListener.Change<? extends LanguageLevel> change) {
         refresh();
-    }
-
-    public void studyNowButtonClick() {
-        if (!wordsToRepeat.isEmpty()) {
-            ShowCardsController showCardsController = new ShowCardsController(stageManager, configHolder, ars, wordsToRepeat);
-            changedWords = showCardsController.getChangedWords();
-
-            changeListener = c -> onChangedWordsModify();
-            changedWords.addListener(changeListener);
-            topVBox.getChildren().clear();
-            centerVBox.getChildren().clear();
-            centerVBox.getChildren().add(showCardsController);
-        } else {
-            stageManager.showWarningAlert("Nothing to learn!",  "",  "");
-        }
-    }
-
-    private void onChangedWordsModify() {
-        changedWords.removeListener(changeListener);
-        changedWords.forEach(word -> {
-            userService.saveUserWordBank(word);
-            log.info("Updated: {}", word);
-        });
-        changedWords.clear();
-        changedWords.addListener(changeListener);
     }
 
     private void refresh() {
+        Set<LanguageLevel> selectedLevels = levelsSelectController.getSelectedLevels();
         //TODO in learn words
         //List<UserWordBank> userWordBank = userService.getWordsToLearn(20);
         //if (userWordBank.size() < 20) {
@@ -153,4 +121,17 @@ public class RepeatWordsController {
         wordsTableView.setItems(FXCollections.observableList(wordsToRepeat));
     }
 
+    public void studyNowButtonClick() {
+        if (!wordsToRepeat.isEmpty()) {
+            ShowCardsController showCardsController =
+                    new ShowCardsController(stageManager, configHolder, ars, wordsToRepeat, userService::saveUserWordBank);
+
+            topVBox.getChildren().clear();
+            centerVBox.getChildren().clear();
+            centerVBox.getChildren().add(showCardsController);
+        } else {
+            stageManager.showWarningAlert("Nothing to learn!",  "",  "");
+        }
+    }
 }
+

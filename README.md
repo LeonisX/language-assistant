@@ -28,14 +28,6 @@ Copy to LearnWordsController
 * RepeatWordsController - beta v2
 * LearnWordsController
 
-LearnWords:
-list words + clues
-add to wordbank
-
-RepeatWords:
-list words + clues
-update only
-
 Идея такая:
 - v UserWordBank - единственная база.
 - v Добавить статус слова (enum)

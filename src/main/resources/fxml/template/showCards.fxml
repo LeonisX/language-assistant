@@ -9,13 +9,13 @@
 
 <fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <WebView fx:id="questionWebView" prefHeight="181.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
+        <WebView fx:id="questionWebView" prefHeight="141.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
     </top>
     <center>
-        <WebView fx:id="answerWebView" prefHeight="274.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
+        <WebView fx:id="answerWebView" prefHeight="350.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
     </center>
    <bottom>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="71.0" prefWidth="750.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="28.0" prefWidth="750.0" spacing="5.0">
                <children>

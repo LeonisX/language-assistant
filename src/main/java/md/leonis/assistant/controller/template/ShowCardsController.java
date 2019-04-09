@@ -1,7 +1,5 @@
 package md.leonis.assistant.controller.template;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -16,6 +14,7 @@ import md.leonis.assistant.view.StageManager;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class ShowCardsController extends BorderPane {
@@ -44,17 +43,17 @@ public class ShowCardsController extends BorderPane {
     //TODO delete
     private ConfigHolder configHolder;
 
-    private ObservableList<UserWordBank> changedWords;
-
     private int memorizedCount;
 
+    private Consumer<UserWordBank> saveWordConsumer;
+
     //TODO need answers
-    public ShowCardsController(StageManager stageManager, ConfigHolder configHolder, List<Ar> ars, List<UserWordBank> userWordBank) {
+    public ShowCardsController(StageManager stageManager, ConfigHolder configHolder, List<Ar> ars, List<UserWordBank> userWordBank, Consumer<UserWordBank> consumer) {
         this.stageManager = stageManager;
         this.configHolder = configHolder;
-        this.changedWords = FXCollections.observableArrayList();
         this.userWordBank = userWordBank;
         this.ars = ars;
+        this.saveWordConsumer = consumer;
 
         stageManager.loadTemplate("showCards", this, () -> {});
 
@@ -71,6 +70,9 @@ public class ShowCardsController extends BorderPane {
     }
 
     private void switchState() {
+        memorizedLabel.setText(Integer.toString(memorizedCount));
+        leftLabel.setText(Integer.toString(userWordBank.size()));
+
         if (currentWord == null) {
             //TODO may be show statistics (time)
             stageManager.showInformationAlert("Well done", "You have finished repeating the words.", "");
@@ -84,13 +86,6 @@ public class ShowCardsController extends BorderPane {
         answerHBox.setVisible(!questionMode);
         showQuestion(currentWord.getWord());
         showAnswer(currentWord.getWord());
-
-        memorizedLabel.setText(Integer.toString(memorizedCount));
-        leftLabel.setText(Integer.toString(userWordBank.size()));
-    }
-
-    public ObservableList<UserWordBank> getChangedWords() {
-        return changedWords;
     }
 
     public void showAnswerButtonClick() {
@@ -136,8 +131,7 @@ public class ShowCardsController extends BorderPane {
         } else {
             memorizedCount++;
         }
-        changedWords.clear();
-        changedWords.add(firstWord);
+        saveWordConsumer.accept(firstWord);
         if (userWordBank.isEmpty()) {
             currentWord = null;
         } else {
