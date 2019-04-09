@@ -73,7 +73,8 @@ public class TestService {
     public WordLevel getWordLevel(String word) {
         List<WordLevel> wordLevelList = wordLevelDAO.findByWord(word);
         if (wordLevelList.isEmpty()) {
-            return new WordLevel();
+            log.warn("Can't find level for `{}`", word);
+            return new WordLevel(word, LanguageLevel.UNK);
         }
         if (wordLevelList.size() > 1) {
             log.info(wordLevelList.toString());

@@ -27,4 +27,10 @@ public class WordLevel {
 
     private String definition;
 
+    public WordLevel(String word, LanguageLevel languageLevel) {
+        this.word = word;
+        this.level = languageLevel;
+        this.percent = 0;
+        this.definition = ""; //TODO what is it?
+    }
 }
