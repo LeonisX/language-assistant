@@ -18,6 +18,11 @@ v Increase meanings if need
 LearnWordMeaningsController
 
 TODO how to know number of meanings for each word??? En_Ru_Muller_(18Mb).7z, [m3] or Google
+http://wiki.fu-lab.ru/index.php/DSL#.D0.98.D1.81.D0.BF.D0.BE.D0.BB.D1.8C.D0.B7.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5_.D1.81.D0.BE.D0.B7.D0.B4.D0.B0.D0.BD.D0.BD.D1.8B.D1.85_.D1.81.D0.BB.D0.BE.D0.B2.D0.B0.D1.80.D0.B5.D0.B9_.D0.B2_Abbyy_Lingvo
+http://lingvo.helpmax.net/ru/%d0%b2%d0%be%d0%bf%d1%80%d0%be%d1%81%d1%8b-%d0%b8-%d0%b7%d0%b0%d1%82%d1%80%d1%83%d0%b4%d0%bd%d0%b5%d0%bd%d0%b8%d1%8f/dsl-compiler/%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b-dsl/
+https://lingvoboard.ru/store/html/DSLReference_HTML/dict.html
+LingvoUniversalEnRu
+
 
 TODO get scripts from YouTube || allow to upload them
 save
