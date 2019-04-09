@@ -23,6 +23,36 @@ http://lingvo.helpmax.net/ru/%d0%b2%d0%be%d0%bf%d1%80%d0%be%d1%81%d1%8b-%d0%b8-%
 https://lingvoboard.ru/store/html/DSLReference_HTML/dict.html
 LingvoUniversalEnRu
 
+DSL - prepare all classes, domains, ...
+
+
+Split by words. Starts from "". not from "/t"
+[m1]: main block
+[trn]
+[m2][c brown]: part of speech
+[m2][ex][c teal]: examples
+[m3][c saddlebrown]: meanings
+
+trim ['], [/'], [lang id=1033], [/lang]
+
+[m1]:
+[c lightslategray]{{t}}\[ded\]{{/t}}[/c]
+[p]a[/p]
+
+[m2]
+[c brown]1.[/c]
+[p]a[/p]
+
+Вытащить:
+- название
+- транскрипция
+[
+- аббревиатура (verb)
+- переводы
+- примеры
+]
+
+
 
 TODO get scripts from YouTube || allow to upload them
 save
