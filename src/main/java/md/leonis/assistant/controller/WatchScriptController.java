@@ -1,6 +1,5 @@
 package md.leonis.assistant.controller;
 
-import javafx.collections.SetChangeListener;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -101,7 +100,7 @@ public class WatchScriptController {
         Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
-        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
+        levelsSelectController.getSelectedLevelsListenerHandles().registerListener(event -> refreshWebView());
         vBox.getChildren().add(levelsSelectController);
 
         initDictionary();
@@ -212,19 +211,13 @@ public class WatchScriptController {
     }
 
     private void selectAllClick() {
-        levelsSelectController.getSelectedLevels().removeListener(this::onSelectedListChange);
         unknownWordsCheckBox.setSelected(false);
         colorsCheckBox.setSelected(true);
         levelsSelectController.selectAllButtonClick();
-        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
         refreshWebView();
     }
 
     public void filterCheckBoxClick() {
-        refreshWebView();
-    }
-
-    private void onSelectedListChange(SetChangeListener.Change<? extends LanguageLevel> change) {
         refreshWebView();
     }
 

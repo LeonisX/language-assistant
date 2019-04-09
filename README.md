@@ -28,6 +28,8 @@ Copy to LearnWordsController
 * RepeatWordsController - beta v2
 * LearnWordsController
 
+TODO learn idea from VocabHunter
+
 Идея такая:
 - v UserWordBank - единственная база.
 - v Добавить статус слова (enum)
@@ -44,6 +46,10 @@ https://decks.fandom.com/wiki/Anki_APKG_format_documentation
 https://github.com/dae/anki
 https://play.google.com/store/apps/details?id=io.lingvist.android&hl=ru
 
+
+https://controlsfx.bitbucket.io/
+http://fxexperience.com/
+https://vocabhunter.github.io/
 
 #### Study
 

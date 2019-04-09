@@ -2,7 +2,6 @@ package md.leonis.assistant.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -75,8 +74,7 @@ public class RepeatWordsController {
     private void initialize() {
         Set<LanguageLevel> levels = gseSourceFactory.getLanguageLevelsSet();
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
-        levelsSelectController.getSelectAllButton().setOnAction(event -> selectAllClick());
-        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
+        levelsSelectController.getSelectedLevelsListenerHandles().registerListener(event -> refresh());
         topVBox.getChildren().add(levelsSelectController);
 
         initDictionary();
@@ -94,17 +92,6 @@ public class RepeatWordsController {
     private void initDictionary() {
         Dictionary dictionary = testService.getDictionaries().get(0);
         ars = testService.getDictionary(new File(dictionary.getPath())).getAr();
-    }
-
-    private void selectAllClick() {
-        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
-        levelsSelectController.selectAllButtonClick();
-        levelsSelectController.getSelectedLevels().addListener(this::onSelectedListChange);
-        refresh();
-    }
-
-    private void onSelectedListChange(SetChangeListener.Change<? extends LanguageLevel> change) {
-        refresh();
     }
 
     private void refresh() {
