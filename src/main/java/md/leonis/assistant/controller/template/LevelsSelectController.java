@@ -70,7 +70,7 @@ public class LevelsSelectController extends HBox {
         this.selectedLevels = FXCollections.observableSet(new HashSet<>(levels));
         this.selectedLevelsListenerHandles = new ListenerHandles(selectedLevels);
 
-        stageManager.loadTemplate("levelsSelectTemplate", this, () ->
+        stageManager.loadTemplate("levelsSelect", this, () ->
                 checkBoxes = containerHBox.getChildren().stream()
                 .filter(n -> n instanceof CheckBox)
                 .map(n -> (CheckBox) n)

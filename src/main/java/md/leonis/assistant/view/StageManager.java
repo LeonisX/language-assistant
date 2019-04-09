@@ -132,7 +132,7 @@ public class StageManager {
     }
 
     public void loadTemplate(String templateName, Parent parent, Runnable runnable) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/template/%s.fxml", templateName)));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/template/%sTemplate.fxml", templateName)));
         loader.setController(parent);
         loader.setRoot(parent);
         try {

@@ -46,7 +46,7 @@ public class VideoTemplateController extends HBox {
         this.configHolder = configHolder;
         this.video = video;
 
-        stageManager.loadTemplate("videoTemplate", this, () -> {
+        stageManager.loadTemplate("video", this, () -> {
             title.setText(video.getTitle());
             author.setText(video.getAuthor());
             categories.setText(video.getCategories().toString());
