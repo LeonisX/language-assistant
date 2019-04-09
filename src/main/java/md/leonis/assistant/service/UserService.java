@@ -119,7 +119,7 @@ public class UserService {
 
             MemorizationLevel memorizationLevel = MemorizationLevel.values()[random.nextInt(MemorizationLevel.values().length)];
 
-            byte level = (byte) random.nextInt(2);
+            byte level = (byte) random.nextInt(3);
 
             UserWordBank userWordBank = new UserWordBank(
                     word,

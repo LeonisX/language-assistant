@@ -47,13 +47,20 @@ public class ShowCardsController extends BorderPane {
 
     private Consumer<UserWordBank> saveWordConsumer;
 
-    //TODO need answers
+    private int meaningLevelIncrement;
+
     public ShowCardsController(StageManager stageManager, ConfigHolder configHolder, List<Ar> ars, List<UserWordBank> userWordBank, Consumer<UserWordBank> consumer) {
+        this(stageManager,configHolder, ars, userWordBank, consumer, 0);
+    }
+
+    //TODO need answers
+    public ShowCardsController(StageManager stageManager, ConfigHolder configHolder, List<Ar> ars, List<UserWordBank> userWordBank, Consumer<UserWordBank> consumer, int meaningLevelIncrement) {
         this.stageManager = stageManager;
         this.configHolder = configHolder;
         this.userWordBank = userWordBank;
         this.ars = ars;
         this.saveWordConsumer = consumer;
+        this.meaningLevelIncrement = meaningLevelIncrement;
 
         stageManager.loadTemplate("showCards", this, () -> {});
 
@@ -84,8 +91,8 @@ public class ShowCardsController extends BorderPane {
         questionHBox.setVisible(questionMode);
         answerWebView.setVisible(!questionMode);
         answerHBox.setVisible(!questionMode);
-        showQuestion(currentWord.getWord());
-        showAnswer(currentWord.getWord());
+        showQuestion();
+        showAnswer();
     }
 
     public void showAnswerButtonClick() {
@@ -130,6 +137,10 @@ public class ShowCardsController extends BorderPane {
             userWordBank.add(firstWord);
         } else {
             memorizedCount++;
+            firstWord.setLevel(firstWord.getLevel() + meaningLevelIncrement);
+            if (firstWord.getLevel() == 0) {
+                firstWord.setLevel(1);
+            }
         }
         saveWordConsumer.accept(firstWord);
         if (userWordBank.isEmpty()) {
@@ -140,18 +151,21 @@ public class ShowCardsController extends BorderPane {
         switchState();
     }
 
-    private void showQuestion(String word) {
-        String content = (currentWord != null) ? word : "";
+    private void showQuestion() {
+        String content = "";
+        if (currentWord != null) {
+            content = String.format("%s (%s meaning(s))", currentWord.getWord(), currentWord.getLevel() + meaningLevelIncrement);
+        }
         questionWebView.getEngine().loadContent(content);
     }
 
-    private void showAnswer(String word) {
+    private void showAnswer() {
         if (currentWord != null) {
-            if (word.trim().isEmpty()) {
+            if (currentWord.getWord().trim().isEmpty()) {
                 answerWebView.getEngine().loadContent("");
                 return;
             }
-            String answer = findAnswer(word);
+            String answer = findAnswer(currentWord.getWord());
 
             //TODO need variances here???
         /*if (translation.isEmpty()) {

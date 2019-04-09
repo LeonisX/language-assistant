@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import md.leonis.assistant.config.ConfigHolder;
 import md.leonis.assistant.controller.template.LevelsSelectController;
 import md.leonis.assistant.controller.template.ShowCardsController;
+import md.leonis.assistant.controller.template.MeaningLevelsSelectController;
 import md.leonis.assistant.domain.LanguageLevel;
 import md.leonis.assistant.domain.test.Dictionary;
 import md.leonis.assistant.domain.user.UserWordBank;
@@ -66,6 +67,8 @@ public class RepeatWordsController {
 
     private LevelsSelectController levelsSelectController;
 
+    private MeaningLevelsSelectController meaningLevelsSelectController;
+
     private List<Ar> ars;
 
     private List<UserWordBank> wordsToRepeat;
@@ -76,6 +79,10 @@ public class RepeatWordsController {
         levelsSelectController = new LevelsSelectController(stageManager, configHolder, levels);
         levelsSelectController.getSelectedLevelsListenerHandles().registerListener(event -> refresh());
         topVBox.getChildren().add(levelsSelectController);
+
+        meaningLevelsSelectController = new MeaningLevelsSelectController(stageManager);
+        meaningLevelsSelectController.getSelectedMeaningLevelsListenerHandles().registerListener(event -> refresh());
+        topVBox.getChildren().add(meaningLevelsSelectController);
 
         initDictionary();
 
@@ -100,6 +107,7 @@ public class RepeatWordsController {
         //List<UserWordBank> userWordBank = userService.getWordsToLearn(20);
         //if (userWordBank.size() < 20) {
         //TODO here - get all. In learn words - only older than now()
+        //TODO also filter by meaning level
         wordsToRepeat = userService.getWordsToRepeat(configHolder.getWordsToLearnCount(), selectedLevels);
         learnCountLabel.setText(Integer.toString(wordsToRepeat.size()));
 
@@ -110,6 +118,7 @@ public class RepeatWordsController {
 
     public void studyNowButtonClick() {
         if (!wordsToRepeat.isEmpty()) {
+            // TODO LearnWordMeaningsController: +1 as last argument
             ShowCardsController showCardsController =
                     new ShowCardsController(stageManager, configHolder, ars, wordsToRepeat, userService::saveUserWordBank);
 
