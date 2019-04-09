@@ -10,6 +10,26 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 *** Memorization algorithm (simplified ANKI):
 
+watchscript - Mark as Known
+update current view
+
+v Ask to recall x meanings of word
+v Increase meanings if need
+LearnWordMeaningsController
+
+TODO how to know number of meanings for each word??? En_Ru_Muller_(18Mb).7z, [m3] or Google
+
+TODO get scripts from YouTube || allow to upload them
+save
+use
+
+TODO 100% get all meanings from google translate
+
+one base with places (???), frequency (google), level (gse), ...
+calculate place, level for unknown words/phrases
+mark them if approximate
+frequencies for phrases (google)
+
 v UserWordBank - also store wordLevel
 v Refactor RepeatWordsController.
 v Use filter by level
