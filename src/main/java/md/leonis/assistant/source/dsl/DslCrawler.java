@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import md.leonis.assistant.source.Crawler;
 import md.leonis.assistant.source.dsl.domain.DslRaw;
+import md.leonis.assistant.source.dsl.domain.DslRawAbbr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,10 +76,10 @@ public class DslCrawler implements Crawler {
                     dslService.saveRaw(dslRaw);
                     lines.clear();
                 }
-                word = line;
+                word = line.trim();
             }
             if (isData(line)) {
-                lines.add(line);
+                lines.add(line.trim());
             }
         }
 
@@ -86,6 +87,48 @@ public class DslCrawler implements Crawler {
         dslService.saveRaw(dslRaw);
 
         for (DslRaw raw : dslService.findAllRaw()) {
+            System.out.println(raw.getWord());
+            List<String> jsonLines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {});
+            jsonLines.forEach(l -> System.out.println("\t" + l));
+        }
+
+        crawlAbbr();
+    }
+
+    @SneakyThrows
+    private void crawlAbbr() {
+        //TODO unify
+        String home = System.getProperty("user.home");
+
+        File file = new File(home + File.separatorChar + abbrPath + File.separatorChar + dictFileName);
+        List<String> allLines = Files.readAllLines(file.toPath(), Charset.forName("utf8"));
+
+        String word = null;
+        List<String> lines = new ArrayList<>();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        dslService.clearRawAbbr();
+
+        for (String line : allLines) {
+            if (isWord(line)) {
+                if (null != word) {
+                    //TODO save to db
+                    DslRawAbbr dslRaw = new DslRawAbbr(null, word, objectMapper.writeValueAsString(lines));
+                    dslService.saveRawAbbr(dslRaw);
+                    lines.clear();
+                }
+                word = line.trim();
+            }
+            if (isData(line)) {
+                lines.add(line.trim());
+            }
+        }
+
+        DslRawAbbr dslRaw = new DslRawAbbr(null, word, objectMapper.writeValueAsString(lines));
+        dslService.saveRawAbbr(dslRaw);
+
+        for (DslRawAbbr raw : dslService.findAllRawAbbr()) {
             System.out.println(raw.getWord());
             List<String> jsonLines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {});
             jsonLines.forEach(l -> System.out.println("\t" + l));
