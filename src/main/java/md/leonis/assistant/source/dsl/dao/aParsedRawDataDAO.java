@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ParsedRawDataDAO extends JpaRepository<ParsedRawData, String> {
+public interface aParsedRawDataDAO extends JpaRepository<ParsedRawData, String> {
 
     @Query("SELECT raw.expression FROM ParsedRawData raw")
     List<String> findAllWords();

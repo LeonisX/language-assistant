@@ -23,6 +23,9 @@ http://lingvo.helpmax.net/ru/%d0%b2%d0%be%d0%bf%d1%80%d0%be%d1%81%d1%8b-%d0%b8-%
 https://lingvoboard.ru/store/html/DSLReference_HTML/dict.html
 LingvoUniversalEnRu
 
+
+
+
 DSL - prepare all classes, domains, ...
 
 

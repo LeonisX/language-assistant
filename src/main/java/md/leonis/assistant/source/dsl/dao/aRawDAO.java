@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RawDAO extends CrudRepository<Raw, Long> {
+public interface aRawDAO extends CrudRepository<Raw, Long> {
 
 }

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import md.leonis.assistant.domain.test.WordLevel;
 import md.leonis.assistant.source.Crawler;
 import md.leonis.assistant.source.Parser;
-import md.leonis.assistant.source.dsl.dao.ParsedRawDataDAO;
-import md.leonis.assistant.source.dsl.dao.RawDAO;
+import md.leonis.assistant.source.dsl.dao.aParsedRawDataDAO;
+import md.leonis.assistant.source.dsl.dao.aRawDAO;
 import md.leonis.assistant.source.dsl.domain.ParsedRawData;
 import md.leonis.assistant.source.dsl.domain.Raw;
 import md.leonis.assistant.source.dsl.domain.parsed.RawContainer;
@@ -22,36 +22,36 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class GseService implements md.leonis.assistant.source.Service {
+public class DslService implements md.leonis.assistant.source.Service {
 
-    private static final Logger log = LoggerFactory.getLogger(GseService.class);
-
-    @Autowired
-    private RawDAO rawDAO;
+    private static final Logger log = LoggerFactory.getLogger(DslService.class);
 
     @Autowired
-    private ParsedRawDataDAO parsedRawDataDAO;
+    private aRawDAO aRawDAO;
 
     @Autowired
-    private GseParser parser;
+    private aParsedRawDataDAO aParsedRawDataDAO;
 
     @Autowired
-    private GseCrawler crawler;
+    private DslParser parser;
+
+    @Autowired
+    private DslCrawler crawler;
 
     public long getRawCount() {
-        return rawDAO.count();
+        return aRawDAO.count();
     }
 
     public void saveRaw(Raw raw) {
-        rawDAO.save(raw);
+        aRawDAO.save(raw);
     }
 
     public Iterable<Raw> findAllRaw() {
-        return rawDAO.findAll();
+        return aRawDAO.findAll();
     }
 
     public Optional<Raw> findRawById(long id) {
-        return rawDAO.findById(id);
+        return aRawDAO.findById(id);
     }
 
     @Override
@@ -75,19 +75,19 @@ public class GseService implements md.leonis.assistant.source.Service {
     }
 
     public ParsedRawData saveParsedRawData(ParsedRawData parsedRawData) {
-        return parsedRawDataDAO.save(parsedRawData);
+        return aParsedRawDataDAO.save(parsedRawData);
     }
 
     public long getRawDataCount() {
-        return parsedRawDataDAO.count();
+        return aParsedRawDataDAO.count();
     }
 
     public List<ParsedRawData> getParsedRawData() {
-        return parsedRawDataDAO.findAll();
+        return aParsedRawDataDAO.findAll();
     }
 
     public List<String> findAllWords() {
-        return parsedRawDataDAO.findAllWords();
+        return aParsedRawDataDAO.findAllWords();
     }
 
     @Override

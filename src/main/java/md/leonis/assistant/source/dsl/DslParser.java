@@ -15,13 +15,13 @@ import java.io.IOException;
 import java.util.stream.StreamSupport;
 
 @Component
-public class GseParser implements Parser {
+public class DslParser implements Parser {
 
-    private static final Logger log = LoggerFactory.getLogger(GseParser.class);
+    private static final Logger log = LoggerFactory.getLogger(DslParser.class);
 
     @Lazy
     @Autowired
-    private GseService gseService;
+    private DslService dslService;
 
     @Value("${gse.pages.count}")
     private int pagesCount;
@@ -35,20 +35,20 @@ public class GseParser implements Parser {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        if (pagesCount != gseService.getRawCount()) {
+        if (pagesCount != dslService.getRawCount()) {
             throw new RuntimeException();
         }
 
         // verify
         for (long i = 1; i <= pagesCount; i++) {
-            String json = gseService.findRawById(i).get().getRaw();
+            String json = dslService.findRawById(i).get().getRaw();
             RawContainer rawContainer = objectMapper.readValue(json, RawContainer.class);
             if (totalCount != rawContainer.getCount()) {
                 throw new RuntimeException();
             }
         }
 
-        StreamSupport.stream(gseService.findAllRaw().spliterator(), false)
+        StreamSupport.stream(dslService.findAllRaw().spliterator(), false)
                 .flatMap(r -> {
                     try {
                         return objectMapper.readValue(r.getRaw(), RawContainer.class).getData().stream();
@@ -57,12 +57,12 @@ public class GseParser implements Parser {
                     }
                     return null;
                 })
-                .forEach(r -> gseService.saveParsedRawData(r.toParsedRawData()));
+                .forEach(r -> dslService.saveParsedRawData(r.toParsedRawData()));
     }
 
     @Override
     public boolean isParsed() {
-        return totalCount == gseService.getRawDataCount();
+        return totalCount == dslService.getRawDataCount();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class GseParser implements Parser {
         if (isParsed()) {
             return "OK";
         } else {
-            return String.format("%d/%d", gseService.getRawDataCount(), totalCount);
+            return String.format("%d/%d", dslService.getRawDataCount(), totalCount);
         }
     }
 }

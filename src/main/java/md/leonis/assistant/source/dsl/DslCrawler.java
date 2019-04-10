@@ -21,9 +21,9 @@ import java.util.Random;
 import java.util.zip.GZIPInputStream;
 
 @Component
-public class GseCrawler implements Crawler {
+public class DslCrawler implements Crawler {
 
-    private static final Logger log = LoggerFactory.getLogger(GseCrawler.class);
+    private static final Logger log = LoggerFactory.getLogger(DslCrawler.class);
 
     private static final Random random = new Random();
 
@@ -35,7 +35,7 @@ public class GseCrawler implements Crawler {
 
     @Lazy
     @Autowired
-    private GseService gseService;
+    private DslService dslService;
 
     @Override
     @SneakyThrows
@@ -43,7 +43,7 @@ public class GseCrawler implements Crawler {
 
         log.info("Crawling");
 
-        long startIndex = gseService.getRawCount();
+        long startIndex = dslService.getRawCount();
 
         // totalCount: 34911
         // pagesCount == 3492
@@ -71,14 +71,14 @@ public class GseCrawler implements Crawler {
             } else {
                 response = toString(urlConnection.getInputStream());
             }
-            gseService.saveRaw(new Raw(i, response));
+            dslService.saveRaw(new Raw(i, response));
             Thread.sleep(delay);
         }
     }
 
     @Override
     public boolean isCrawled() {
-        return gseService.getRawCount() == pagesCount;
+        return dslService.getRawCount() == pagesCount;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class GseCrawler implements Crawler {
         if (isCrawled()) {
             return "OK";
         } else {
-            return String.format("%d/%d", gseService.getRawCount(), pagesCount);
+            return String.format("%d/%d", dslService.getRawCount(), pagesCount);
         }
     }
 

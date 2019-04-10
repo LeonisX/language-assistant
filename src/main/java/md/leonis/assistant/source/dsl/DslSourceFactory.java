@@ -13,10 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class GseSourceFactory implements SourceFactory {
+public class DslSourceFactory implements SourceFactory {
 
     @Autowired
-    private GseService service;
+    private DslService service;
 
     @Override
     public Crawler getCrawler() {

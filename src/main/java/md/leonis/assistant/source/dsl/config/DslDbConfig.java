@@ -20,40 +20,40 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "gseEntityManagerFactory",
-        transactionManagerRef = "gseTransactionManager", basePackages = {"md.leonis.assistant.source.gse.dao"})
-public class GseDbConfig {
+@EnableJpaRepositories(entityManagerFactoryRef = "dslEntityManagerFactory",
+        transactionManagerRef = "dslTransactionManager", basePackages = {"md.leonis.assistant.source.dsl.dao"})
+public class DslDbConfig {
 
-    @Bean(name = "gseDataSource")
-    @ConfigurationProperties(prefix = "gse.datasource")
+    @Bean(name = "dslDataSource")
+    @ConfigurationProperties(prefix = "dsl.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "gseEntityManagerFactory")
+    @Bean(name = "dslEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean
-    entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("gseDataSource") DataSource dataSource) {
+    entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("dslDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("md.leonis.assistant.source.gse.domain")
-                .persistenceUnit("gse")
+                .packages("md.leonis.assistant.source.dsl.domain")
+                .persistenceUnit("dsl")
                 .build();
     }
 
-    @Bean(name = "gseTransactionManager")
+    @Bean(name = "dslTransactionManager")
     public PlatformTransactionManager
-    transactionManager(@Qualifier("gseEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+    transactionManager(@Qualifier("dslEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "gse.datasource.liquibase")
-    public LiquibaseProperties gseLiquibaseProperties() {
+    @ConfigurationProperties(prefix = "dsl.datasource.liquibase")
+    public LiquibaseProperties dslLiquibaseProperties() {
         return new LiquibaseProperties();
     }
 
     @Bean
-    public SpringLiquibase gseLiquibase() {
-        return TestDbConfig.springLiquibase(dataSource(), gseLiquibaseProperties());
+    public SpringLiquibase dslLiquibase() {
+        return TestDbConfig.springLiquibase(dataSource(), dslLiquibaseProperties());
     }
 }
