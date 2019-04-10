@@ -24,7 +24,7 @@ https://lingvoboard.ru/store/html/DSLReference_HTML/dict.html
 LingvoUniversalEnRu
 
 
-
+TODO work with archives, unpach all sources directly
 
 DSL - prepare all classes, domains, ...
 

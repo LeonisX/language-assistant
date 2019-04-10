@@ -3,16 +3,12 @@ package md.leonis.assistant.source.dsl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import md.leonis.assistant.source.Parser;
-import md.leonis.assistant.source.dsl.domain.parsed.RawContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.stream.StreamSupport;
 
 @Component
 public class DslParser implements Parser {
@@ -23,10 +19,7 @@ public class DslParser implements Parser {
     @Autowired
     private DslService dslService;
 
-    @Value("${gse.pages.count}")
-    private int pagesCount;
-
-    @Value("${gse.total.count}")
+    @Value("${dsl.total.count}")
     private int totalCount;
 
     @SneakyThrows
@@ -35,12 +28,12 @@ public class DslParser implements Parser {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        if (pagesCount != dslService.getRawCount()) {
+        /*if (pagesCount != dslService.getRawCount()) {
             throw new RuntimeException();
-        }
+        }*/
 
         // verify
-        for (long i = 1; i <= pagesCount; i++) {
+        /*for (long i = 1; i <= pagesCount; i++) {
             String json = dslService.findRawById(i).get().getRaw();
             RawContainer rawContainer = objectMapper.readValue(json, RawContainer.class);
             if (totalCount != rawContainer.getCount()) {
@@ -57,7 +50,7 @@ public class DslParser implements Parser {
                     }
                     return null;
                 })
-                .forEach(r -> dslService.saveParsedRawData(r.toParsedRawData()));
+                .forEach(r -> dslService.saveParsedRawData(r.toParsedRawData()));*/
     }
 
     @Override

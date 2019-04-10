@@ -14,23 +14,15 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="627.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="md.leonis.assistant.controller.DashboardController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
-                    </items>
-                </Menu>
-            </menus>
+            <Menu mnemonicParsing="false" text="File">
+                <MenuItem mnemonicParsing="false" text="Close"/>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+                <MenuItem mnemonicParsing="false" text="Delete"/>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+                <MenuItem mnemonicParsing="false" text="About"/>
+            </Menu>
         </MenuBar>
     </top>
     <center>
@@ -66,6 +58,24 @@
                                 <children>
                                     <Button fx:id="gseCrawlButton" mnemonicParsing="false" onAction="#gseCrawlButtonClick" text="Crawl" />
                                     <Button fx:id="gseParseButton" mnemonicParsing="false" onAction="#gseParseButtonClick" text="Parse" />
+                                </children>
+                            </HBox>
+                        </children>
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </HBox>
+                </children>
+            </VBox>
+            <VBox prefHeight="47.0" prefWidth="560.0">
+                <children>
+                    <HBox fx:id="dslHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" spacing="5.0">
+                        <children>
+                            <Label fx:id="dslLabel" prefHeight="25.0" prefWidth="800.0" />
+                            <HBox alignment="CENTER_RIGHT" minWidth="140.0" prefHeight="45.0" prefWidth="140.0" spacing="5.0">
+                                <children>
+                                    <Button fx:id="dslCrawlButton" mnemonicParsing="false" onAction="#dslCrawlButtonClick" text="Crawl" />
+                                    <Button fx:id="dslParseButton" mnemonicParsing="false" onAction="#dslParseButtonClick" text="Parse" />
                                 </children>
                             </HBox>
                         </children>

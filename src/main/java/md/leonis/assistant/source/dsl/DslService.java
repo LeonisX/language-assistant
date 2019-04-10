@@ -4,18 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import md.leonis.assistant.domain.test.WordLevel;
 import md.leonis.assistant.source.Crawler;
 import md.leonis.assistant.source.Parser;
-import md.leonis.assistant.source.dsl.dao.aParsedRawDataDAO;
-import md.leonis.assistant.source.dsl.dao.aRawDAO;
-import md.leonis.assistant.source.dsl.domain.ParsedRawData;
-import md.leonis.assistant.source.dsl.domain.Raw;
-import md.leonis.assistant.source.dsl.domain.parsed.RawContainer;
-import md.leonis.assistant.source.dsl.domain.parsed.RawData;
+import md.leonis.assistant.source.dsl.dao.DslRawDAO;
+import md.leonis.assistant.source.dsl.domain.DslRaw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,10 +22,7 @@ public class DslService implements md.leonis.assistant.source.Service {
     private static final Logger log = LoggerFactory.getLogger(DslService.class);
 
     @Autowired
-    private aRawDAO aRawDAO;
-
-    @Autowired
-    private aParsedRawDataDAO aParsedRawDataDAO;
+    private DslRawDAO dslRawDAO;
 
     @Autowired
     private DslParser parser;
@@ -39,19 +31,23 @@ public class DslService implements md.leonis.assistant.source.Service {
     private DslCrawler crawler;
 
     public long getRawCount() {
-        return aRawDAO.count();
+        return dslRawDAO.count();
     }
 
-    public void saveRaw(Raw raw) {
-        aRawDAO.save(raw);
+    public void saveRaw(DslRaw dslRaw) {
+        dslRawDAO.save(dslRaw);
     }
 
-    public Iterable<Raw> findAllRaw() {
-        return aRawDAO.findAll();
+    public Iterable<DslRaw> findAllRaw() {
+        return dslRawDAO.findAll();
     }
 
-    public Optional<Raw> findRawById(long id) {
-        return aRawDAO.findById(id);
+    public Optional<DslRaw> findRawById(long id) {
+        return dslRawDAO.findById(id);
+    }
+
+    public void clearRaw() {
+        dslRawDAO.deleteAll();
     }
 
     @Override
@@ -74,22 +70,6 @@ public class DslService implements md.leonis.assistant.source.Service {
         return parser;
     }
 
-    public ParsedRawData saveParsedRawData(ParsedRawData parsedRawData) {
-        return aParsedRawDataDAO.save(parsedRawData);
-    }
-
-    public long getRawDataCount() {
-        return aParsedRawDataDAO.count();
-    }
-
-    public List<ParsedRawData> getParsedRawData() {
-        return aParsedRawDataDAO.findAll();
-    }
-
-    public List<String> findAllWords() {
-        return aParsedRawDataDAO.findAllWords();
-    }
-
     @Override
     public boolean isParsed() {
         return parser.isParsed();
@@ -104,14 +84,21 @@ public class DslService implements md.leonis.assistant.source.Service {
     public List<WordLevel> getWordLevels() {
         ObjectMapper objectMapper = new ObjectMapper();
         return StreamSupport.stream(findAllRaw().spliterator(), false)
-                .flatMap(r -> {
+                //TODO try to parse and return meanings count
+                /*.flatMap(r -> {
                     try {
                         return objectMapper.readValue(r.getRaw(), RawContainer.class).getData().stream();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     return null;
-                }).map(RawData::toWordLevel).collect(Collectors.toList());
+                })*/
+                .map(DslRaw::toWordLevel).collect(Collectors.toList());
     }
 
+    //TODO
+    public long getRawDataCount() {
+        return 0;
+        //return parsedRawDataDAO.count();
+    }
 }

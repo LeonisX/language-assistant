@@ -12,6 +12,7 @@ import md.leonis.assistant.domain.test.WordLevel;
 import md.leonis.assistant.service.BankService;
 import md.leonis.assistant.service.TestService;
 import md.leonis.assistant.service.UserService;
+import md.leonis.assistant.source.dsl.DslService;
 import md.leonis.assistant.source.gse.GseService;
 import md.leonis.assistant.source.gse.domain.ParsedRawData;
 import md.leonis.assistant.view.FxmlView;
@@ -33,6 +34,11 @@ public class DashboardController {
     public Label gseLabel;
     public Button gseCrawlButton;
     public Button gseParseButton;
+
+    public HBox dslHBox;
+    public Label dslLabel;
+    public Button dslCrawlButton;
+    public Button dslParseButton;
 
     public HBox parsedDataHBox;
     public Label parsedDataLabel;
@@ -67,6 +73,9 @@ public class DashboardController {
 
     @Autowired
     private GseService gseService;
+
+    @Autowired
+    private DslService dslService;
 
     @Autowired
     private UserService userService;
@@ -139,10 +148,13 @@ public class DashboardController {
     }
 
     private void refreshDiagnosticControls() {
-        //gseHBox.setVisible(!gseService.isCrawled() || !gseService.isParsed());
-        gseLabel.setText(String.format("Data Source Status: %s", gseService.getStatus()));
+        gseLabel.setText(String.format("GSE Data Source Status: %s", gseService.getStatus()));
         gseCrawlButton.setVisible(!gseService.isCrawled());
         gseParseButton.setVisible(!gseService.isParsed());
+
+        dslLabel.setText(String.format("DSL Data Source Status: %s", dslService.getStatus()));
+        dslCrawlButton.setVisible(!dslService.isCrawled());
+        dslParseButton.setVisible(!dslService.isParsed());
 
         long parsedDataCount = bankService.getParsedRawDataCount();
         parsedDataLabel.setText(String.format("Parsed Data Count: %d", parsedDataCount));
@@ -183,6 +195,26 @@ public class DashboardController {
         try {
             gseService.getParser().parse();
             stageManager.showInformationAlert("Parsed", String.format("Parsed Raw Data Count: %d", gseService.getRawDataCount()), "");
+        } catch (Exception e) {
+            stageManager.showErrorAlert("Parser Error", e.getMessage(), "");
+        }
+        refreshDiagnosticControls();
+    }
+
+    public void dslCrawlButtonClick() {
+        try {
+            dslService.getCrawler().crawl();
+            stageManager.showInformationAlert("Crawled", String.format("Raw Count: %d", dslService.getRawCount()), "");
+        } catch (Exception e) {
+            stageManager.showErrorAlert("Crawler Error", e.getMessage(), "");
+        }
+        refreshDiagnosticControls();
+    }
+
+    public void dslParseButtonClick() {
+        try {
+            dslService.getParser().parse();
+            stageManager.showInformationAlert("Parsed", String.format("Parsed Raw Data Count: %d", dslService.getRawDataCount()), "");
         } catch (Exception e) {
             stageManager.showErrorAlert("Parser Error", e.getMessage(), "");
         }

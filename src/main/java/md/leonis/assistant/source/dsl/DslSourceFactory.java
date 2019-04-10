@@ -35,20 +35,7 @@ public class DslSourceFactory implements SourceFactory {
 
     @Override
     public LanguageLevel[] getLanguageLevels() {
-        return new LanguageLevel[]{
-                LanguageLevel.UNK,
-                LanguageLevel.A0,
-                LanguageLevel.A1,
-                LanguageLevel.A2,
-                LanguageLevel.A2P,
-                LanguageLevel.B1,
-                LanguageLevel.B1P,
-                LanguageLevel.B2,
-                LanguageLevel.B2P,
-                LanguageLevel.C1,
-                LanguageLevel.C2
-                //LanguageLevel.C2P,
-        };
+        return new LanguageLevel[]{LanguageLevel.UNK};
     }
 
     @Override

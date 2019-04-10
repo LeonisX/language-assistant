@@ -1,8 +1,10 @@
 package md.leonis.assistant.source.dsl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import md.leonis.assistant.source.Crawler;
-import md.leonis.assistant.source.dsl.domain.Raw;
+import md.leonis.assistant.source.dsl.domain.DslRaw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +12,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.zip.GZIPInputStream;
 
 @Component
 public class DslCrawler implements Crawler {
@@ -27,11 +26,23 @@ public class DslCrawler implements Crawler {
 
     private static final Random random = new Random();
 
-    @Value("${gse.url}")
-    private String prefix;
+    @Value("${dsl.path}")
+    private String dictPath;
 
-    @Value("${gse.pages.count}")
-    private int pagesCount;
+    @Value("${dsl.abbr.path}")
+    private String abbrPath;
+
+    @Value("${dsl.dictionary.file}")
+    private String dictFileName;
+
+    //TODO do not parse now. info about dictionary (ex. lang, records count,...), XML
+    //TODO in future get info and use somehow
+    @Value("${dsl.description.file}")
+    private String descrFileName;
+
+    //TODO get from descrFileName <entry key="articleCount">48872</entry>
+    @Value("${dsl.total.count}")
+    private int totalCount;
 
     @Lazy
     @Autowired
@@ -43,42 +54,55 @@ public class DslCrawler implements Crawler {
 
         log.info("Crawling");
 
-        long startIndex = dslService.getRawCount();
+        //TODO unify
+        String home = System.getProperty("user.home");
 
-        // totalCount: 34911
-        // pagesCount == 3492
-        for (long i = startIndex + 1; i <= pagesCount; i++) {
-            int delay = random.nextInt(1100) + 400;
-            log.info("{}: {}", i, delay);
-            String url = String.format("%s/api/v1/vocabulary/search?filters={\"gseRange\":{\"from\":\"10\",\"to\":\"90\"},\"topics\":[],\"audiences\":[\"GL\"],\"grammaticalCategories\":[]}&page=%d&query_string=*&sort=expression.raw", prefix, i);
-            String referrer = String.format("%s/vocabulary?page=%s&sort=vocabulary;asc&gseRange=10;90&audience=GL", prefix, i);
+        File file = new File(home + File.separatorChar + dictPath + File.separatorChar + dictFileName);
+        List<String> allLines = Files.readAllLines(file.toPath(), Charset.forName("utf8"));
 
-            URL urlObject = new URL(url);
-            URLConnection urlConnection = urlObject.openConnection();
-            urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-            urlConnection.setRequestProperty("Accept", "application/json, text/plain, */*");
-            urlConnection.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
-            urlConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-            urlConnection.setRequestProperty("Connection", "keep-alive");
-            //urlConnection.setRequestProperty("Cookie", "_ga=GA1.2.1713043323.155265069…d=GA1.2.1604573161.1552890963");
-            urlConnection.setRequestProperty("Host", "www.english.com");
-            urlConnection.setRequestProperty("Referer", referrer);
-            urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:65.0) Gecko/20100101 Firefox/65.0");
+        String word = null;
+        List<String> lines = new ArrayList<>();
 
-            String response;
-            if ("gzip".equals(urlConnection.getContentEncoding())) {
-                response = toString2(urlConnection.getInputStream());
-            } else {
-                response = toString(urlConnection.getInputStream());
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        dslService.clearRaw();
+
+        for (String line : allLines) {
+            if (isWord(line)) {
+                if (null != word) {
+                    //TODO save to db
+                    DslRaw dslRaw = new DslRaw(null, word, objectMapper.writeValueAsString(lines));
+                    dslService.saveRaw(dslRaw);
+                    lines.clear();
+                }
+                word = line;
             }
-            dslService.saveRaw(new Raw(i, response));
-            Thread.sleep(delay);
+            if (isData(line)) {
+                lines.add(line);
+            }
         }
+
+        DslRaw dslRaw = new DslRaw(null, word, objectMapper.writeValueAsString(lines));
+        dslService.saveRaw(dslRaw);
+
+        for (DslRaw raw : dslService.findAllRaw()) {
+            System.out.println(raw.getWord());
+            List<String> jsonLines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {});
+            jsonLines.forEach(l -> System.out.println("\t" + l));
+        }
+    }
+
+    private boolean isWord(String line) {
+        return !line.trim().isEmpty() && !line.startsWith("\t");
+    }
+
+    private boolean isData(String line) {
+        return !line.trim().isEmpty() && line.startsWith("\t");
     }
 
     @Override
     public boolean isCrawled() {
-        return dslService.getRawCount() == pagesCount;
+        return dslService.getRawCount() == totalCount;
     }
 
     @Override
@@ -86,31 +110,7 @@ public class DslCrawler implements Crawler {
         if (isCrawled()) {
             return "OK";
         } else {
-            return String.format("%d/%d", dslService.getRawCount(), pagesCount);
-        }
-    }
-
-    private static String toString(InputStream inputStream) throws IOException {
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            String inputLine;
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((inputLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(inputLine);
-            }
-
-            return stringBuilder.toString();
-        }
-    }
-
-    private static String toString2(InputStream inputStream) throws IOException {
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new GZIPInputStream(inputStream)))) {
-            String inputLine;
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((inputLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(inputLine);
-            }
-
-            return stringBuilder.toString();
+            return String.format("%d/%d", dslService.getRawCount(), totalCount);
         }
     }
 }
