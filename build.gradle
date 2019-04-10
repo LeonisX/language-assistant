@@ -33,6 +33,9 @@ dependencies {
 
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 
+	// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.5.0-M1'
+
 	/*<junit.version>5.0.1</junit.version>
     <junit-platform.version>1.0.1</junit-platform.version>
 			<testfx.version>4.0.8-alpha</testfx.version>

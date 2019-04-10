@@ -13,3 +13,27 @@ CREATE TABLE Bank.RawAbbr (
     Word NVARCHAR(255) NOT NULL,
     Raw TEXT NOT NULL
 );
+
+--changeset leonis:dsl:1.0.3
+
+CREATE TABLE Bank.RawParsed (
+    Id BIGINT IDENTITY PRIMARY KEY,
+    Word NVARCHAR(255) NOT NULL,
+    Meaning NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Bank.RawAbbrParsed (
+    Id BIGINT IDENTITY PRIMARY KEY,
+    Word NVARCHAR(255) NOT NULL,
+    Meaning NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Bank.`Group` (
+    GroupId BIGINT IDENTITY PRIMARY KEY
+);
+
+CREATE TABLE Bank.PartOfSpeech (
+    Id BIGINT IDENTITY PRIMARY KEY,
+    Word NVARCHAR(255) NOT NULL,
+    Transcription NVARCHAR(255)
+);

@@ -5,9 +5,13 @@ import md.leonis.assistant.domain.test.WordLevel;
 import md.leonis.assistant.source.Crawler;
 import md.leonis.assistant.source.Parser;
 import md.leonis.assistant.source.dsl.dao.DslRawAbbrDAO;
+import md.leonis.assistant.source.dsl.dao.DslRawAbbrParsedDAO;
 import md.leonis.assistant.source.dsl.dao.DslRawDAO;
+import md.leonis.assistant.source.dsl.dao.DslRawParsedDAO;
 import md.leonis.assistant.source.dsl.domain.DslRaw;
 import md.leonis.assistant.source.dsl.domain.DslRawAbbr;
+import md.leonis.assistant.source.dsl.domain.parsed.DslRawAbbrParsed;
+import md.leonis.assistant.source.dsl.domain.parsed.DslRawParsed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +31,13 @@ public class DslService implements md.leonis.assistant.source.Service {
     private DslRawDAO dslRawDAO;
 
     @Autowired
+    private DslRawParsedDAO dslRawParsedDAO;
+
+    @Autowired
     private DslRawAbbrDAO dslRawAbbrDAO;
+
+    @Autowired
+    private DslRawAbbrParsedDAO dslRawAbbrParsedDAO;
 
     @Autowired
     private DslParser parser;
@@ -125,5 +135,21 @@ public class DslService implements md.leonis.assistant.source.Service {
 
     public void clearRawAbbr() {
         dslRawAbbrDAO.deleteAll();
+    }
+
+    public void clearRawAbbrParsed() {
+        dslRawAbbrParsedDAO.deleteAll();
+    }
+
+    public void saveRawAbbrParsed(DslRawAbbrParsed dslRawAbbrParsed) {
+        dslRawAbbrParsedDAO.save(dslRawAbbrParsed);
+    }
+
+    public void clearRawParsed() {
+        dslRawParsedDAO.deleteAll();
+    }
+
+    public void saveRawParsed(DslRawParsed dslRawParsed) {
+        dslRawParsedDAO.save(dslRawParsed);
     }
 }

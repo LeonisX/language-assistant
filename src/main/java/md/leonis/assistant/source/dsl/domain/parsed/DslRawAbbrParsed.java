@@ -1,4 +1,4 @@
-package md.leonis.assistant.source.dsl.domain;
+package md.leonis.assistant.source.dsl.domain.parsed;
 
 import lombok.*;
 import md.leonis.assistant.domain.LanguageLevel;
@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "RawAbbr", schema = "Bank")
-public class DslRawAbbr {
+@Table(name = "RawAbbrParsed", schema = "Bank")
+public class DslRawAbbrParsed {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,6 +21,5 @@ public class DslRawAbbr {
 
     private String word;
 
-    @Column(length = 65535, columnDefinition = "text", nullable = false)
     private String raw;
 }

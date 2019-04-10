@@ -24,9 +24,17 @@ https://lingvoboard.ru/store/html/DSLReference_HTML/dict.html
 LingvoUniversalEnRu
 
 
-TODO work with archives, unpach all sources directly
+TODO work with archives, unpack all sources directly
 
 DSL - prepare all classes, domains, ...
+
+
+TODO implement parser as state machine
+
+https://habr.com/ru/post/60342/
+https://github.com/Stepets/akerfsm
+
+https://github.com/davidmoten/state-machine
 
 
 Split by words. Starts from "". not from "/t"
