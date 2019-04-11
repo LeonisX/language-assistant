@@ -37,6 +37,8 @@ https://github.com/Stepets/akerfsm
 https://github.com/davidmoten/state-machine
 
 
+TODO refactor AkerFSM + tests
+
 Split by words. Starts from "". not from "/t"
 [m1]: main block
 [trn]
