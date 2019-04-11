@@ -16,6 +16,15 @@ public class FSM<STATES extends Enum<?>, EVENT> {
 
     private EVENT event;
 
+    private State<STATES, EVENT> prevState;
+
+    private State<STATES, EVENT> currentState;
+
+    private State<STATES, EVENT> nextState;
+
+    private final Map<STATES, State<STATES, EVENT>> states = new HashMap<>();
+    private final List<SuperState<STATES, EVENT>> superStates = new ArrayList<>(0);
+
     public EVENT getEvent() {
         return event;
     }
@@ -23,8 +32,6 @@ public class FSM<STATES extends Enum<?>, EVENT> {
     public void setEvent(final EVENT event) {
         this.event = event;
     }
-
-    private State<STATES, EVENT> currentState;
 
     public State<STATES, EVENT> getCurrentState() {
         return currentState;
@@ -38,8 +45,6 @@ public class FSM<STATES extends Enum<?>, EVENT> {
         return getCurrentState().getId();
     }
 
-    private State<STATES, EVENT> nextState;
-
     protected State<STATES, EVENT> getNextState() {
         return nextState;
     }
@@ -47,8 +52,6 @@ public class FSM<STATES extends Enum<?>, EVENT> {
     protected void setNextState(final State<STATES, EVENT> nextState) {
         this.nextState = nextState;
     }
-
-    private State<STATES, EVENT> prevState;
 
     public State<STATES, EVENT> getPrevState() {
         return prevState;
@@ -60,8 +63,6 @@ public class FSM<STATES extends Enum<?>, EVENT> {
 
     // }}
 
-    private final Map<STATES, State<STATES, EVENT>> states = new HashMap<>();
-    private final List<SuperState<STATES, EVENT>> superStates = new ArrayList<>(0);
 
     public FSM(final State<STATES, EVENT>... statesArray) {
         init(statesArray);
@@ -78,7 +79,7 @@ public class FSM<STATES extends Enum<?>, EVENT> {
             for (final STATES stateId : superState.getIncluded()) {
                 final State<STATES, EVENT> state = getState(stateId);
                 if (state == null) {
-                    throw new FSMException("Unconfigured state ["
+                    throw new FSMException("Not configured state ["
                             + stateId.toString()
                             + "] was included into superstate");
                 }
@@ -131,8 +132,7 @@ public class FSM<STATES extends Enum<?>, EVENT> {
             final State<STATES, EVENT> nextState = getState(nextStateId);
             if (nextState == null) {
                 throw new FSMException(
-                        "Error trying to transit into unconfigured state ["
-                                + nextStateId.toString() + "]");
+                        "Error trying to transit into unconfigured state [" + nextStateId.toString() + "]");
             }
             setNextState(nextState);
             changeState();

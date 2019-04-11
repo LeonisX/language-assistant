@@ -73,30 +73,30 @@ class FSMTestIncl {
 
                 new State<A1, E>(A1.ONE) {
                     public void enter() {
-                        log("enter11");
+                        log("enterA1");
                     }
 
                     public void handleEvent() {
-                        log("handle11");
+                        log("handleA1");
                         if (e().equals("E2")) next(A1.TWO);
                     }
 
                     public void exit() {
-                        log("exit11");
+                        log("exitA1");
                     }
                 },
                 new State<A1, E>(A1.TWO) {
                     public void enter() {
-                        log("enter12");
+                        log("enterA2");
                     }
 
                     public void handleEvent() {
-                        log("handle12");
+                        log("handleA2");
                         if (e().equals("E2")) next(A1.ONE);
                     }
 
                     public void exit() {
-                        log("exit12");
+                        log("exitA2");
                     }
                 }
         );
@@ -113,24 +113,24 @@ class FSMTestIncl {
 
     @Test
     void testFSM() {
-        // "enter11" because of a1 creation
-        assertEquals("enter1-exit1-enter2-enter11", log);
+        // "enterA1" because of a1 creation
+        assertEquals("enter1-exit1-enter2-enterA1", log);
         log = "";
 
         a0.handleEvent("E2");
-        assertEquals("handle11-exit11-enter12-handle2", log);
+        assertEquals("handleA1-exitA1-enterA2-handle2", log);
         log = "";
 
         a0.handleEvent("E2");
-        assertEquals("handle12-exit12-enter11-handle2", log);
+        assertEquals("handleA2-exitA2-enterA1-handle2", log);
         log = "";
 
         a0.handleEvent("E1");
-        assertEquals("handle11-handle2-exit2-enter3", log);
+        assertEquals("handleA1-handle2-exit2-enter3", log);
         log = "";
 
         a0.handleEvent("E2");
-        assertEquals("handle11-exit11-enter12-handle3-exit3-enter1-exit1-enter2", log);
+        assertEquals("handleA1-exitA1-enterA2-handle3-exit3-enter1-exit1-enter2", log);
         log = "";
     }
 
