@@ -1,82 +1,103 @@
 package md.leonis.assistant.utils.fsm;
 
 import md.leonis.assistant.utils.fsm.state.State;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
-public class Sample1 {
-	
-	private FSM<A, String> a;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-	private enum A {
-		INIT, SHOW, SAVE, HIDE
-	}
+class Sample1 {
 
-	@SuppressWarnings("unchecked")
-	private <E> FSM<A, E> createA() {
-		return new FSM<>(
+    private FSM<A, String> a;
 
-		new State<A, E>
-		(A.INIT) {
-			public void enter()       { init();                       next(A.SHOW); }
-		}, 
-		new State<A, E>
-		(A.SHOW) {
-			public void enter()       { show(); }
-			public void handleEvent() { if( e().equals("HideEvent") ) next(A.HIDE);
-			                       else if( e().equals("SaveEvent") ) next(A.SAVE); }
-		},
-		new State<A, E>
-		(A.SAVE) {
-			public void enter()       { save();                       next(A.HIDE); }
-		},
-		new State<A, E>
-		(A.HIDE) {
-			public void enter()       { hide(); }
-			public void handleEvent() { if( e().equals("ShowEvent") ) next(A.SHOW); }
-		}
-		);
-	}
+    private enum A {
+        INIT, SHOW, SAVE, HIDE
+    }
 
-	@Before
-	public void setUp() {
-		log = "";
-		a = createA();
-	}
+    @SuppressWarnings("unchecked")
+    private <E> FSM<A, E> createA() {
+        return new FSM<>(
 
-	private String log;
+                new State<A, E>
+                        (A.INIT) {
+                    public void enter() {
+                        init();
+                        next(A.SHOW);
+                    }
+                },
+                new State<A, E>
+                        (A.SHOW) {
+                    public void enter() {
+                        show();
+                    }
 
-	@Test
-	public void testSample() {
-		a.handleEvent("SaveEvent");
+                    public void handleEvent() {
+                        if (e().equals("HideEvent")) next(A.HIDE);
+                        else if (e().equals("SaveEvent")) next(A.SAVE);
+                    }
+                },
+                new State<A, E>
+                        (A.SAVE) {
+                    public void enter() {
+                        save();
+                        next(A.HIDE);
+                    }
+                },
+                new State<A, E>
+                        (A.HIDE) {
+                    public void enter() {
+                        hide();
+                    }
 
-		a.handleEvent("ShowEvent");
+                    public void handleEvent() {
+                        if (e().equals("ShowEvent")) next(A.SHOW);
+                    }
+                }
+        );
+    }
 
-		a.handleEvent("HideEvent");
+    @BeforeEach
+    void setUp() {
+        log = "";
+        a = createA();
+    }
 
-		Assert.assertEquals("init-show-save-hide-show-hide", log);
-	}
+    @AfterEach
+    void logOut() {
+        System.out.println(log);
+    }
 
-	private void init() {
-		log("init");
-	}
+    private String log;
 
-	private void show() {
-		log("show");
-	}
+    @Test
+    void testSample() {
+        a.handleEvent("SaveEvent");
 
-	private void hide() {
-		log("hide");
-	}
+        a.handleEvent("ShowEvent");
 
-	private void save() {
-		log("save");
-	}
+        a.handleEvent("HideEvent");
 
-	private void log(String msg) {
-		if (log != null && log.length() > 0)
-			log += "-";
-		log += msg;
-	}
+        assertEquals("init-show-save-hide-show-hide", log);
+    }
+
+    private void init() {
+        log("init");
+    }
+
+    private void show() {
+        log("show");
+    }
+
+    private void hide() {
+        log("hide");
+    }
+
+    private void save() {
+        log("save");
+    }
+
+    private void log(String msg) {
+        if (log != null && log.length() > 0)
+            log += "-";
+        log += msg;
+    }
 }
