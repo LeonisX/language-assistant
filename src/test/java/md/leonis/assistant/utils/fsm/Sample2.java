@@ -2,85 +2,110 @@ package md.leonis.assistant.utils.fsm;
 
 import md.leonis.assistant.utils.fsm.state.State;
 import md.leonis.assistant.utils.fsm.state.SuperState;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class Sample2 {
-	
-	private FSM<A, String> a;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-	private enum A {
-		INIT, SHOW, SAVE, HIDE
-	}
+class Sample2 {
 
-	@SuppressWarnings("unchecked")
-	private <E> FSM<A, E> createA() {
-		return new FSM<>(
+    private FSM<A, String> a;
 
-		new State<A, E>
-		(A.INIT) {
-			public void enter()       { init();                       next(A.SHOW); }
-		}, 
-		new State<A, E>
-		(A.SHOW) {
-			public void enter()       { show(); }
-			public void handleEvent() { if( e().equals("SaveEvent") ) next(A.SAVE); }
-		},
-		new State<A, E>
-		(A.SAVE) {
-			public void enter()       { save();                       next(A.HIDE); }
-		},
-		new State<A, E>
-		(A.HIDE) {
-			public void enter()       { hide(); }
-			public void handleEvent() { if( e().equals("ShowEvent") ) next(A.SHOW); }
-		}, 
-		new SuperState<A, E>
-		(A.SHOW, A.SAVE) {
-			public void handleEvent() { if( e().equals("HideEvent") ) next(A.HIDE); }
-		}
-		);
-	}
+    private enum A {
+        INIT, SHOW, SAVE, HIDE
+    }
 
-	@Before
-	public void setUp() {
-		log = "";
-		a = createA();
-	}
+    @SuppressWarnings("unchecked")
+    private <E> FSM<A, E> createA() {
+        return new FSM<>(
 
-	private String log;
+                new State<A, E>
+                        (A.INIT) {
+                    public void enter() {
+                        init();
+                        next(A.SHOW);
+                    }
+                },
+                new State<A, E>
+                        (A.SHOW) {
+                    public void enter() {
+                        show();
+                    }
 
-	@Test
-	public void testSample() {
-		a.handleEvent("SaveEvent");
+                    public void handleEvent() {
+                        if (e().equals("SaveEvent")) next(A.SAVE);
+                    }
+                },
+                new State<A, E>
+                        (A.SAVE) {
+                    public void enter() {
+                        save();
+                        next(A.HIDE);
+                    }
+                },
+                new State<A, E>
+                        (A.HIDE) {
+                    public void enter() {
+                        hide();
+                    }
 
-		a.handleEvent("ShowEvent");
+                    public void handleEvent() {
+                        if (e().equals("ShowEvent")) next(A.SHOW);
+                    }
+                },
+                new SuperState<A, E>
+                        (A.SHOW, A.SAVE) {
+                    public void handleEvent() {
+                        if (e().equals("HideEvent")) next(A.HIDE);
+                    }
+                }
+        );
+    }
 
-		a.handleEvent("HideEvent");
+    private String log;
 
-		Assert.assertEquals("init-show-save-hide-show-hide", log);
-	}
+    @BeforeEach
+    void setUp() {
+        log = "";
+        a = createA();
+    }
 
-	private void init() {
-		log("init");
-	}
+    @AfterEach
+    void logOut() {
+        System.out.println(log);
+    }
 
-	private void show() {
-		log("show");
-	}
+    @Test
+    void testSample() {
+        a.handleEvent("SaveEvent");
 
-	private void hide() {
-		log("hide");
-	}
+        a.handleEvent("ShowEvent");
 
-	private void save() {
-		log("save");
-	}
+        a.handleEvent("HideEvent");
 
-	private void log(String msg) {
-		if (log != null && log.length() > 0)
-			log += "-";
-		log += msg;
-	}
+        assertEquals("init-show-save-hide-show-hide", log);
+    }
+
+    private void init() {
+        log("init");
+    }
+
+    private void show() {
+        log("show");
+    }
+
+    private void hide() {
+        log("hide");
+    }
+
+    private void save() {
+        log("save");
+    }
+
+    private void log(String msg) {
+        if (log != null && log.length() > 0)
+            log += "-";
+        log += msg;
+    }
 }

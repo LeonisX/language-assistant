@@ -55,6 +55,8 @@ class Sample1 {
         );
     }
 
+    private String log;
+
     @BeforeEach
     void setUp() {
         log = "";
@@ -65,8 +67,6 @@ class Sample1 {
     void logOut() {
         System.out.println(log);
     }
-
-    private String log;
 
     @Test
     void testSample() {
