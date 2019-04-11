@@ -20,15 +20,13 @@ class Sample2 {
     private <E> FSM<A, E> createA() {
         return new FSM<>(
 
-                new State<A, E>
-                        (A.INIT) {
+                new State<A, E>(A.INIT) {
                     public void enter() {
                         init();
                         next(A.SHOW);
                     }
                 },
-                new State<A, E>
-                        (A.SHOW) {
+                new State<A, E>(A.SHOW) {
                     public void enter() {
                         show();
                     }
@@ -37,15 +35,13 @@ class Sample2 {
                         if (e().equals("SaveEvent")) next(A.SAVE);
                     }
                 },
-                new State<A, E>
-                        (A.SAVE) {
+                new State<A, E>(A.SAVE) {
                     public void enter() {
                         save();
                         next(A.HIDE);
                     }
                 },
-                new State<A, E>
-                        (A.HIDE) {
+                new State<A, E>(A.HIDE) {
                     public void enter() {
                         hide();
                     }
@@ -54,8 +50,7 @@ class Sample2 {
                         if (e().equals("ShowEvent")) next(A.SHOW);
                     }
                 },
-                new SuperState<A, E>
-                        (A.SHOW, A.SAVE) {
+                new SuperState<A, E>(A.SHOW, A.SAVE) {
                     public void handleEvent() {
                         if (e().equals("HideEvent")) next(A.HIDE);
                     }
