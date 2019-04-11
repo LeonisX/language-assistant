@@ -18,8 +18,7 @@ class FSMTestIncl {
     private <E> FSM<A0, E> createA0() {
         return new FSM<>(
 
-                new State<A0, E>
-                        (A0.ONE) {
+                new State<A0, E>(A0.ONE) {
                     public void enter() {
                         log("enter1");
                         next(A0.TWO);
@@ -29,8 +28,7 @@ class FSMTestIncl {
                         log("exit1");
                     }
                 },
-                new State<A0, E>
-                        (A0.TWO) {
+                new State<A0, E>(A0.TWO) {
                     public void enter() {
                         log("enter2");
                     }
@@ -45,8 +43,7 @@ class FSMTestIncl {
                         log("exit2");
                     }
                 },
-                new State<A0, E>
-                        (A0.THREE) {
+                new State<A0, E>(A0.THREE) {
                     public void enter() {
                         log("enter3");
                     }
@@ -74,8 +71,7 @@ class FSMTestIncl {
     private <E> FSM<A1, E> createA1() {
         return new FSM<>(
 
-                new State<A1, E>
-                        (A1.ONE) {
+                new State<A1, E>(A1.ONE) {
                     public void enter() {
                         log("enter11");
                     }
@@ -89,8 +85,7 @@ class FSMTestIncl {
                         log("exit11");
                     }
                 },
-                new State<A1, E>
-                        (A1.TWO) {
+                new State<A1, E>(A1.TWO) {
                     public void enter() {
                         log("enter12");
                     }
@@ -135,9 +130,7 @@ class FSMTestIncl {
         log = "";
 
         a0.handleEvent("E2");
-        assertEquals(
-                "handle11-exit11-enter12-handle3-exit3-enter1-exit1-enter2",
-                log);
+        assertEquals("handle11-exit11-enter12-handle3-exit3-enter1-exit1-enter2", log);
         log = "";
     }
 
