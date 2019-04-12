@@ -2,13 +2,15 @@ package md.leonis.assistant.source.dsl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.util.Pair;
 import lombok.SneakyThrows;
 import md.leonis.assistant.source.Parser;
 import md.leonis.assistant.source.dsl.domain.DslRaw;
 import md.leonis.assistant.source.dsl.domain.DslRawAbbr;
-import md.leonis.assistant.source.dsl.domain.parsed.DslGroup;
 import md.leonis.assistant.source.dsl.domain.parsed.DslRawAbbrParsed;
-import md.leonis.assistant.source.dsl.domain.parsed.DslRawParsed;
+import md.leonis.assistant.source.dsl.parser.M0Parser;
+import md.leonis.assistant.source.dsl.parser.domain.IntermediateDslObject;
+import md.leonis.assistant.source.dsl.parser.domain.ParserState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +51,16 @@ public class DslParser implements Parser {
     private static final String POS_REGEX = Pattern.quote(POS_START) + "((?! ).)+" + Pattern.quote(POS_END);
     static final Pattern POS_PATTERN = Pattern.compile(POS_REGEX);
 
+    Pair<String, String> TRANSCRIPTION = new Pair<>("[c lightslategray]{{t}}", "{{/t}}[/c]");
+
+    Pair<String, String> LINK = new Pair<>("[c lightslategray]{{t}}", ">>");
+
+    Pair<String, String> LINK2 = new Pair<>("[i]от[/i] <<", ">>");
+
+    Pair<String, String> NOTES = new Pair<>("(", ")");
+
+    Pair<String, String> PTAG = new Pair<>("[p]", "[/p]");
+
     private static final Logger log = LoggerFactory.getLogger(DslParser.class);
 
     @Lazy
@@ -69,33 +80,23 @@ public class DslParser implements Parser {
         //dslService.clearRawParsed();
 
         for (DslRaw raw : dslService.findAllRaw()) {
-            List<String> lines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {
-            });
+            List<String> lines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {});
             //TODO logic
             boolean inTrn = false;
+            IntermediateDslObject dslObject = new IntermediateDslObject(raw.getWord());
             String word = raw.getWord();
-            String transcription = null;
-            List<String> partOfSpeech = new ArrayList<>();
-            String notes = null; //TODO deep parse to chunks
-            String link = null;
-            String link2 = null;
-            DslRawParsed dslRawParsed = new DslRawParsed();
-            dslRawParsed.setWord(raw.getWord());
-            DslGroup group = new DslGroup();
+
+            M0Parser m0Parser = new M0Parser(dslObject);
 
             for (String line : lines) {
-
-                // [m0]{{Roman}}[b]Ⅰ[/b]{{/Roman}}
-                if (isNextGroup(line) && !inTrn) {
-                    dslRawParsed.getGroups().add(group);
-                    group = new DslGroup();
-                    continue;
+                if (dslObject.getState() == ParserState.M0) {
+                    m0Parser.tryToReadGroup(line);
                 }
 
                 // m1 (not in [trn])
                 // [m1]bootblack [c lightslategray]{{t}}\[ˊbu:tblæk\]{{/t}}[/c] [p]n[/p] ([p]преим.[/p] [p]амер.[/p])
                 // [m1]boogie [c lightslategray]{{t}}\[ˊbu:gɪ\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<boogie-woogie>>
-                if (isWord(line) && !inTrn) {
+                if (dslObject.getState() == ParserState.M1 && isWord(line) && !inTrn) {
                     String unchangedLine = line;
 
                     line = line.replace("[m1]", "");
@@ -104,7 +105,7 @@ public class DslParser implements Parser {
                     Matcher matcher = NOTES_PATTERN.matcher(line);
                     if (matcher.find()) {
                         //TODO deep parse
-                        notes = matcher.group(0).replace(NOTES_START, "").replace(NOTES_END, "").trim();
+                        dslObject.setNotes(matcher.group(0).replace(NOTES_START, "").replace(NOTES_END, "").trim());
                         line = matcher.replaceAll("");
                     }
 
@@ -113,21 +114,21 @@ public class DslParser implements Parser {
                     if (matcher.find()) {
                         String value = matcher.group(0);
                         //TODO unescape []
-                        transcription = value.replace(TRANSCRIPTION_START, "").replace(TRANSCRIPTION_END, "").trim();
+                        dslObject.setTranscription(value.replace(TRANSCRIPTION_START, "").replace(TRANSCRIPTION_END, "").trim());
                         line = matcher.replaceAll("");
                     }
 
                     // [c mediumblue][b]=[/b][/c] <<boogie-woogie>>
                     matcher = LINK_PATTERN.matcher(line);
                     if (matcher.find()) {
-                        link = matcher.group(0).replace(LINK_START, "").replace(LINK_END, "").trim();
+                        dslObject.setLink(matcher.group(0).replace(LINK_START, "").replace(LINK_END, "").trim());
                         line = matcher.replaceAll("");
                     }
 
                     // [i]от[/i] <<abacus>>
                     matcher = LINK2_PATTERN.matcher(line);
                     if (matcher.find()) {
-                        link2 = matcher.group(0).replace(LINK2_START, "").replace(LINK2_END, "").trim();
+                        dslObject.setLink(matcher.group(0).replace(LINK2_START, "").replace(LINK2_END, "").trim());
                         line = matcher.replaceAll("");
                     }
 
@@ -135,7 +136,7 @@ public class DslParser implements Parser {
                     matcher = POS_PATTERN.matcher(line);
                     //TODO few, use while
                     while (matcher.find()) {
-                        partOfSpeech.add(matcher.group(0).replace(POS_START, "").replace(POS_END, "").trim());
+                        dslObject.getTags().add(matcher.group(0).replace(POS_START, "").replace(POS_END, "").trim());
                         line = matcher.replaceAll("");
                     }
 
@@ -147,20 +148,20 @@ public class DslParser implements Parser {
                     word = line.trim();
 
                     String result = String.format("[m1]%s", word);
-                    if (transcription != null) {
-                        result += String.format(" %s%s%s", TRANSCRIPTION_START, transcription, TRANSCRIPTION_END);
+                    if (dslObject.getTranscription() != null) {
+                        result += String.format(" %s%s%s", TRANSCRIPTION_START, dslObject.getTranscription(), TRANSCRIPTION_END);
                     }
-                    if (!partOfSpeech.isEmpty()) {
-                        result += partOfSpeech.stream().map(p -> String.format(" %s%s%s", POS_START, p, POS_END)).collect(Collectors.joining(" "));
+                    if (!dslObject.getTags().isEmpty()) {
+                        result += dslObject.getTags().stream().map(p -> String.format(" %s%s%s", POS_START, p, POS_END)).collect(Collectors.joining(" "));
                     }
-                    if (notes != null) {
-                        result += String.format(" %s%s%s", NOTES_START, notes, NOTES_END);
+                    if (dslObject.getNotes() != null) {
+                        result += String.format(" %s%s%s", NOTES_START, dslObject.getNotes(), NOTES_END);
                     }
-                    if (link != null) {
-                        result += String.format(" %s%s%s", LINK_START, link, LINK_END);
+                    if (dslObject.getLink() != null) {
+                        result += String.format(" %s%s%s", LINK_START, dslObject.getLink(), LINK_END);
                     }
-                    if (link2 != null) {
-                        result += String.format(" %s%s%s", LINK2_START, link2, LINK2_END);
+                    if (dslObject.getLink2() != null) {
+                        result += String.format(" %s%s%s", LINK2_START, dslObject.getLink2(), LINK2_END);
                     }
 
                     if (!result.equals(unchangedLine)) {
@@ -168,12 +169,6 @@ public class DslParser implements Parser {
                         System.out.println(result);
                         System.out.println();
                     }
-
-                    transcription = null;
-                    partOfSpeech = new ArrayList<>();
-                    notes = null;
-                    link = null;
-                    link2 = null;
                     continue;
                 }
 
@@ -190,6 +185,8 @@ public class DslParser implements Parser {
                     //System.out.println("\t" + line);
                     continue;
                 }
+
+                //TODO uncovered cases, may be throw exception
 
                 //System.out.println("\t" + line);
             }
@@ -228,15 +225,6 @@ public class DslParser implements Parser {
 
         //TODO revert
         //parseAbbr();
-    }
-
-    private boolean isNextGroup(String line) {
-        return isGroup(line) && !line.contains("[b]Ⅰ[/b]");
-    }
-
-    // [m0]{{Roman}}[b]Ⅰ[/b]{{/Roman}}
-    private boolean isGroup(String line) {
-        return line.startsWith("[m0]{{Roman}}[b]");
     }
 
     // [m1] (not in [trn])
