@@ -11,6 +11,8 @@ public class State<STATES extends Enum<?>, EVENT> implements IState {
 
     private STATES id;
 
+    private STATES nextState;
+
     public STATES getId() {
         return id;
     }
@@ -18,8 +20,6 @@ public class State<STATES extends Enum<?>, EVENT> implements IState {
     protected void setId(final STATES id) {
         this.id = id;
     }
-
-    private STATES nextState;
 
     public STATES getNextState() {
         return nextState;
@@ -43,6 +43,8 @@ public class State<STATES extends Enum<?>, EVENT> implements IState {
 
     private FSM<STATES, EVENT> fsm;
 
+    private List<SuperState<STATES, EVENT>> superStates;
+
     public FSM<STATES, EVENT> getFsm() {
         return fsm;
     }
@@ -50,8 +52,6 @@ public class State<STATES extends Enum<?>, EVENT> implements IState {
     public void setFsm(final FSM<STATES, EVENT> fsm) {
         this.fsm = fsm;
     }
-
-    private List<SuperState<STATES, EVENT>> superStates;
 
     public List<SuperState<STATES, EVENT>> getSuperStates() {
         return superStates;
