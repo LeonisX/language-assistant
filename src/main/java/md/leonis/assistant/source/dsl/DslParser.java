@@ -2,7 +2,6 @@ package md.leonis.assistant.source.dsl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.util.Pair;
 import lombok.SneakyThrows;
 import md.leonis.assistant.source.Parser;
 import md.leonis.assistant.source.dsl.domain.DslRaw;
@@ -20,9 +19,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 public class DslParser implements Parser {
@@ -36,57 +32,22 @@ public class DslParser implements Parser {
     @Value("${dsl.total.count}")
     private int totalCount;
 
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     @SneakyThrows
     public void parse() {
         log.info("Parsing...");
-
-        ObjectMapper objectMapper = new ObjectMapper();
 
         //TODO revert and fix
         //dslService.clearRawParsed();
 
         for (DslRaw raw : dslService.findAllRaw()) {
             List<String> lines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {});
-            //TODO logic
-            boolean inTrn = false;
-            IntermediateDslObject dslObject = new IntermediateDslObject(raw.getWord());
-            String word = raw.getWord();
-
-            M0Parser m0Parser = new M0Parser(dslObject);
-            M1Parser m1Parser = new M1Parser(dslObject);
-
-            for (String line : lines) {
-                if (dslObject.getState() == ParserState.M0) {
-                    m0Parser.tryToReadGroup(line);
-                }
-
-                if (dslObject.getState() == ParserState.M1) {
-                    m1Parser.parse(line);
-                    continue;
-                }
-
-                // m2
-
-                if (isTrn(line)) {
-                    inTrn = true;
-                    //System.out.println("\t" + line);
-                    continue;
-                }
-
-                if (isTrnEnd(line)) {
-                    inTrn = false;
-                    //System.out.println("\t" + line);
-                    continue;
-                }
-
-                //TODO uncovered cases, may be throw exception
-
-                //System.out.println("\t" + line);
-            }
-
-            //TODO revert
-            //dslService.saveRawParsed(new DslRawParsed(null, word, null, null));
+            IntermediateDslObject dslObject = parseWord(raw.getWord(), lines);
         }
+
+        //TODO revert
+        //dslService.saveRawParsed(new DslRawParsed(null, word, null, null));
 
         // Split by words. Starts from "". not from "/t"
         //[m0]{{Roman}}[b]Ⅰ[/b]{{/Roman}} группа
@@ -120,11 +81,56 @@ public class DslParser implements Parser {
         //parseAbbr();
     }
 
-    private boolean isTrn(String line) {
+    public static IntermediateDslObject parseWord(String word, List<String> lines) {
+        //TODO logic
+        boolean inTrn = false;
+        IntermediateDslObject dslObject = new IntermediateDslObject(word);
+
+        //log.debug(word);
+
+        M0Parser m0Parser = new M0Parser(dslObject);
+        M1Parser m1Parser = new M1Parser(dslObject);
+
+        for (String line : lines) {
+            if (dslObject.getState() == ParserState.M0) {
+                boolean isGroup = m0Parser.tryToReadGroup(line);
+                if (isGroup) {
+                    continue;
+                }
+            }
+
+            if (dslObject.getState() == ParserState.M1) {
+                m1Parser.parse(line);
+                continue;
+            }
+
+            // m2
+
+            if (isTrn(line)) {
+                inTrn = true;
+                //System.out.println("\t" + line);
+                continue;
+            }
+
+            if (isTrnEnd(line)) {
+                inTrn = false;
+                //System.out.println("\t" + line);
+                continue;
+            }
+
+            //TODO uncovered cases, may be throw exception
+
+            //System.out.println("\t" + line);
+        }
+
+        return dslObject;
+    }
+
+    private static boolean isTrn(String line) {
         return line.equals("[trn]");
     }
 
-    private boolean isTrnEnd(String line) {
+    private static boolean isTrnEnd(String line) {
         return line.equals("[/trn]");
     }
 

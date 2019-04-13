@@ -12,11 +12,17 @@ import java.util.List;
 public class IntermediateDslObject {
 
     private String word;
+    private String newWord;
     private String transcription = null;
     private List<String> tags = new ArrayList<>();
     private String notes = null; //TODO deep parse to chunks
-    private String link = null;
+    private List<String> vars = new ArrayList<>();
+    private List<String> link1 = new ArrayList<>();
+    private String link1Group = null;
+    private String link1Meaning = null;
+    private String link1Number = null;
     private String link2 = null;
+    private String tail = null;
     private List<DslGroup> dslGroups = new ArrayList<>();
     private ParserState state = ParserState.M0;
 

@@ -35,6 +35,9 @@ public class StringUtils {
         if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
             return Optional.empty();
         }
+        if (keyStart != 0) {
+            return Optional.empty();
+        }
         return Optional.of(new Pair<>(keyStart, valueStart));
     }
 

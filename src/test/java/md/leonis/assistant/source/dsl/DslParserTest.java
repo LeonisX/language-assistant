@@ -1,18 +1,37 @@
 package md.leonis.assistant.source.dsl;
 
+import md.leonis.assistant.source.dsl.parser.domain.IntermediateDslObject;
+import md.leonis.assistant.source.dsl.parser.domain.ParserState;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static md.leonis.assistant.source.dsl.DslParser.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DslParserTest {
 
     @Test
+    void test1() {
+        String text =
+                "[m0]{{Roman}}[b]Ⅰ[/b]{{/Roman}}\n" +
+                "[m1]A, a [p]n[/p] [c lightslategray]{{t}}\\[eɪ\\]{{/t}}[/c] ([p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c])\n" +
+                "[trn]";
+        IntermediateDslObject dslObject = DslParser.parseWord("A", Arrays.asList(text.split("\n")));
+
+        assertEquals("A", dslObject.getWord());
+        assertEquals("A, a", dslObject.getNewWord());
+        assertEquals("\\[eɪ\\]", dslObject.getTranscription());
+        assertEquals(1, dslObject.getTags().size());
+        assertEquals("n", dslObject.getTags().get(0));
+        assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
+        assertNull(dslObject.getLink1());
+        assertNull(dslObject.getLink2());
+        assertEquals(ParserState.TRN, dslObject.getState());
+    }
+
+    /*@Test
     void parseM1Transcription() {
         for (int i = 0; i < 5; i++) {
             String prefix = generateRandomString();
@@ -86,7 +105,7 @@ class DslParserTest {
             assertEquals(String.format("%s  %s", prefix, postfix), matcher.replaceAll(""));
             assertEquals(body, value.replace(POS_START, "").replace(POS_END, ""));
         }
-    }
+    }*/
 
     private String generateRandomString() {
         Random random = new Random();

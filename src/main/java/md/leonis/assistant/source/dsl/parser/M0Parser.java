@@ -15,10 +15,10 @@ public class M0Parser {
     }
 
     // [m0]{{Roman}}[b]Ⅰ[/b]{{/Roman}}
-    public void tryToReadGroup(String line) {
+    public boolean tryToReadGroup(String line) {
         dslObject.setState(ParserState.M1);
         if (!isGroup(line)) {
-            return;
+            return false;
         }
 
         String body = StringUtils.getBody(line, NUMBER);
@@ -29,11 +29,11 @@ public class M0Parser {
 
         int number = RomanToNumber.romanToDecimal(body);
         if (number == dslObject.getDslGroups().size()) {
-            return;
+            return true;
         }
         if (number == dslObject.getDslGroups().size() + 1) {
             dslObject.addNewGroup();
-            return;
+            return true;
         }
         throw new IllegalStateException(line + ": " + number);
     }
