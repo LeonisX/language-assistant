@@ -2,6 +2,8 @@ package md.leonis.assistant.source.dsl.parser;
 
 import javafx.util.Pair;
 
+import java.util.Optional;
+
 public class StringUtils {
 
     public static String getBody(String line, Pair<String, String> pair) {
@@ -21,6 +23,19 @@ public class StringUtils {
             throw new IllegalStateException(line);
         }
         return new Pair<>(keyStart, valueStart);
+    }
+
+    public static Optional<String> tryGetBody(String line, Pair<String, String> pair) {
+        return tryGetStartPair(line, pair).map(startPair -> line.substring(startPair.getKey() + pair.getKey().length(), startPair.getValue()));
+    }
+
+    private static Optional<Pair<Integer, Integer>> tryGetStartPair(String line, Pair<String, String> pair) {
+        int keyStart = line.indexOf(pair.getKey());
+        int valueStart = line.indexOf(pair.getValue());
+        if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
+            return Optional.empty();
+        }
+        return Optional.of(new Pair<>(keyStart, valueStart));
     }
 
     private int read(String line, String chunk) {
