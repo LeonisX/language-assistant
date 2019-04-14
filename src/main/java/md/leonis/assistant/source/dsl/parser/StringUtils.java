@@ -41,6 +41,10 @@ public class StringUtils {
         return Optional.of(new Pair<>(keyStart, valueStart));
     }
 
+    public static String formatOuterBody(String body, Pair<String, String> pair) {
+        return pair.getKey() + body + pair.getValue();
+    }
+
     private int read(String line, String chunk) {
         return read(line, 0, chunk);
     }

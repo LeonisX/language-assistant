@@ -28,6 +28,8 @@ class DslParserTest {
         assertTrue(dslObject.getTags2().isEmpty());
         assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
+        assertTrue(dslObject.getLink1Address().isEmpty());
+        assertTrue(dslObject.getLink1Seq().isEmpty());
         assertNull(dslObject.getLink2());
         assertEquals(ParserState.TRN, dslObject.getState());
     }

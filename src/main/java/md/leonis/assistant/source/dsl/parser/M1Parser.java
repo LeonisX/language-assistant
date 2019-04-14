@@ -5,6 +5,7 @@ import md.leonis.assistant.source.dsl.parser.domain.IntermediateDslObject;
 import md.leonis.assistant.source.dsl.parser.domain.ParserState;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class M1Parser {
 
     public static final Pair<String, String> LINK = new Pair<>("<<", ">>");
 
-    public static final Pair<String, String> LINK_GROUP = new Pair<>("[c blue]", "[/c]");
+    public static final Pair<String, String> CBLUE = new Pair<>("[c blue]", "[/c]");
 
     public static final Pair<String, String> LINK2 = new Pair<>("[i]от[/i] <<", ">>");
 
@@ -27,6 +28,8 @@ public class M1Parser {
     public static final Pair<String, String> PTAG = new Pair<>("[p]", "[/p]");
 
     public static final Pair<String, String> VARS = new Pair<>("[c mediumvioletred](", ")[/c]");
+
+    public static final Pair<String, String> ITAG = new Pair<>("[i]", "[/i]");
 
     private final IntermediateDslObject dslObject;
 
@@ -122,28 +125,53 @@ public class M1Parser {
                 line = StringUtils.trimOuterBody(line, LINK).trim();
             }
 
-            // [c blue],[/c]
-            if (dslObject.getLink1() != null && line.startsWith(LINK_U)) {
-                line = line.replace(LINK_U, "").trim();
-                //TODO unify
-                body = StringUtils.tryGetBody(line, LINK);
-                if (body.isPresent()) {
-                    dslObject.getLink1().add(body.get().trim());
-                    line = StringUtils.trimOuterBody(line, LINK).trim();
-                }
-            }
-
-            // [c blue]2[/c]
             if (dslObject.getLink1() != null) {
-                body = StringUtils.tryGetBody(line, LINK_GROUP);
-                if (body.isPresent()) {
-                    dslObject.setLink1Group(body.get().trim());
-                    line = StringUtils.trimOuterBody(line, LINK_GROUP).trim();
+
+                // [c blue],[/c]
+                if (line.startsWith(LINK_U)) {
+                    line = line.replace(LINK_U, "").trim();
+                    //TODO unify
+                    body = StringUtils.tryGetBody(line, LINK);
+                    if (body.isPresent()) {
+                        dslObject.getLink1().add(body.get().trim());
+                        line = StringUtils.trimOuterBody(line, LINK).trim();
+                    }
                 }
+
+                readNext = true;
+                // [c blue]2[/c]{
+                while (readNext) {
+                    body = StringUtils.tryGetBody(line, CBLUE);
+                    if (body.isPresent()) {
+                        //identify: split by `,`, trim, remove ""
+                        List<String> chunks = Arrays.stream(body.get().split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+                        if (RomanToNumber.isValidRomanNumeral(chunks.get(0))) {
+                            dslObject.addLink1Groups(chunks);
+                        } else if (!chunks.get(0).endsWith(")")) {
+                            dslObject.addLink1Meanings(chunks);
+                        } else {
+                            dslObject.addLink1Numbers(chunks);
+                        }
+
+                        line = StringUtils.trimOuterBody(line, CBLUE).trim();
+
+                        // ignore [i]и[/i]
+                        body = StringUtils.tryGetBody(line, ITAG);
+                        if (body.isPresent()) {
+                            line = StringUtils.trimOuterBody(line, ITAG).trim();
+                            dslObject.getLink1Seq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                        }
+                    } else {
+                        readNext = false;
+                    }
+                }
+
+
             }
         }
 
         // [i]от[/i] <<abacus>>
+        //TODO check if (dslObject.getLink1() != null) ???
         body = StringUtils.tryGetBody(line, LINK2);
         if (body.isPresent()) {
             dslObject.setLink2(body.get().trim());
@@ -158,7 +186,7 @@ public class M1Parser {
             dslObject.setTail(line);
         }
 
-        String result = dslObject.toString();
+        String result = dslObject.toM1String();
         if (!result.equals(unchangedLine)) {
             System.out.println(unchangedLine);
             System.out.println(result);

@@ -1,8 +1,13 @@
 package md.leonis.assistant.source.dsl.parser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 // https://www.geeksforgeeks.org/converting-roman-numerals-decimal-lying-1-3999/
 // Upgraded with UTF-8 ALL ROMAN NUMERAL (U+2160 - U+2188), up to 100000+, but untested yet
 public class RomanToNumber {
+
+    private static final Logger log = LoggerFactory.getLogger(RomanToNumber.class);
 
     // This function returns value of a Roman symbol
     private static int value(char chr) {
@@ -49,7 +54,17 @@ public class RomanToNumber {
             return 10000;
         if (uchr == 'ↈ')
             return 100000;
+        log.warn("Incorrect char: " + uchr);
         return -1;
+    }
+
+    public static boolean isValidRomanNumeral(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (value(str.charAt(i)) < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Finds decimal value of a given roman numeral
