@@ -213,5 +213,14 @@ class M1ParserTest {
         assertEquals(ParserState.TRN, dslObject.getState());
     }
 
+    // TODO read [c blue], react
+    // [m1]about-face [c lightslategray]{{t}}\[əˏbaυtˊfeɪs\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<about-turn>> [c blue]1, 2[/c]
+    // [m1]accusal [c lightslategray]{{t}}\[əˊkju:zǝl\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<accusation>> [c blue]1)[/c]
+    // [m1]alleyway [c lightslategray]{{t}}\[ˊælɪweɪ\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<alley>> [c blue]Ⅰ,[/c] [c blue]1)[/c] [i]и[/i] [c blue]2)[/c]
+    // [m1]anyway [c lightslategray]{{t}}\[ˊenɪweɪ\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<anyhow>> [c blue]1),[/c] [c blue]2)[/c]
+    // [m1]balsamic [c lightslategray]{{t}}\[bɔ:lˊsæmɪk\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<balmy>> [c blue]1)[/c] [i]и[/i] [c blue]4)[/c]
+    // [m1]bow-knot [c lightslategray]{{t}}\[ˊbəυnɒt\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<bow>> [c blue]Ⅱ,[/c] [c blue]1,[/c] [c blue]1)[/c]
 
+    //TODO tags1, tags2
+    //TODO toString
 }
