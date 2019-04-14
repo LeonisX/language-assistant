@@ -2,13 +2,14 @@ package md.leonis.assistant.source.dsl;
 
 import md.leonis.assistant.source.dsl.parser.domain.IntermediateDslObject;
 import md.leonis.assistant.source.dsl.parser.domain.ParserState;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DslParserTest {
 
@@ -23,10 +24,10 @@ class DslParserTest {
         assertEquals("A", dslObject.getWord());
         assertEquals("A, a", dslObject.getNewWord());
         assertEquals("\\[eɪ\\]", dslObject.getTranscription());
-        assertEquals(1, dslObject.getTags().size());
-        assertEquals("n", dslObject.getTags().get(0));
+        assertThat(dslObject.getTags1(), CoreMatchers.hasItems("n"));
+        assertTrue(dslObject.getTags2().isEmpty());
         assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
-        assertNull(dslObject.getLink1());
+        assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink2());
         assertEquals(ParserState.TRN, dslObject.getState());
     }

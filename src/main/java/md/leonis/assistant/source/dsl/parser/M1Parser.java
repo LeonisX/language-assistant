@@ -10,23 +10,23 @@ import java.util.stream.Collectors;
 
 public class M1Parser {
 
-    private static final Pair<String, String> TRANSCRIPTION = new Pair<>("[c lightslategray]{{t}}", "{{/t}}[/c]");
+    public static final Pair<String, String> TRANSCRIPTION = new Pair<>("[c lightslategray]{{t}}", "{{/t}}[/c]");
 
-    private static final String LINK_PRE = "[c mediumblue][b]=[/b][/c]";
-    private static final String LINK_U = "[c blue],[/c]";
+    public static final String LINK_PRE = "[c mediumblue][b]=[/b][/c]";
+    public static final String LINK_U = "[c blue],[/c]";
 
 
-    private static final Pair<String, String> LINK = new Pair<>("<<", ">>");
+    public static final Pair<String, String> LINK = new Pair<>("<<", ">>");
 
-    private static final Pair<String, String> LINK_GROUP = new Pair<>("[c blue]", "[/c]");
+    public static final Pair<String, String> LINK_GROUP = new Pair<>("[c blue]", "[/c]");
 
-    private static final Pair<String, String> LINK2 = new Pair<>("[i]от[/i] <<", ">>");
+    public static final Pair<String, String> LINK2 = new Pair<>("[i]от[/i] <<", ">>");
 
-    private static final Pair<String, String> NOTES = new Pair<>("(", ")");
+    public static final Pair<String, String> NOTES = new Pair<>("(", ")");
 
-    private static final Pair<String, String> PTAG = new Pair<>("[p]", "[/p]");
+    public static final Pair<String, String> PTAG = new Pair<>("[p]", "[/p]");
 
-    private static final Pair<String, String> VARS = new Pair<>("[c mediumvioletred](", ")[/c]");
+    public static final Pair<String, String> VARS = new Pair<>("[c mediumvioletred](", ")[/c]");
 
     private final IntermediateDslObject dslObject;
 
@@ -68,7 +68,7 @@ public class M1Parser {
             Optional<String> body = StringUtils.tryGetBody(line, PTAG);
             if (body.isPresent()) {
                 //TODO unescape []
-                dslObject.getTags().add(body.get().trim());
+                dslObject.getTags1().add(body.get().trim());
                 line = StringUtils.trimOuterBody(line, PTAG).trim();
             } else {
                 readNext = false;
@@ -90,7 +90,7 @@ public class M1Parser {
             body = StringUtils.tryGetBody(line, PTAG);
             if (body.isPresent()) {
                 //TODO unescape []
-                dslObject.getTags().add(body.get().trim());
+                dslObject.getTags2().add(body.get().trim());
                 line = StringUtils.trimOuterBody(line, PTAG).trim();
             } else {
                 readNext = false;
@@ -158,35 +158,7 @@ public class M1Parser {
             dslObject.setTail(line);
         }
 
-        String result = String.format("[m1]%s", dslObject.getNewWord());
-        if (dslObject.getTranscription() != null) {
-            result += String.format(" %s%s%s", TRANSCRIPTION.getKey(), dslObject.getTranscription(), TRANSCRIPTION.getValue());
-        }
-        if (!dslObject.getTags().isEmpty()) {
-            result += " " + dslObject.getTags().stream().map(p -> String.format("%s%s%s", PTAG.getKey(), p, PTAG.getValue())).collect(Collectors.joining(" "));
-        }
-        if (!dslObject.getVars().isEmpty()) {
-            result += " " + VARS.getKey() + String.join("; ", dslObject.getVars()) + VARS.getValue();
-        }
-        if (dslObject.getNotes() != null) {
-            result += String.format(" %s%s%s", NOTES.getKey(), dslObject.getNotes(), NOTES.getValue());
-        }
-        if (!dslObject.getLink1().isEmpty()) {
-            result += " " + LINK_PRE + String.format(" %s%s%s", LINK.getKey(), dslObject.getLink1().get(0), LINK.getValue());
-            if (dslObject.getLink1().size() > 1) {
-                result += LINK_U + String.format(" %s%s%s", LINK.getKey(), dslObject.getLink1().get(1), LINK.getValue());
-            }
-        }
-        if (dslObject.getLink1Group() != null) {
-            result += String.format(" %s%s%s", LINK_GROUP.getKey(), dslObject.getLink1Group(), LINK_GROUP.getValue());
-        }
-        if (dslObject.getLink2() != null) {
-            result += String.format(" %s%s%s", LINK2.getKey(), dslObject.getLink2(), LINK2.getValue());
-        }
-        if (dslObject.getTail() != null) {
-            result += dslObject.getTail();
-        }
-
+        String result = dslObject.toString();
         if (!result.equals(unchangedLine)) {
             System.out.println(unchangedLine);
             System.out.println(result);

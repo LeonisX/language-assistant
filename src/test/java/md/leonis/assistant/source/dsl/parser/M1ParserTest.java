@@ -22,8 +22,8 @@ class M1ParserTest {
         assertEquals("word", dslObject.getWord());
         assertEquals("word", dslObject.getNewWord());
         assertEquals("\\[ˊbu:tblæk\\]", dslObject.getTranscription());
-        assertEquals(1, dslObject.getTags().size());
-        assertEquals("n", dslObject.getTags().get(0));
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), CoreMatchers.hasItems("n"));
         assertTrue(dslObject.getVars().isEmpty());
         assertEquals("[p]преим.[/p] [p]амер.[/p]", dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
@@ -44,7 +44,8 @@ class M1ParserTest {
         assertEquals("word", dslObject.getWord());
         assertEquals("word", dslObject.getNewWord());
         assertEquals("\\[ˊbu:gɪ\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags().isEmpty());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), CoreMatchers.hasItems("boogie-woogie"));
@@ -66,8 +67,8 @@ class M1ParserTest {
         assertEquals("A", dslObject.getWord());
         assertEquals("A, a", dslObject.getNewWord());
         assertEquals("\\[eɪ\\]", dslObject.getTranscription());
-        assertEquals(1, dslObject.getTags().size());
-        assertEquals("n", dslObject.getTags().get(0));
+        assertThat(dslObject.getTags1(), CoreMatchers.hasItems("n"));
+        assertTrue(dslObject.getTags2().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
@@ -89,7 +90,8 @@ class M1ParserTest {
         assertEquals("absent", dslObject.getWord());
         assertEquals("absent", dslObject.getNewWord());
         assertNull(dslObject.getTranscription());
-        assertTrue(dslObject.getTags().isEmpty());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
@@ -111,7 +113,8 @@ class M1ParserTest {
         assertEquals("aback", dslObject.getWord());
         assertEquals("aback", dslObject.getNewWord());
         assertEquals("\\[əˊbæk\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags().isEmpty());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
@@ -133,9 +136,8 @@ class M1ParserTest {
         assertEquals("ablaze", dslObject.getWord());
         assertEquals("ablaze", dslObject.getNewWord());
         assertEquals("\\[əˊbleɪz\\]", dslObject.getTranscription());
-        assertEquals(2, dslObject.getTags().size());
-        assertEquals("a", dslObject.getTags().get(0));
-        assertEquals("predic.", dslObject.getTags().get(1));
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), CoreMatchers.hasItems("a", "predic."));
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
@@ -157,7 +159,8 @@ class M1ParserTest {
         assertEquals("aborigine", dslObject.getWord());
         assertEquals("aborigine", dslObject.getNewWord());
         assertEquals("\\[ˏæbəˊrɪdʒɪnɪ\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags().isEmpty());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), CoreMatchers.hasItems("aboriginal"));
@@ -179,7 +182,8 @@ class M1ParserTest {
         assertEquals("alleluia", dslObject.getWord());
         assertEquals("alleluia", dslObject.getNewWord());
         assertEquals("\\[ˏæləˊlu:jə\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags().isEmpty());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), CoreMatchers.hasItems("halleluja", "hallelujah"));
@@ -201,7 +205,8 @@ class M1ParserTest {
         assertEquals("arise", dslObject.getWord());
         assertEquals("arise", dslObject.getNewWord());
         assertEquals("\\[əˊraɪz\\]", dslObject.getTranscription());
-        assertThat(dslObject.getTags(), CoreMatchers.hasItems("v"));
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), CoreMatchers.hasItems("v"));
         assertThat(dslObject.getVars(), CoreMatchers.hasItems("arose", "arisen"));
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
@@ -222,5 +227,4 @@ class M1ParserTest {
     // [m1]bow-knot [c lightslategray]{{t}}\[ˊbəυnɒt\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<bow>> [c blue]Ⅱ,[/c] [c blue]1,[/c] [c blue]1)[/c]
 
     //TODO tags1, tags2
-    //TODO toString
 }
