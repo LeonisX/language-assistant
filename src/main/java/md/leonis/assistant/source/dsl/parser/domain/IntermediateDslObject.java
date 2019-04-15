@@ -22,6 +22,7 @@ public class IntermediateDslObject {
     private String notes = null; //TODO deep parse to chunks
     private List<String> vars = new ArrayList<>();
     private List<String> link1 = new ArrayList<>();
+    private String link1Green = null;
     private String link2 = null;
     private Map<String, Map<String, List<String>>> linkAddress = new LinkedHashMap<>();
     private List<String> linkSeq = new ArrayList<>();
@@ -122,6 +123,11 @@ public class IntermediateDslObject {
         if (notes != null) {
             result.append(String.format(" %s%s%s", NOTES.getKey(), notes, NOTES.getValue()));
         }
+
+        if (link1Green != null) {
+            result.append(" " + LINK_PRE).append(String.format(" %s%s%s", LINK_GREEN.getKey(), link1Green, LINK_GREEN.getValue()));
+        }
+
         if (!link1.isEmpty()) {
             result.append(" " + LINK_PRE).append(String.format(" %s%s%s", LINK.getKey(), link1.get(0), LINK.getValue()));
             if (link1.size() > 1) {

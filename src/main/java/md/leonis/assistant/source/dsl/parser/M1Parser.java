@@ -19,6 +19,8 @@ public class M1Parser {
 
     public static final Pair<String, String> LINK = new Pair<>("<<", ">>");
 
+    public static final Pair<String, String> LINK_GREEN = new Pair<>("[c lightseagreen][lang id=1033]", "[/lang][/c]");
+
     public static final Pair<String, String> CBLUE = new Pair<>("[c blue]", "[/c]");
 
     public static final Pair<String, String> LINK2 = new Pair<>("[i]от[/i] <<", ">>");
@@ -125,51 +127,60 @@ public class M1Parser {
         if (line.startsWith(LINK_PRE)) {
             line = line.replace(LINK_PRE, "").trim();
 
-            // <<boogie-woogie>>
-            body = StringUtils.tryGetBody(line, LINK);
+            // [c lightseagreen][lang id=1033]archaeo-[/lang][/c]
+            body = StringUtils.tryGetBody(line, LINK_GREEN);
             if (body.isPresent()) {
-                dslObject.getLink1().add(body.get().trim());
-                line = StringUtils.trimOuterBody(line, LINK).trim();
+                dslObject.setLink1Green(body.get().trim());
+                line = StringUtils.trimOuterBody(line, LINK_GREEN).trim();
             }
 
-            if (dslObject.getLink1() != null) {
-
-                // [c blue],[/c]
-                if (line.startsWith(LINK_U)) {
-                    line = line.replace(LINK_U, "").trim();
-                    //TODO unify
-                    body = StringUtils.tryGetBody(line, LINK);
-                    if (body.isPresent()) {
-                        dslObject.getLink1().add(body.get().trim());
-                        line = StringUtils.trimOuterBody(line, LINK).trim();
-                    }
+            if (null == dslObject.getLink1Green()) {
+                // <<boogie-woogie>>
+                body = StringUtils.tryGetBody(line, LINK);
+                if (body.isPresent()) {
+                    dslObject.getLink1().add(body.get().trim());
+                    line = StringUtils.trimOuterBody(line, LINK).trim();
                 }
 
-                readNext = true;
-                // [c blue]2[/c]{
-                while (readNext) {
-                    body = StringUtils.tryGetBody(line, CBLUE);
-                    if (body.isPresent()) {
-                        //identify: split by `,`, trim, remove ""
-                        List<String> chunks = Arrays.stream(body.get().split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
-                        if (RomanToNumber.isValidRomanNumeral(chunks.get(0))) {
-                            dslObject.addLink1Groups(chunks);
-                        } else if (!chunks.get(0).endsWith(")")) {
-                            dslObject.addLink1Meanings(chunks);
-                        } else {
-                            dslObject.addLink1Numbers(chunks);
-                        }
+                if (dslObject.getLink1() != null) {
 
-                        line = StringUtils.trimOuterBody(line, CBLUE).trim();
-
-                        // ignore [i]и[/i]
-                        body = StringUtils.tryGetBody(line, ITAG);
+                    // [c blue],[/c]
+                    if (line.startsWith(LINK_U)) {
+                        line = line.replace(LINK_U, "").trim();
+                        //TODO unify
+                        body = StringUtils.tryGetBody(line, LINK);
                         if (body.isPresent()) {
-                            line = StringUtils.trimOuterBody(line, ITAG).trim();
-                            dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                            dslObject.getLink1().add(body.get().trim());
+                            line = StringUtils.trimOuterBody(line, LINK).trim();
                         }
-                    } else {
-                        readNext = false;
+                    }
+
+                    readNext = true;
+                    // [c blue]2[/c]{
+                    while (readNext) {
+                        body = StringUtils.tryGetBody(line, CBLUE);
+                        if (body.isPresent()) {
+                            //identify: split by `,`, trim, remove ""
+                            List<String> chunks = Arrays.stream(body.get().split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+                            if (RomanToNumber.isValidRomanNumeral(chunks.get(0))) {
+                                dslObject.addLink1Groups(chunks);
+                            } else if (!chunks.get(0).endsWith(")")) {
+                                dslObject.addLink1Meanings(chunks);
+                            } else {
+                                dslObject.addLink1Numbers(chunks);
+                            }
+
+                            line = StringUtils.trimOuterBody(line, CBLUE).trim();
+
+                            // ignore [i]и[/i]
+                            body = StringUtils.tryGetBody(line, ITAG);
+                            if (body.isPresent()) {
+                                line = StringUtils.trimOuterBody(line, ITAG).trim();
+                                dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                            }
+                        } else {
+                            readNext = false;
+                        }
                     }
                 }
             }
