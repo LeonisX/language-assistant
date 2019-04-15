@@ -92,9 +92,16 @@ public class M1Parser {
         while (readNext) {
             body = StringUtils.tryGetBody(line, PTAG);
             if (body.isPresent()) {
-                //TODO unescape []
                 dslObject.getTags2().add(body.get().trim());
+                dslObject.getTags2Seq().add(body.get());
                 line = StringUtils.trimOuterBody(line, PTAG).trim();
+
+                // ignore [i]и[/i]
+                body = StringUtils.tryGetBody(line, ITAG);
+                if (body.isPresent() && body.get().equals("и")) {
+                    line = StringUtils.trimOuterBody(line, ITAG).trim();
+                    dslObject.getTags2Seq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                }
             } else {
                 readNext = false;
             }
@@ -159,14 +166,12 @@ public class M1Parser {
                         body = StringUtils.tryGetBody(line, ITAG);
                         if (body.isPresent()) {
                             line = StringUtils.trimOuterBody(line, ITAG).trim();
-                            dslObject.getLink1Seq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                            dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
                         }
                     } else {
                         readNext = false;
                     }
                 }
-
-
             }
         }
 
@@ -176,6 +181,36 @@ public class M1Parser {
         if (body.isPresent()) {
             dslObject.setLink2(body.get().trim());
             line = StringUtils.trimOuterBody(line, LINK2).trim();
+        }
+
+        if (dslObject.getLink2() != null) {
+            readNext = true;
+            // [c blue]2[/c]{
+            while (readNext) {
+                body = StringUtils.tryGetBody(line, CBLUE);
+                if (body.isPresent()) {
+                    //identify: split by `,`, trim, remove ""
+                    List<String> chunks = Arrays.stream(body.get().split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+                    if (RomanToNumber.isValidRomanNumeral(chunks.get(0))) {
+                        dslObject.addLink1Groups(chunks);
+                    } else if (!chunks.get(0).endsWith(")")) {
+                        dslObject.addLink1Meanings(chunks);
+                    } else {
+                        dslObject.addLink1Numbers(chunks);
+                    }
+
+                    line = StringUtils.trimOuterBody(line, CBLUE).trim();
+
+                    // ignore [i]и[/i]
+                    body = StringUtils.tryGetBody(line, ITAG);
+                    if (body.isPresent()) {
+                        line = StringUtils.trimOuterBody(line, ITAG).trim();
+                        dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                    }
+                } else {
+                    readNext = false;
+                }
+            }
         }
 
 

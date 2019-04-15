@@ -26,11 +26,12 @@ class DslParserTest {
         assertEquals("\\[eɪ\\]", dslObject.getTranscription());
         assertThat(dslObject.getTags1(), CoreMatchers.hasItems("n"));
         assertTrue(dslObject.getTags2().isEmpty());
+        assertTrue(dslObject.getTags2Seq().isEmpty());
         assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
-        assertTrue(dslObject.getLink1Address().isEmpty());
-        assertTrue(dslObject.getLink1Seq().isEmpty());
         assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLinkAddress().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
         assertEquals(ParserState.TRN, dslObject.getState());
     }
 
