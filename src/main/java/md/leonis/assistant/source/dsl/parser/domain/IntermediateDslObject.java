@@ -21,10 +21,7 @@ public class IntermediateDslObject {
     private List<String> tags2Seq = new ArrayList<>();
     private String notes = null; //TODO deep parse to chunks
     private List<String> vars = new ArrayList<>();
-    private List<String> link1 = new ArrayList<>();
-    private String link1Green = null;
-    private List<String> link2 = new ArrayList<>();
-    private Map<String, Map<String, List<String>>> linkAddress = new LinkedHashMap<>();
+    private List<Link> links = new ArrayList<>();
     private List<String> linkSeq = new ArrayList<>();
     private String tail = null;
     private List<DslGroup> dslGroups = new ArrayList<>();
@@ -43,55 +40,18 @@ public class IntermediateDslObject {
         dslGroups.add(new DslGroup());
     }
 
-    //  Link1
-    
-    public void addLink1Groups(List<String> chunks) {
-        for (String chunk : chunks) {
-            //linkAddress.put(RomanToNumber.romanToDecimal(chunk), new LinkedHashMap<>());
-            linkAddress.put(chunk, new LinkedHashMap<>());
-        }
+    public void addLinkGroups(List<String> chunks) {
+        links.get(links.size() - 1).addLinkGroups(chunks);
         linkSeq.addAll(chunks);
     }
 
-    private Map<String, List<String>> getLastLink1Group() {
-        if (linkAddress.isEmpty()) {
-            linkAddress.put("", new LinkedHashMap<>());
-        }
-        String lastElement = null;
-        for (String s : linkAddress.keySet()) {
-            lastElement = s;
-        }
-        return linkAddress.get(lastElement);
-    }
-
-    public void addLink1Meanings(List<String> chunks) {
-        Map<String, List<String>> link1Group = getLastLink1Group();
-        for (String chunk : chunks) {
-            //link1Group.put(Integer.valueOf(chunk), new ArrayList<>());
-            link1Group.put(chunk, new ArrayList<>());
-        }
+    public void addLinkMeanings(List<String> chunks) {
+        links.get(links.size() - 1).addLinkMeanings(chunks);
         linkSeq.addAll(chunks);
     }
 
-    private List<String> getLastLink1Meaning() {
-        if (getLastLink1Group().isEmpty()) {
-            getLastLink1Group().put("", new ArrayList<>());
-        }
-        String lastElement = null;
-        for (String s : getLastLink1Group().keySet()) {
-            lastElement = s;
-        }
-        return getLastLink1Group().get(lastElement);
-
-    }
-
-    public void addLink1Numbers(List<String> chunks) {
-        List<String> link1Meaning = getLastLink1Meaning();
-        for (String chunk : chunks) {
-            //Integer n = Integer.valueOf(chunk.replace(")", ""));
-            //link1Meaning.add(chunk.replace(")", ""));
-            link1Meaning.add(chunk);
-        }
+    public void addLinkNumbers(List<String> chunks) {
+        links.get(links.size() - 1).addLinkNumbers(chunks);
         linkSeq.addAll(chunks);
     }
 
@@ -124,57 +84,65 @@ public class IntermediateDslObject {
             result.append(String.format(" %s%s%s", NOTES.getKey(), notes, NOTES.getValue()));
         }
 
-        if (link1Green != null) {
-            result.append(" " + LINK_PRE).append(String.format(" %s%s%s", LINK_GREEN.getKey(), link1Green, LINK_GREEN.getValue()));
-        }
-
-        if (!link1.isEmpty()) {
-            result.append(" " + LINK_PRE).append(String.format(" %s%s%s", LINK.getKey(), link1.get(0), LINK.getValue()));
-            if (link1.size() > 1) {
-                result.append(LINK_U).append(String.format(" %s%s%s", LINK.getKey(), link1.get(1), LINK.getValue()));
+        if (!links.isEmpty()) {
+            switch (links.get(0).getType()) {
+                case ONE:
+                case GREEN:
+                    result.append(" " + LINK_PRE);
+                    break;
+                case TWO:
+                    result.append(" " + LINK2_PRE);
+                    break;
             }
-        }
 
-        if (!link2.isEmpty()) {
-            //TODO
-            result.append(String.format(" %s%s%s", LINK2.getKey(), link2.get(0), LINK2.getValue()));
-        }
+            for (Link link : links) {
+                switch (links.get(0).getType()) {
+                    case ONE:
+                    case TWO:
+                        result.append(String.format(" %s%s%s", LINKR.getKey(), link.getName(), LINKR.getValue()));
+                        break;
+                    case GREEN:
+                        result.append(String.format(" %s%s%s", LINK_GREENR.getKey(), link.getName(), LINK_GREENR.getValue()));
+                        break;
+                }
 
-
-        for (Map.Entry<String, Map<String, List<String>>> group : linkAddress.entrySet()) {
-            if (!group.getKey().isEmpty() && linkSeq.contains(group.getKey())) {
-                String comma = group.getValue().isEmpty() ? "": ",";
-                result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
-            }
-            String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && linkSeq.contains(m)).collect(Collectors.joining(", "));
-            if (!meanings.isEmpty()) {
-                String comma = group.getValue().entrySet().iterator().next().getValue().isEmpty() ? "": ",";
-                result.append(String.format(" %s%s%s%s", CBLUE.getKey(), meanings, comma, CBLUE.getValue()));
-            }
-            for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
-                /*if (!meaning.getKey().isEmpty() && linkSeq.contains(meaning.getKey())) {
-                    result.append(String.format(" %s%s%s", CBLUE.getKey(), meaning.getKey(), CBLUE.getValue()));
-                }*/
-                /*result.append(meaning.getValue().stream().filter(m -> !m.isEmpty() && linkSeq.contains(m))
-                        .map(n -> String.format(" %s%s%s", CBLUE.getKey(), n, CBLUE.getValue())).collect(Collectors.joining(" [i]и[/i]"))
-                );*/
-                /*if (!numbers.isEmpty()) {
-                    result.append(String.format(" %s%s%s", CBLUE.getKey(), meanings, CBLUE.getValue()));
-                }*/
-                for (String number : meaning.getValue()) {
-                    if (!number.isEmpty() && linkSeq.contains(number)) {
-                        int index = linkSeq.indexOf(number);
-                        if (index + 1 != linkSeq.size()) {
-                            if (linkSeq.get(index + 1).startsWith("[")) { // no comma, append with tag
-                                result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
-                                result.append(" ").append(linkSeq.get(index + 1));
-                            } else {
-                                result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                for (Map.Entry<String, Map<String, List<String>>> group : link.getLinkAddress().entrySet()) {
+                    if (!group.getKey().isEmpty() && linkSeq.contains(group.getKey())) {
+                        String comma = group.getValue().isEmpty() ? "": ",";
+                        result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
+                    }
+                    String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && linkSeq.contains(m)).collect(Collectors.joining(", "));
+                    if (!meanings.isEmpty()) {
+                        /*String space = link.getType() == LinkType.TWO ? "" : " ";
+                        String space2 = link.getType() == LinkType.TWO ? " " : "";*/
+                        String space = " ";
+                        String space2 = "";
+                        boolean isLastMeaning = group.getValue().entrySet().iterator().next().getValue().isEmpty();
+                        boolean isLastLink = links.indexOf(link) == links.size() - 1;
+                        String comma = isLastMeaning && isLastLink ? "": ",";
+                        result.append(space).append(String.format("%s%s%s%s%s", CBLUE.getKey(), space2, meanings, comma, CBLUE.getValue()));
+                    }
+                    for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
+                        for (String number : meaning.getValue()) {
+                            if (!number.isEmpty() && linkSeq.contains(number)) {
+                                int index = linkSeq.indexOf(number);
+                                if (index + 1 != linkSeq.size()) {
+                                    if (linkSeq.get(index + 1).startsWith("[")) { // no comma, append with tag
+                                        result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                        result.append(" ").append(linkSeq.get(index + 1));
+                                    } else {
+                                        result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                    }
+                                } else {
+                                    result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                }
                             }
-                        } else {
-                            result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
                         }
                     }
+                }
+
+                if ((links.indexOf(link) < links.size() - 1) && (link.getType() == LinkType.ONE)) {
+                    result.append("[c blue],[/c]");
                 }
             }
         }
