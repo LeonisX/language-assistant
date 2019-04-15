@@ -455,4 +455,8 @@ class M1ParserTest {
 
     //TODO
     // [m1]axes [c lightslategray]{{t}}\[ˊæksɪz\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<ax>>[c blue] 1,[/c] <<axe>>[c blue] 1[/c]
+    // [m1]blew [c lightslategray]{{t}}\[blu:\]{{/t}}[/c] [p]past[/p] [i]от[/i] <<blow>> [c blue]Ⅱ,[/c] [c blue]2[/c] [i]и[/i] <<blow>> [c blue]Ⅲ,[/c] [c blue]2[/c]
+    // [m1]briar [c lightslategray]{{t}}\[ˊbra(ɪ)ə\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<brier>> [c blue]Ⅰ[/c] [i]и[/i] <<brier>> [c blue]Ⅱ[/c]
+    // [m1]calves [c lightslategray]{{t}}\[kɑ:vz\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<calf>> [c blue]Ⅰ[/c] [i]и[/i] <<calf>> [c blue]Ⅱ[/c]
+    // [m1]curst [c lightslategray]{{t}}\[kɜ:st\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<cursed>> [c blue]2[/c] [i]и[/i] [c blue]3[/c]
 }
