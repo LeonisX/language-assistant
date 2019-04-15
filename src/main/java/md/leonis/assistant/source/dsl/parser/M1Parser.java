@@ -190,7 +190,7 @@ public class M1Parser {
         //TODO check if (dslObject.getLink1() != null) ???
         body = StringUtils.tryGetBody(line, LINK2);
         if (body.isPresent()) {
-            dslObject.setLink2(body.get().trim());
+            dslObject.getLink2().add(body.get().trim());
             line = StringUtils.trimOuterBody(line, LINK2).trim();
         }
 

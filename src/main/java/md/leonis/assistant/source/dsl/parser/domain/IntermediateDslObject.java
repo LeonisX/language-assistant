@@ -23,7 +23,7 @@ public class IntermediateDslObject {
     private List<String> vars = new ArrayList<>();
     private List<String> link1 = new ArrayList<>();
     private String link1Green = null;
-    private String link2 = null;
+    private List<String> link2 = new ArrayList<>();
     private Map<String, Map<String, List<String>>> linkAddress = new LinkedHashMap<>();
     private List<String> linkSeq = new ArrayList<>();
     private String tail = null;
@@ -135,8 +135,9 @@ public class IntermediateDslObject {
             }
         }
 
-        if (link2 != null) {
-            result.append(String.format(" %s%s%s", LINK2.getKey(), link2, LINK2.getValue()));
+        if (!link2.isEmpty()) {
+            //TODO
+            result.append(String.format(" %s%s%s", LINK2.getKey(), link2.get(0), LINK2.getValue()));
         }
 
 

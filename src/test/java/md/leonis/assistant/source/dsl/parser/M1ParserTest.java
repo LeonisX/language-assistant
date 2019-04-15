@@ -30,7 +30,7 @@ class M1ParserTest {
         assertEquals("[p]преим.[/p] [p]амер.[/p]", dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -55,7 +55,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("boogie-woogie"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -81,7 +81,7 @@ class M1ParserTest {
         assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -107,7 +107,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -133,7 +133,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertEquals(":", dslObject.getTail());
@@ -159,7 +159,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -185,7 +185,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("aboriginal"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertEquals("{={2=[]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("2"));
         assertNull(dslObject.getTail());
@@ -211,7 +211,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("halleluja", "hallelujah"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -237,7 +237,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -263,7 +263,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("about-turn"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertEquals("{={1=[], 2=[]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("1", "2"));
         assertNull(dslObject.getTail());
@@ -289,7 +289,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("accusation"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertEquals("{={=[1)]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("1)"));
         assertNull(dslObject.getTail());
@@ -315,7 +315,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("alley"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertEquals("{Ⅰ={=[1), 2)]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("Ⅰ", "1)", "[i]и[/i]", "2)"));
         assertNull(dslObject.getTail());
@@ -341,7 +341,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("anyhow"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertEquals("{={=[1), 2)]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("1)", "2)"));
         assertNull(dslObject.getTail());
@@ -367,7 +367,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("balmy"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertEquals("{={=[1), 4)]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("1)", "[i]и[/i]", "4)"));
         assertNull(dslObject.getTail());
@@ -393,7 +393,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertThat(dslObject.getLink1(), contains("bow"));
         assertNull(dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertEquals("{Ⅱ={1=[1)]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("Ⅱ", "1", "1)"));
         assertNull(dslObject.getTail());
@@ -419,7 +419,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertNull(dslObject.getLink1Green());
-        assertEquals("behold", dslObject.getLink2());
+        assertThat(dslObject.getLink2(), contains("behold"));
         assertEquals("{={1=[]}}", dslObject.getLinkAddress().toString());
         assertThat(dslObject.getLinkSeq(), contains("1"));
         assertNull(dslObject.getTail());
@@ -445,7 +445,33 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLink1().isEmpty());
         assertEquals("archaeo-", dslObject.getLink1Green());
-        assertNull(dslObject.getLink2());
+        assertTrue(dslObject.getLink2().isEmpty());
+        assertTrue(dslObject.getLinkAddress().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(m1, dslObject.toM1String());
+    }
+
+    @Test
+    @DisplayName("[m1]axes [c lightslategray]{{t}}\\[ˊæksɪz\\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<ax>>[c blue] 1,[/c] <<axe>>[c blue] 1[/c]")
+    void parse18() {
+        String m1 = "[m1]axes [c lightslategray]{{t}}\\[ˊæksɪz\\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<ax>>[c blue] 1,[/c] <<axe>>[c blue] 1[/c]";
+        dslObject = new IntermediateDslObject("axes");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("axes", dslObject.getWord());
+        assertEquals("axes", dslObject.getNewWord());
+        assertEquals("\\[ˊæksɪz\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), contains("pl"));
+        assertThat(dslObject.getTags2Seq(), contains("pl"));
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertTrue(dslObject.getLink1().isEmpty());
+        assertNull(dslObject.getLink1Green());
+        assertTrue(dslObject.getLink2().isEmpty());
         assertTrue(dslObject.getLinkAddress().isEmpty());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
@@ -454,7 +480,13 @@ class M1ParserTest {
     }
 
     //TODO
-    // [m1]axes [c lightslategray]{{t}}\[ˊæksɪz\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<ax>>[c blue] 1,[/c] <<axe>>[c blue] 1[/c]
+    // TODO when next link - start new group in linkaddress.
+
+    //TODO new object Link(type, addresses)
+    //TODO new enum LinkType: ONE, TWO, GREEN
+    //TODO delete all links, rewrite, unify
+
+    // в цикле читать: линк, числа, игноры
     // [m1]blew [c lightslategray]{{t}}\[blu:\]{{/t}}[/c] [p]past[/p] [i]от[/i] <<blow>> [c blue]Ⅱ,[/c] [c blue]2[/c] [i]и[/i] <<blow>> [c blue]Ⅲ,[/c] [c blue]2[/c]
     // [m1]briar [c lightslategray]{{t}}\[ˊbra(ɪ)ə\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<brier>> [c blue]Ⅰ[/c] [i]и[/i] <<brier>> [c blue]Ⅱ[/c]
     // [m1]calves [c lightslategray]{{t}}\[kɑ:vz\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<calf>> [c blue]Ⅰ[/c] [i]и[/i] <<calf>> [c blue]Ⅱ[/c]
