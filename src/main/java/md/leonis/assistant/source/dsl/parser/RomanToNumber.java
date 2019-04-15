@@ -54,7 +54,6 @@ public class RomanToNumber {
             return 10000;
         if (uchr == 'ↈ')
             return 100000;
-        log.warn("Incorrect char: " + uchr);
         return -1;
     }
 
@@ -75,10 +74,16 @@ public class RomanToNumber {
         for (int i = 0; i < str.length(); i++) {
             // Getting value of symbol s[i]
             int s1 = value(str.charAt(i));
+            if (s1 < 0) {
+                log.warn("Incorrect char: " + str);
+            }
 
             // Getting value of symbol s[i+1]
             if (i + 1 < str.length()) {
                 int s2 = value(str.charAt(i + 1));
+                if (s2 < 0) {
+                    log.warn("Incorrect char: " + str);
+                }
 
                 // Comparing both values
                 if (s1 >= s2) {
