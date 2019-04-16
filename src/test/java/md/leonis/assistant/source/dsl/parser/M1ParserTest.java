@@ -516,4 +516,28 @@ class M1ParserTest {
         assertEquals(ParserState.TRN, dslObject.getState());
         //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
+
+    @Test
+    @DisplayName("[m1]upstair [c lightslategray]{{t}}\\[ˏʌpˊsteə\\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<upstairs>> [c blue]1,[/c] [c blue]1)[/c] [i]и[/i] [c blue]3[/c]")
+    void parse23() {
+        String m1 = "[m1]upstair [c lightslategray]{{t}}\\[ˏʌpˊsteə\\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<upstairs>> [c blue]1,[/c] [c blue]1)[/c] [i]и[/i] [c blue]3[/c]";
+        dslObject = new IntermediateDslObject("upstair");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("upstair", dslObject.getWord());
+        assertEquals("upstair", dslObject.getNewWord());
+        assertEquals("\\[ˏʌpˊsteə\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
+        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[{EQ_ONE, upstairs, {={1=[1)], 3=[]}}}]", dslObject.getLinks().toString());
+        assertThat(dslObject.getLinkSeq(), contains("1", "1)", "[i]и[/i]", "3"));
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
 }
