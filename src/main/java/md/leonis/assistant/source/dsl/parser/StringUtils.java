@@ -45,6 +45,11 @@ public class StringUtils {
         return pair.getKey() + body + pair.getValue();
     }
 
+    public static String compact(String string) {
+        return string.replace(" ", "").replace(",[/c]", "[/c]");
+    }
+
+
     private int read(String line, String chunk) {
         return read(line, 0, chunk);
     }

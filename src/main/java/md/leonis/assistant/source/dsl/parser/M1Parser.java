@@ -133,21 +133,21 @@ public class M1Parser {
         if (body.isPresent()) {
             line = StringUtils.trimOuterBody(line, LINK);
             line = StringUtils.formatOuterBody(body.get(), LINKR) + line;
-            line = tryReadLink(line, LinkType.ONE);
+            line = tryReadLink(line, LinkType.EQ_ONE);
         }
         // [c mediumblue][b]=[/b][/c]
         body = StringUtils.tryGetBody(line, LINK_GREEN);
         if (body.isPresent()) {
             line = StringUtils.trimOuterBody(line, LINK_GREEN);
             line = StringUtils.formatOuterBody(body.get(), LINKR) + line;
-            line = tryReadLink(line, LinkType.GREEN);
+            line = tryReadLink(line, LinkType.EQ_GREEN);
         }
         // [i]от[/i] <<abacus>>
         body = StringUtils.tryGetBody(line, LINK2);
         if (body.isPresent()) {
             line = StringUtils.trimOuterBody(line, LINK2);
             line = StringUtils.formatOuterBody(body.get(), LINKR) + line;
-            line = tryReadLink(line, LinkType.TWO);
+            line = tryReadLink(line, LinkType.FROM_TWO);
         }
 
 
@@ -159,7 +159,7 @@ public class M1Parser {
         }
 
         String result = dslObject.toM1String();
-        if (!result.equals(unchangedLine)) {
+        if (!StringUtils.compact(result).equals(StringUtils.compact(unchangedLine))) {
             System.out.println(unchangedLine);
             System.out.println(result);
             System.out.println();
@@ -195,6 +195,7 @@ public class M1Parser {
             // [c blue],[/c]
             if (line.startsWith(LINK_U)) {
                 line = line.replace(LINK_U, "").trim();
+                this.dslObject.setLinksSep(LINK_U);
                 //TODO unify
                 body = StringUtils.tryGetBody(line, LINKR);
                 if (body.isPresent()) {
@@ -226,9 +227,17 @@ public class M1Parser {
                     if (body.isPresent()) {
                         line = StringUtils.trimOuterBody(line, ITAG).trim();
                         this.dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                        this.dslObject.setLinksSep(StringUtils.formatOuterBody(body.get(), ITAG));
                     }
                 } else {
                     readNext = false;
+                    // ignore [i]и[/i]
+                    body = StringUtils.tryGetBody(line, ITAG);
+                    if (body.isPresent()) {
+                        line = StringUtils.trimOuterBody(line, ITAG).trim();
+                        this.dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                        this.dslObject.setLinksSep(StringUtils.formatOuterBody(body.get(), ITAG));
+                    }
                 }
             }
         }

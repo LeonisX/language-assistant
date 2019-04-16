@@ -32,7 +32,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -50,11 +50,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, boogie-woogie, {}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, boogie-woogie, {}}]", dslObject.getLinks().toString());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -77,7 +77,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -100,7 +100,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -123,7 +123,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertEquals(":", dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -146,7 +146,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -165,11 +165,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, aboriginal, {={2=[]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, aboriginal, {={2=[]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("2"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -188,11 +188,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, halleluja, {}}, {ONE, hallelujah, {}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, halleluja, {}}, {EQ_ONE, hallelujah, {}}]", dslObject.getLinks().toString());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -215,7 +215,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -234,11 +234,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, about-turn, {={1=[], 2=[]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, about-turn, {={1=[], 2=[]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("1", "2"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -257,11 +257,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, accusation, {={=[1)]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, accusation, {={=[1)]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("1)"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -280,11 +280,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, alley, {Ⅰ={=[1), 2)]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, alley, {Ⅰ={=[1), 2)]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("Ⅰ", "1)", "[i]и[/i]", "2)"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -303,11 +303,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, anyhow, {={=[1), 2)]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, anyhow, {={=[1), 2)]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("1)", "2)"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -326,11 +326,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, balmy, {={=[1), 4)]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, balmy, {={=[1), 4)]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("1)", "[i]и[/i]", "4)"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -349,11 +349,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{ONE, bow, {Ⅱ={1=[1)]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_ONE, bow, {Ⅱ={1=[1)]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("Ⅱ", "1", "1)"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -372,11 +372,11 @@ class M1ParserTest {
         assertThat(dslObject.getTags2Seq(), contains("past", "[i]и[/i]", "p. p."));
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{TWO, behold, {={1=[]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{FROM_TWO, behold, {={1=[]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("1"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -395,11 +395,11 @@ class M1ParserTest {
         assertTrue(dslObject.getTags2Seq().isEmpty());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{GREEN, archaeo-, {}}]", dslObject.getLinks().toString());
+        assertEquals("[{EQ_GREEN, archaeo-, {}}]", dslObject.getLinks().toString());
         assertTrue(dslObject.getLinkSeq().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1, dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
     @Test
@@ -418,23 +418,102 @@ class M1ParserTest {
         assertThat(dslObject.getTags2Seq(), contains("pl"));
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("[{TWO, ax, {={1=[]}}}, {TWO, axe, {={1=[]}}}]", dslObject.getLinks().toString());
+        assertEquals("[{FROM_TWO, ax, {={1=[]}}}, {FROM_TWO, axe, {={1=[]}}}]", dslObject.getLinks().toString());
         assertThat(dslObject.getLinkSeq(), contains("1", "1"));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(m1.replace("[c blue] 1", " [c blue]1"), dslObject.toM1String());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
-    //TODO
-    // TODO when next link - start new group in linkaddress.
+    @Test
+    @DisplayName("[m1]blew [c lightslategray]{{t}}\\[blu:\\]{{/t}}[/c] [p]past[/p] [i]от[/i] <<blow>> [c blue]Ⅱ,[/c] [c blue]2[/c] [i]и[/i] <<blow>> [c blue]Ⅲ,[/c] [c blue]2[/c]")
+    void parse19() {
+        String m1 = "[m1]blew [c lightslategray]{{t}}\\[blu:\\]{{/t}}[/c] [p]past[/p] [i]от[/i] <<blow>> [c blue]Ⅱ,[/c] [c blue]2[/c] [i]и[/i] <<blow>> [c blue]Ⅲ,[/c] [c blue]2[/c]";
+        dslObject = new IntermediateDslObject("blew");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
 
-    //TODO new object Link(type, addresses)
-    //TODO new enum LinkType: ONE, TWO, GREEN
-    //TODO delete all links, rewrite, unify
+        assertEquals("blew", dslObject.getWord());
+        assertEquals("blew", dslObject.getNewWord());
+        assertEquals("\\[blu:\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), contains("past"));
+        assertThat(dslObject.getTags2Seq(), contains("past"));
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[{FROM_TWO, blow, {Ⅱ={2=[]}}}, {FROM_TWO, blow, {Ⅲ={2=[]}}}]", dslObject.getLinks().toString());
+        assertThat(dslObject.getLinkSeq(), contains("Ⅱ", "2", "[i]и[/i]", "Ⅲ", "2"));
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
 
-    // в цикле читать: линк, числа, игноры
-    // [m1]blew [c lightslategray]{{t}}\[blu:\]{{/t}}[/c] [p]past[/p] [i]от[/i] <<blow>> [c blue]Ⅱ,[/c] [c blue]2[/c] [i]и[/i] <<blow>> [c blue]Ⅲ,[/c] [c blue]2[/c]
-    // [m1]briar [c lightslategray]{{t}}\[ˊbra(ɪ)ə\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<brier>> [c blue]Ⅰ[/c] [i]и[/i] <<brier>> [c blue]Ⅱ[/c]
-    // [m1]calves [c lightslategray]{{t}}\[kɑ:vz\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<calf>> [c blue]Ⅰ[/c] [i]и[/i] <<calf>> [c blue]Ⅱ[/c]
-    // [m1]curst [c lightslategray]{{t}}\[kɜ:st\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<cursed>> [c blue]2[/c] [i]и[/i] [c blue]3[/c]
+    @Test
+    @DisplayName("[m1]briar [c lightslategray]{{t}}\\[ˊbra(ɪ)ə\\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<brier>> [c blue]Ⅰ[/c] [i]и[/i] <<brier>> [c blue]Ⅱ[/c]")
+    void parse20() {
+        String m1 = "[m1]briar [c lightslategray]{{t}}\\[ˊbra(ɪ)ə\\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<brier>> [c blue]Ⅰ[/c] [i]и[/i] <<brier>> [c blue]Ⅱ[/c]";
+        dslObject = new IntermediateDslObject("briar");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("briar", dslObject.getWord());
+        assertEquals("briar", dslObject.getNewWord());
+        assertEquals("\\[ˊbra(ɪ)ə\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
+        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[{EQ_ONE, brier, {Ⅰ={}}}, {EQ_ONE, brier, {Ⅱ={}}}]", dslObject.getLinks().toString());
+        assertThat(dslObject.getLinkSeq(), contains("Ⅰ", "[i]и[/i]", "Ⅱ"));
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]calves [c lightslategray]{{t}}\\[kɑ:vz\\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<calf>> [c blue]Ⅰ[/c] [i]и[/i] <<calf>> [c blue]Ⅱ[/c]")
+    void parse21() {
+        String m1 = "[m1]calves [c lightslategray]{{t}}\\[kɑ:vz\\]{{/t}}[/c] [p]pl[/p] [i]от[/i] <<calf>> [c blue]Ⅰ[/c] [i]и[/i] <<calf>> [c blue]Ⅱ[/c]";
+        dslObject = new IntermediateDslObject("calves");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("calves", dslObject.getWord());
+        assertEquals("calves", dslObject.getNewWord());
+        assertEquals("\\[kɑ:vz\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), contains("pl"));
+        assertThat(dslObject.getTags2Seq(), contains("pl"));
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[{FROM_TWO, calf, {Ⅰ={}}}, {FROM_TWO, calf, {Ⅱ={}}}]", dslObject.getLinks().toString());
+        assertThat(dslObject.getLinkSeq(), contains("Ⅰ", "[i]и[/i]", "Ⅱ"));
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]curst [c lightslategray]{{t}}\\[kɜ:st\\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<cursed>> [c blue]2[/c] [i]и[/i] [c blue]3[/c]")
+    void parse22() {
+        String m1 = "[m1]curst [c lightslategray]{{t}}\\[kɜ:st\\]{{/t}}[/c] [c mediumblue][b]=[/b][/c] <<cursed>> [c blue]2[/c] [i]и[/i] [c blue]3[/c]";
+        dslObject = new IntermediateDslObject("curst");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("curst", dslObject.getWord());
+        assertEquals("curst", dslObject.getNewWord());
+        assertEquals("\\[kɜ:st\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertTrue(dslObject.getTags2().isEmpty());
+        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[{EQ_ONE, cursed, {={2=[], 3=[]}}}]", dslObject.getLinks().toString());
+        assertThat(dslObject.getLinkSeq(), contains("2", "[i]и[/i]", "3"));
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
 }

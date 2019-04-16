@@ -3,6 +3,7 @@ package md.leonis.assistant.source.dsl.parser.domain;
 import lombok.Getter;
 import lombok.Setter;
 import md.leonis.assistant.source.dsl.domain.parsed.DslGroup;
+import md.leonis.assistant.source.dsl.parser.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class IntermediateDslObject {
     private List<String> vars = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
     private List<String> linkSeq = new ArrayList<>();
+    private String linksSep = null;
     private String tail = null;
     private List<DslGroup> dslGroups = new ArrayList<>();
     private ParserState state = ParserState.M0;
@@ -86,40 +88,40 @@ public class IntermediateDslObject {
 
         if (!links.isEmpty()) {
             switch (links.get(0).getType()) {
-                case ONE:
-                case GREEN:
+                case EQ_ONE:
+                case EQ_GREEN:
                     result.append(" " + LINK_PRE);
                     break;
-                case TWO:
+                case FROM_TWO:
                     result.append(" " + LINK2_PRE);
                     break;
             }
 
             for (Link link : links) {
                 switch (links.get(0).getType()) {
-                    case ONE:
-                    case TWO:
+                    case EQ_ONE:
+                    case FROM_TWO:
                         result.append(String.format(" %s%s%s", LINKR.getKey(), link.getName(), LINKR.getValue()));
                         break;
-                    case GREEN:
+                    case EQ_GREEN:
                         result.append(String.format(" %s%s%s", LINK_GREENR.getKey(), link.getName(), LINK_GREENR.getValue()));
                         break;
                 }
 
                 for (Map.Entry<String, Map<String, List<String>>> group : link.getLinkAddress().entrySet()) {
                     if (!group.getKey().isEmpty() && linkSeq.contains(group.getKey())) {
-                        String comma = group.getValue().isEmpty() ? "": ",";
+                        String comma = group.getValue().isEmpty() ? "" : ",";
                         result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
                     }
                     String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && linkSeq.contains(m)).collect(Collectors.joining(", "));
                     if (!meanings.isEmpty()) {
-                        /*String space = link.getType() == LinkType.TWO ? "" : " ";
-                        String space2 = link.getType() == LinkType.TWO ? " " : "";*/
+                        /*String space = link.getType() == LinkType.FROM_TWO ? "" : " ";
+                        String space2 = link.getType() == LinkType.FROM_TWO ? " " : "";*/
                         String space = " ";
                         String space2 = "";
                         boolean isLastMeaning = group.getValue().entrySet().iterator().next().getValue().isEmpty();
                         boolean isLastLink = links.indexOf(link) == links.size() - 1;
-                        String comma = isLastMeaning && isLastLink ? "": ",";
+                        String comma = isLastMeaning ? "" : ",";
                         result.append(space).append(String.format("%s%s%s%s%s", CBLUE.getKey(), space2, meanings, comma, CBLUE.getValue()));
                     }
                     for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
@@ -131,6 +133,7 @@ public class IntermediateDslObject {
                                         result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
                                         result.append(" ").append(linkSeq.get(index + 1));
                                     } else {
+                                        //TODO if last for current link - no comma
                                         result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
                                     }
                                 } else {
@@ -141,8 +144,13 @@ public class IntermediateDslObject {
                     }
                 }
 
-                if ((links.indexOf(link) < links.size() - 1) && (link.getType() == LinkType.ONE)) {
-                    result.append("[c blue],[/c]");
+                if ((links.indexOf(link) < links.size() - 1)/* && (link.getType() == LinkType.EQ_ONE)*/) {
+                    if (linksSep != null) {
+                        result.append(linksSep);
+                    } else {
+                        //result.append("[c blue],[/c]");
+                    }
+
                 }
             }
         }
@@ -151,5 +159,9 @@ public class IntermediateDslObject {
             result.append(tail);
         }
         return result.toString();
+    }
+
+    public String toM1CompactString() {
+        return StringUtils.compact(toM1String());
     }
 }
