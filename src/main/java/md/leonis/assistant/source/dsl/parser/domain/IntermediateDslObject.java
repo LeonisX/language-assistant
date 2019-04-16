@@ -17,9 +17,8 @@ public class IntermediateDslObject {
     private String word;
     private String newWord;
     private String transcription = null;
-    private List<String> tags1 = new ArrayList<>();
-    private List<String> tags2 = new ArrayList<>();
-    private List<String> tags2Seq = new ArrayList<>();
+    private List<List<String>> tags = new ArrayList<>();
+    private List<List<String>> tagsSeq = new ArrayList<>();
     private String notes = null; //TODO deep parse to chunks
     private List<String> vars = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
@@ -32,6 +31,10 @@ public class IntermediateDslObject {
     public IntermediateDslObject(String word) {
         this.word = word;
         addNewGroup();
+        for (int i = 0; i < 3; i++) {
+            tags.add(new ArrayList<>());
+            tagsSeq.add(new ArrayList<>());
+        }
     }
 
     public DslGroup getCurrentGroup() {
@@ -59,9 +62,10 @@ public class IntermediateDslObject {
 
     public String toM1String() {
         StringBuilder result = new StringBuilder(String.format("[m1]%s", newWord));
-        if (!tags1.isEmpty()) {
+        renderTags(result, 1);
+        /*if (!tags1.isEmpty()) {
             result.append(" ").append(tags1.stream().map(p -> String.format("%s%s%s", PTAG.getKey(), p, PTAG.getValue())).collect(Collectors.joining(" ")));
-        }
+        }*/
         if (transcription != null) {
             result.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), transcription, TRANSCRIPTION.getValue()));
         }
@@ -69,7 +73,8 @@ public class IntermediateDslObject {
             result.append(" ").append(tags2.stream().map(p -> String.format("%s%s%s", PTAG.getKey(), p, PTAG.getValue())).collect(Collectors.joining(" ")));
         }*/
 
-        for (String tag2 : tags2) {
+        renderTags(result, 2);
+        /*for (String tag2 : tags2) {
             result.append(String.format(" %s%s%s", PTAG.getKey(), tag2, PTAG.getValue()));
             int index = tags2Seq.indexOf(tag2);
             if (index + 1 != tags2Seq.size()) {
@@ -77,7 +82,7 @@ public class IntermediateDslObject {
                     result.append(" ").append(tags2Seq.get(index + 1));
                 }
             }
-        }
+        }*/
 
         if (!vars.isEmpty()) {
             result.append(" ").append(VARS.getKey()).append(String.join("; ", vars)).append(VARS.getValue());
@@ -85,6 +90,8 @@ public class IntermediateDslObject {
         if (notes != null) {
             result.append(String.format(" %s%s%s", NOTES.getKey(), notes, NOTES.getValue()));
         }
+
+        renderTags(result, 3);
 
         if (!links.isEmpty()) {
             switch (links.get(0).getType()) {
@@ -159,6 +166,18 @@ public class IntermediateDslObject {
             result.append(tail);
         }
         return result.toString();
+    }
+
+    private void renderTags(StringBuilder result, int n) {
+        for (String tag : tags.get(n - 1)) {
+            result.append(String.format(" %s%s%s", PTAG.getKey(), tag, PTAG.getValue()));
+            int index = tagsSeq.get(n - 1).indexOf(tag);
+            if (index + 1 != tagsSeq.get(n - 1).size()) {
+                if (tagsSeq.get(n - 1).get(index + 1).startsWith("[") || tagsSeq.get(n - 1).get(index + 1).startsWith(",")) { // [i]и[/i] ,
+                    result.append(" ").append(tagsSeq.get(n - 1).get(index + 1));
+                }
+            }
+        }
     }
 
     public String toM1CompactString() {

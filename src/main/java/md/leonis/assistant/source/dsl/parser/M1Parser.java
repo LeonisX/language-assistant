@@ -37,6 +37,9 @@ public class M1Parser {
 
     public static final Pair<String, String> ITAG = new Pair<>("[i]", "[/i]");
 
+    public static final Pair<String, String> CTEALTAG = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
+
+
     private final IntermediateDslObject dslObject;
 
     public M1Parser(IntermediateDslObject dslObject) {
@@ -70,19 +73,7 @@ public class M1Parser {
         line = line.substring(dslObject.getNewWord().length()).trim();
 
         // [p]v[/p]
-        boolean readNext = true;
-
-        //TODO unify
-        while (readNext) {
-            Optional<String> body = StringUtils.tryGetBody(line, PTAG);
-            if (body.isPresent()) {
-                //TODO unescape []
-                dslObject.getTags1().add(body.get().trim());
-                line = StringUtils.trimOuterBody(line, PTAG).trim();
-            } else {
-                readNext = false;
-            }
-        }
+        line = tryReadTags(line, 1);
 
         // [c lightslategray]{{t}}\[ˊbu:tblæk\]{{/t}}[/c]
         Optional<String> body = StringUtils.tryGetBody(line, TRANSCRIPTION);
@@ -93,35 +84,7 @@ public class M1Parser {
         }
 
         // [p]v[/p]
-        readNext = true;
-
-        while (readNext) {
-            body = StringUtils.tryGetBody(line, PTAG);
-            if (body.isPresent()) {
-                dslObject.getTags2().add(body.get().trim());
-                dslObject.getTags2Seq().add(body.get());
-                line = StringUtils.trimOuterBody(line, PTAG).trim();
-
-                // ignore [i]и[/i]
-                body = StringUtils.tryGetBody(line, ITAG);
-                if (body.isPresent() && body.get().equals("и")) {
-                    line = StringUtils.trimOuterBody(line, ITAG).trim();
-                    dslObject.getTags2Seq().add(StringUtils.formatOuterBody(body.get(), ITAG));
-                }
-                // ignore [i],[/i]
-                body = StringUtils.tryGetBody(line, ITAG);
-                if (body.isPresent() && body.get().equals(",")) {
-                    line = StringUtils.trimOuterBody(line, ITAG).trim();
-                    dslObject.getTags2Seq().add(StringUtils.formatOuterBody(body.get(), ITAG));
-                }
-                if (StringUtils.startsWith(line, ",")) {
-                    line = StringUtils.removeStart(line, ",").trim();
-                    dslObject.getTags2Seq().add(",");
-                }
-            } else {
-                readNext = false;
-            }
-        }
+        line = tryReadTags(line, 2);
 
         body = StringUtils.tryGetBody(line, VARS);
         if (body.isPresent()) {
@@ -137,6 +100,8 @@ public class M1Parser {
             line = StringUtils.trimOuterBody(line, NOTES).trim();
         }
 
+        // [p]v[/p]
+        line = tryReadTags(line, 3);
 
         // [c mediumblue][b]=[/b][/c]
         body = StringUtils.tryGetBody(line, LINK);
@@ -185,6 +150,50 @@ public class M1Parser {
         dslObject.setState(ParserState.TRN);
     }
 
+    //TODO unify
+    private String tryReadTags(String line, int n) {
+        // [p]v[/p]
+        boolean readNext = true;
+
+        while (readNext) {
+            //hack
+            Optional<String> body = StringUtils.tryGetBody(line, ITAG);
+            if (body.isPresent() && (body.get().trim().equals("a") || body.get().trim().equals("n") || body.get().trim().equals("v"))) {
+                dslObject.getTags().get(n - 1).add(body.get().trim());
+                dslObject.getTagsSeq().get(n - 1).add(body.get());
+                line = StringUtils.trimOuterBody(line, ITAG).trim();
+            }
+            //hack
+            body = StringUtils.tryGetBody(line, CTEALTAG);
+            if (body.isPresent() && (body.get().trim().equals("a") || body.get().trim().equals("n") || body.get().trim().equals("v"))) {
+                dslObject.getTags().get(n - 1).add(body.get().trim());
+                dslObject.getTagsSeq().get(n - 1).add(body.get());
+                line = StringUtils.trimOuterBody(line, CTEALTAG).trim();
+            }
+
+            body = StringUtils.tryGetBody(line, PTAG);
+            if (body.isPresent()) {
+                dslObject.getTags().get(n - 1).add(body.get().trim());
+                dslObject.getTagsSeq().get(n - 1).add(body.get());
+                line = StringUtils.trimOuterBody(line, PTAG).trim();
+
+                line = tryIgnore(line, n, "[i]и[/i]");
+                line = tryIgnore(line, n, "[i],[/i]");
+                line = tryIgnore(line, n, ",");
+            } else {
+                readNext = false;
+            }
+        }
+        return line;
+    }
+
+    private String tryIgnore(String line, int n, String tag) {
+        if (StringUtils.startsWith(line, tag)) {
+            line = StringUtils.removeStart(line, tag).trim();
+            dslObject.getTagsSeq().get(n - 1).add(tag);
+        }
+        return line;
+    }
 
     private String tryReadLink(String line, LinkType linkType) {
         boolean readNext = true;

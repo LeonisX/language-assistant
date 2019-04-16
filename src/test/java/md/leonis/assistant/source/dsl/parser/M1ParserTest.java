@@ -23,9 +23,8 @@ class M1ParserTest {
         assertEquals("word", dslObject.getWord());
         assertEquals("word", dslObject.getNewWord());
         assertEquals("\\[ˊbu:tblæk\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("n"));
-        assertThat(dslObject.getTags2Seq(), contains("n"));
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertEquals("[p]преим.[/p] [p]амер.[/p]", dslObject.getNotes());
         assertEquals("[]", dslObject.getLinks().toString());
@@ -45,9 +44,8 @@ class M1ParserTest {
         assertEquals("word", dslObject.getWord());
         assertEquals("word", dslObject.getNewWord());
         assertEquals("\\[ˊbu:gɪ\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, boogie-woogie, {}}]", dslObject.getLinks().toString());
@@ -68,9 +66,8 @@ class M1ParserTest {
         assertEquals("A", dslObject.getWord());
         assertEquals("A, a", dslObject.getNewWord());
         assertEquals("\\[eɪ\\]", dslObject.getTranscription());
-        assertThat(dslObject.getTags1(), contains("n"));
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[n], [], []]", dslObject.getTags().toString());
+        assertEquals("[[n], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -91,9 +88,8 @@ class M1ParserTest {
         assertEquals("absent", dslObject.getWord());
         assertEquals("absent", dslObject.getNewWord());
         assertNull(dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -114,9 +110,8 @@ class M1ParserTest {
         assertEquals("aback", dslObject.getWord());
         assertEquals("aback", dslObject.getNewWord());
         assertEquals("\\[əˊbæk\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -137,9 +132,8 @@ class M1ParserTest {
         assertEquals("ablaze", dslObject.getWord());
         assertEquals("ablaze", dslObject.getNewWord());
         assertEquals("\\[əˊbleɪz\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("a", "predic."));
-        assertThat(dslObject.getTags2Seq(), contains("a", "predic."));
+        assertEquals("[[], [a, predic.], []]", dslObject.getTags().toString());
+        assertEquals("[[], [a, predic.], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -160,9 +154,8 @@ class M1ParserTest {
         assertEquals("aborigine", dslObject.getWord());
         assertEquals("aborigine", dslObject.getNewWord());
         assertEquals("\\[ˏæbəˊrɪdʒɪnɪ\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, aboriginal, {={2=[]}}}]", dslObject.getLinks().toString());
@@ -183,9 +176,8 @@ class M1ParserTest {
         assertEquals("alleluia", dslObject.getWord());
         assertEquals("alleluia", dslObject.getNewWord());
         assertEquals("\\[ˏæləˊlu:jə\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, halleluja, {}}, {EQ_ONE, hallelujah, {}}]", dslObject.getLinks().toString());
@@ -206,9 +198,8 @@ class M1ParserTest {
         assertEquals("arise", dslObject.getWord());
         assertEquals("arise", dslObject.getNewWord());
         assertEquals("\\[əˊraɪz\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("v"));
-        assertThat(dslObject.getTags2Seq(), contains("v"));
+        assertEquals("[[], [v], []]", dslObject.getTags().toString());
+        assertEquals("[[], [v], []]", dslObject.getTagsSeq().toString());
         assertThat(dslObject.getVars(), contains("arose", "arisen"));
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -229,9 +220,8 @@ class M1ParserTest {
         assertEquals("about-face", dslObject.getWord());
         assertEquals("about-face", dslObject.getNewWord());
         assertEquals("\\[əˏbaυtˊfeɪs\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, about-turn, {={1=[], 2=[]}}}]", dslObject.getLinks().toString());
@@ -252,9 +242,8 @@ class M1ParserTest {
         assertEquals("accusal", dslObject.getWord());
         assertEquals("accusal", dslObject.getNewWord());
         assertEquals("\\[əˊkju:zǝl\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, accusation, {={=[1)]}}}]", dslObject.getLinks().toString());
@@ -275,9 +264,8 @@ class M1ParserTest {
         assertEquals("alleyway", dslObject.getWord());
         assertEquals("alleyway", dslObject.getNewWord());
         assertEquals("\\[ˊælɪweɪ\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, alley, {Ⅰ={=[1), 2)]}}}]", dslObject.getLinks().toString());
@@ -298,9 +286,8 @@ class M1ParserTest {
         assertEquals("anyway", dslObject.getWord());
         assertEquals("anyway", dslObject.getNewWord());
         assertEquals("\\[ˊenɪweɪ\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, anyhow, {={=[1), 2)]}}}]", dslObject.getLinks().toString());
@@ -321,9 +308,8 @@ class M1ParserTest {
         assertEquals("balsamic", dslObject.getWord());
         assertEquals("balsamic", dslObject.getNewWord());
         assertEquals("\\[bɔ:lˊsæmɪk\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, balmy, {={=[1), 4)]}}}]", dslObject.getLinks().toString());
@@ -344,9 +330,8 @@ class M1ParserTest {
         assertEquals("bow-knot", dslObject.getWord());
         assertEquals("bow-knot", dslObject.getNewWord());
         assertEquals("\\[ˊbəυnɒt\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, bow, {Ⅱ={1=[1)]}}}]", dslObject.getLinks().toString());
@@ -367,9 +352,8 @@ class M1ParserTest {
         assertEquals("beheld", dslObject.getWord());
         assertEquals("beheld", dslObject.getNewWord());
         assertEquals("\\[bɪˊheld\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("past", "p. p."));
-        assertThat(dslObject.getTags2Seq(), contains("past", "[i]и[/i]", "p. p."));
+        assertEquals("[[], [past, p. p.], []]", dslObject.getTags().toString());
+        assertEquals("[[], [past, [i]и[/i], p. p.], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{FROM_TWO, behold, {={1=[]}}}]", dslObject.getLinks().toString());
@@ -390,9 +374,8 @@ class M1ParserTest {
         assertEquals("archeo-", dslObject.getWord());
         assertEquals("archeo-", dslObject.getNewWord());
         assertEquals("\\[ˊɑ:kɪə(υ)-\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_GREEN, archaeo-, {}}]", dslObject.getLinks().toString());
@@ -413,9 +396,8 @@ class M1ParserTest {
         assertEquals("axes", dslObject.getWord());
         assertEquals("axes", dslObject.getNewWord());
         assertEquals("\\[ˊæksɪz\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("pl"));
-        assertThat(dslObject.getTags2Seq(), contains("pl"));
+        assertEquals("[[], [pl], []]", dslObject.getTags().toString());
+        assertEquals("[[], [pl], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{FROM_TWO, ax, {={1=[]}}}, {FROM_TWO, axe, {={1=[]}}}]", dslObject.getLinks().toString());
@@ -436,9 +418,8 @@ class M1ParserTest {
         assertEquals("blew", dslObject.getWord());
         assertEquals("blew", dslObject.getNewWord());
         assertEquals("\\[blu:\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("past"));
-        assertThat(dslObject.getTags2Seq(), contains("past"));
+        assertEquals("[[], [past], []]", dslObject.getTags().toString());
+        assertEquals("[[], [past], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{FROM_TWO, blow, {Ⅱ={2=[]}}}, {FROM_TWO, blow, {Ⅲ={2=[]}}}]", dslObject.getLinks().toString());
@@ -459,9 +440,8 @@ class M1ParserTest {
         assertEquals("briar", dslObject.getWord());
         assertEquals("briar", dslObject.getNewWord());
         assertEquals("\\[ˊbra(ɪ)ə\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, brier, {Ⅰ={}}}, {EQ_ONE, brier, {Ⅱ={}}}]", dslObject.getLinks().toString());
@@ -482,9 +462,8 @@ class M1ParserTest {
         assertEquals("calves", dslObject.getWord());
         assertEquals("calves", dslObject.getNewWord());
         assertEquals("\\[kɑ:vz\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("pl"));
-        assertThat(dslObject.getTags2Seq(), contains("pl"));
+        assertEquals("[[], [pl], []]", dslObject.getTags().toString());
+        assertEquals("[[], [pl], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{FROM_TWO, calf, {Ⅰ={}}}, {FROM_TWO, calf, {Ⅱ={}}}]", dslObject.getLinks().toString());
@@ -505,9 +484,8 @@ class M1ParserTest {
         assertEquals("curst", dslObject.getWord());
         assertEquals("curst", dslObject.getNewWord());
         assertEquals("\\[kɜ:st\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, cursed, {={2=[], 3=[]}}}]", dslObject.getLinks().toString());
@@ -528,9 +506,8 @@ class M1ParserTest {
         assertEquals("upstair", dslObject.getWord());
         assertEquals("upstair", dslObject.getNewWord());
         assertEquals("\\[ˏʌpˊsteə\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertTrue(dslObject.getTags2().isEmpty());
-        assertTrue(dslObject.getTags2Seq().isEmpty());
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertEquals("[{EQ_ONE, upstairs, {={1=[1)], 3=[]}}}]", dslObject.getLinks().toString());
@@ -551,9 +528,8 @@ class M1ParserTest {
         assertEquals("aboard", dslObject.getWord());
         assertEquals("aboard", dslObject.getNewWord());
         assertEquals("\\[əˊbɔ:d\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("adv", "prep"));
-        assertThat(dslObject.getTags2Seq(), contains("adv", "[i],[/i]", "prep"));
+        assertEquals("[[], [adv, prep], []]", dslObject.getTags().toString());
+        assertEquals("[[], [adv, [i],[/i], prep], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -574,9 +550,8 @@ class M1ParserTest {
         assertEquals("à la carte", dslObject.getWord());
         assertEquals("à la carte", dslObject.getNewWord());
         assertEquals("\\[ˏæləˊkɑ:t\\]", dslObject.getTranscription());
-        assertTrue(dslObject.getTags1().isEmpty());
-        assertThat(dslObject.getTags2(), contains("a", "adv"));
-        assertThat(dslObject.getTags2Seq(), contains("a", ",", "adv"));
+        assertEquals("[[], [a, adv], []]", dslObject.getTags().toString());
+        assertEquals("[[], [a, ,, adv], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -586,7 +561,101 @@ class M1ParserTest {
         assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
-    // TODO [m1]betake [c lightslategray]{{t}}\[bɪˊteɪk\]{{/t}}[/c] [p]v[/p] [c mediumvioletred](betook; betaken)[/c] [p]refl.[/p]
-    // tags3 after notes
-    // unified method to read tags
+    @Test
+    @DisplayName("[m1]betake [c lightslategray]{{t}}\\[bɪˊteɪk\\]{{/t}}[/c] [p]v[/p] [c mediumvioletred](betook; betaken)[/c] [p]refl.[/p]")
+    void parse26() {
+        String m1 = "[m1]betake [c lightslategray]{{t}}\\[bɪˊteɪk\\]{{/t}}[/c] [p]v[/p] [c mediumvioletred](betook; betaken)[/c] [p]refl.[/p]";
+        dslObject = new IntermediateDslObject("betake");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("betake", dslObject.getWord());
+        assertEquals("betake", dslObject.getNewWord());
+        assertEquals("\\[bɪˊteɪk\\]", dslObject.getTranscription());
+        assertEquals("[[], [v], [refl.]]", dslObject.getTags().toString());
+        assertEquals("[[], [v], [refl.]]", dslObject.getTagsSeq().toString());
+        assertThat(dslObject.getVars(), contains("betook", "betaken"));
+        assertNull(dslObject.getNotes());
+        assertTrue(dslObject.getLinks().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]caries [c lightslategray]{{t}}\\[ˊkeərɪz\\]{{/t}}[/c] [i]n[/i]")
+    void parse27() {
+        String m1 = "[m1]caries [c lightslategray]{{t}}\\[ˊkeərɪz\\]{{/t}}[/c] [i]n[/i]";
+        dslObject = new IntermediateDslObject("caries");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("caries", dslObject.getWord());
+        assertEquals("caries", dslObject.getNewWord());
+        assertEquals("\\[ˊkeərɪz\\]", dslObject.getTranscription());
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertTrue(dslObject.getLinks().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]continuing education [c lightslategray]{{t}}\\[kənˏtɪnju:ɪŋedjυˊkeɪʃən\\]{{/t}}[/c][i] n[/i]")
+    void parse28() {
+        String m1 = "[m1]continuing education [c lightslategray]{{t}}\\[kənˏtɪnju:ɪŋedjυˊkeɪʃən\\]{{/t}}[/c][i] n[/i]";
+        dslObject = new IntermediateDslObject("continuing education");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("continuing education", dslObject.getWord());
+        assertEquals("continuing education", dslObject.getNewWord());
+        assertEquals("\\[kənˏtɪnju:ɪŋedjυˊkeɪʃən\\]", dslObject.getTranscription());
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [ n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertTrue(dslObject.getLinks().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]goggle-eyed [c lightslategray]{{t}}\\[ˏgɒglˊaɪd\\]{{/t}}[/c] [c teal][lang id=1033]a[/lang][/c]")
+    void parse29() {
+        String m1 = "[m1]goggle-eyed [c lightslategray]{{t}}\\[ˏgɒglˊaɪd\\]{{/t}}[/c] [c teal][lang id=1033]a[/lang][/c]";
+        dslObject = new IntermediateDslObject("goggle-eyed");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("goggle-eyed", dslObject.getWord());
+        assertEquals("goggle-eyed", dslObject.getNewWord());
+        assertEquals("\\[ˏgɒglˊaɪd\\]", dslObject.getTranscription());
+        assertEquals("[[], [a], []]", dslObject.getTags().toString());
+        assertEquals("[[], [a], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertTrue(dslObject.getLinks().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    //TODo
+    // new field
+    // [m1]stone-cold [c lightslategray]{{t}}\[ˏstəυnˊkəυld\]{{/t}}[/c] [p]a[/p] [c darkred]≅[/c]
+
+    // new fields
+    // sameAs list
+    // abbreviated list
+    // Links: SEE_ALSO, SEE
+    // see
 }
