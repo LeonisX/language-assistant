@@ -140,17 +140,16 @@ public class M1Parser {
             System.out.println();
         }
 
+        //TODO switch to notes; finally retest this
         if (dslObject.getTail() != null && !dslObject.getTail().equals(":") && !dslObject.getTail().equals("[i]:[/i]")) {
             System.out.println(unchangedLine + " ( " + dslObject.getTail() + " )");
         }
 
-        //TODO find all lines word != newWord
         //TODO probably split newWord A, a -> A; a
 
         dslObject.setState(ParserState.TRN);
     }
 
-    //TODO unify
     private String tryReadTags(String line, int n) {
         // [p]v[/p]
         boolean readNext = true;

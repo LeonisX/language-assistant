@@ -655,6 +655,10 @@ class M1ParserTest {
 
     // [m1]stone-cold [c lightslategray]{{t}}\[ˏstəυnˊkəυld\]{{/t}}[/c] [p]a[/p] [c darkred]≅[/c]
 
+    //TODO switch to notes; finally retest tails
+
+
+
     // new fields
     // sameAs list -> in translation object
     // abbreviated list
