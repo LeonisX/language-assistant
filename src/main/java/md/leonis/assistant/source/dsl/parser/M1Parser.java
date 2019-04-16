@@ -108,6 +108,16 @@ public class M1Parser {
                     line = StringUtils.trimOuterBody(line, ITAG).trim();
                     dslObject.getTags2Seq().add(StringUtils.formatOuterBody(body.get(), ITAG));
                 }
+                // ignore [i],[/i]
+                body = StringUtils.tryGetBody(line, ITAG);
+                if (body.isPresent() && body.get().equals(",")) {
+                    line = StringUtils.trimOuterBody(line, ITAG).trim();
+                    dslObject.getTags2Seq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                }
+                if (StringUtils.startsWith(line, ",")) {
+                    line = StringUtils.removeStart(line, ",").trim();
+                    dslObject.getTags2Seq().add(",");
+                }
             } else {
                 readNext = false;
             }
@@ -163,6 +173,10 @@ public class M1Parser {
             System.out.println(unchangedLine);
             System.out.println(result);
             System.out.println();
+        }
+
+        if (dslObject.getTail() != null && !dslObject.getTail().equals(":") && !dslObject.getTail().equals("[i]:[/i]")) {
+            System.out.println(unchangedLine + " ( " + dslObject.getTail() + " )");
         }
 
         //TODO find all lines word != newWord

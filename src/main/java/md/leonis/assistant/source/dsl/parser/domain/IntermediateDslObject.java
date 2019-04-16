@@ -73,7 +73,7 @@ public class IntermediateDslObject {
             result.append(String.format(" %s%s%s", PTAG.getKey(), tag2, PTAG.getValue()));
             int index = tags2Seq.indexOf(tag2);
             if (index + 1 != tags2Seq.size()) {
-                if (tags2Seq.get(index + 1).startsWith("[")) { // [i]и[/i]
+                if (tags2Seq.get(index + 1).startsWith("[") || tags2Seq.get(index + 1).startsWith(",")) { // [i]и[/i]
                     result.append(" ").append(tags2Seq.get(index + 1));
                 }
             }

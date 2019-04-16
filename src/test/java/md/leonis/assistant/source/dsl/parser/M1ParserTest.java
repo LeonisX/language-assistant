@@ -540,4 +540,53 @@ class M1ParserTest {
         //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
+    @Test
+    @DisplayName("[m1]aboard [c lightslategray]{{t}}\\[əˊbɔ:d\\]{{/t}}[/c] [p]adv[/p][i],[/i] [p]prep[/p]")
+    void parse24() {
+        String m1 = "[m1]aboard [c lightslategray]{{t}}\\[əˊbɔ:d\\]{{/t}}[/c] [p]adv[/p][i],[/i] [p]prep[/p]";
+        dslObject = new IntermediateDslObject("aboard");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("aboard", dslObject.getWord());
+        assertEquals("aboard", dslObject.getNewWord());
+        assertEquals("\\[əˊbɔ:d\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), contains("adv", "prep"));
+        assertThat(dslObject.getTags2Seq(), contains("adv", "[i],[/i]", "prep"));
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertTrue(dslObject.getLinks().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]à la carte [c lightslategray]{{t}}\\[ˏæləˊkɑ:t\\]{{/t}}[/c] [p]a[/p], [p]adv[/p]")
+    void parse25() {
+        String m1 = "[m1]à la carte [c lightslategray]{{t}}\\[ˏæləˊkɑ:t\\]{{/t}}[/c] [p]a[/p], [p]adv[/p]";
+        dslObject = new IntermediateDslObject("à la carte");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("à la carte", dslObject.getWord());
+        assertEquals("à la carte", dslObject.getNewWord());
+        assertEquals("\\[ˏæləˊkɑ:t\\]", dslObject.getTranscription());
+        assertTrue(dslObject.getTags1().isEmpty());
+        assertThat(dslObject.getTags2(), contains("a", "adv"));
+        assertThat(dslObject.getTags2Seq(), contains("a", ",", "adv"));
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertTrue(dslObject.getLinks().isEmpty());
+        assertTrue(dslObject.getLinkSeq().isEmpty());
+        assertNull(dslObject.getTail());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    // TODO [m1]betake [c lightslategray]{{t}}\[bɪˊteɪk\]{{/t}}[/c] [p]v[/p] [c mediumvioletred](betook; betaken)[/c] [p]refl.[/p]
+    // tags3 after notes
+    // unified method to read tags
 }
