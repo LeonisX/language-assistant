@@ -650,11 +650,13 @@ class M1ParserTest {
     }
 
     //TODo
-    // new field
+    // new fields:
+    // translations -> word, nearly flag, examples
+
     // [m1]stone-cold [c lightslategray]{{t}}\[ˏstəυnˊkəυld\]{{/t}}[/c] [p]a[/p] [c darkred]≅[/c]
 
     // new fields
-    // sameAs list
+    // sameAs list -> in translation object
     // abbreviated list
     // Links: SEE_ALSO, SEE
     // see
