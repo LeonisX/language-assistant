@@ -692,6 +692,89 @@ class M1ParserTest {
         assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
+    @Test
+    @DisplayName("[m1]abash [c lightslategray]{{t}}\\[əˊbæʃ\\]{{/t}}[/c] [p]v[/p] ([p]обыкн.[/p] [p]pass.[/p])")
+    void parse33() {
+        String m1 = "[m1]abash [c lightslategray]{{t}}\\[əˊbæʃ\\]{{/t}}[/c] [p]v[/p] ([p]обыкн.[/p] [p]pass.[/p])";
+        dslObject = new IntermediateDslObject("abash");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("abash", dslObject.getWord());
+        assertEquals("abash", dslObject.getNewWord());
+        assertEquals("\\[əˊbæʃ\\]", dslObject.getTranscription());
+        assertEquals("[[], [v], []]", dslObject.getTags().toString());
+        assertEquals("[[], [v], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]acoustics [c lightslategray]{{t}}\\[əˊku:stɪks\\]{{/t}}[/c] [p]n[/p] [p]pl[/p] ([p]употр.[/p] [i]как[/i] [p]sing[/p])")
+    void parse34() {
+        String m1 = "[m1]acoustics [c lightslategray]{{t}}\\[əˊku:stɪks\\]{{/t}}[/c] [p]n[/p] [p]pl[/p] ([p]употр.[/p] [i]как[/i] [p]sing[/p])";
+        dslObject = new IntermediateDslObject("acoustics");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n, pl], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n, pl], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]agenda [c lightslategray]{{t}}\\[əˊdʒendə\\]{{/t}}[/c] [p]n[/p] [p]pl[/p] ([i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])")
+    void parse35() {
+        String m1 = "[m1]agenda [c lightslategray]{{t}}\\[əˊdʒendə\\]{{/t}}[/c] [p]n[/p] [p]pl[/p] ([i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])";
+        dslObject = new IntermediateDslObject("agenda");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n, pl], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n, pl], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]Asiatic [c lightslategray]{{t}}\\[ˏeɪʃɪˊætɪk\\]{{/t}}[/c] ([i]часто[/i] [p]презр.[/p]) [c mediumblue][b]=[/b][/c] <<Asian>>")
+    void parse36() {
+        String m1 = "[m1]Asiatic [c lightslategray]{{t}}\\[ˏeɪʃɪˊætɪk\\]{{/t}}[/c] ([i]часто[/i] [p]презр.[/p]) [c mediumblue][b]=[/b][/c] <<Asian>>";
+        dslObject = new IntermediateDslObject("Asiatic");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [], []]", dslObject.getTags().toString());
+        assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertEquals("[{EQ_ONE, Asian, {}}]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
     //TODo
 
     //TODO switch to notes; finally retest tails again and cover all cases
@@ -699,16 +782,9 @@ class M1ParserTest {
     // ([p]pl[/p] [c teal][lang id=1033]-es[/lang][/c] [c lightslategray]{{t}}\[-ɪz\]{{/t}}[/c], [c teal][lang id=1033]-ci[/lang][/c])
     // ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\[ˊæbəti:z\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])
 
-    // ([p]обыкн.[/p] [p]pass.[/p])
-
-    // ([p]употр.[/p] [i]как[/i] [p]sing[/p])
-
-    // ([i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])
-
     // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
     // ([p]сокр.[/p] [i]от[/i] <<approbation>>[c blue], [/c]<<approval>>)
 
-    // ([i]часто[/i] [p]презр.[/p])
 
     // for tail:
     // new fields

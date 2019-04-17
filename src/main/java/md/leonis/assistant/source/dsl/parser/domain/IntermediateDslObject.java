@@ -20,6 +20,7 @@ public class IntermediateDslObject {
     private List<List<String>> tags = new ArrayList<>();
     private List<List<String>> tagsSeq = new ArrayList<>();
     private String notes = null; //TODO deep parse to chunks
+    private String note = null;
     private List<String> vars = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
     private String tail = null;
@@ -90,6 +91,11 @@ public class IntermediateDslObject {
         }
         if (notes != null) {
             result.append(String.format(" %s%s%s", NOTES.getKey(), notes, NOTES.getValue()));
+        }
+
+        if (note != null) {
+            String value = NOTES_MAP.entrySet().stream().filter(e -> e.getValue().equals(note)).findFirst().get().getKey();
+            result.append(String.format(" %s%s%s", NOTES.getKey(), value, NOTES.getValue()));
         }
 
         renderTags(result, 3);

@@ -6,9 +6,7 @@ import md.leonis.assistant.source.dsl.parser.domain.Link;
 import md.leonis.assistant.source.dsl.parser.domain.LinkType;
 import md.leonis.assistant.source.dsl.parser.domain.ParserState;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class M1Parser {
@@ -47,6 +45,12 @@ public class M1Parser {
 
     public static final Pair<String, String> CTEALTAG = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
 
+    public static final Map<String, String> NOTES_MAP = new HashMap<String, String>() {{
+        put("[p]обыкн.[/p] [p]pass.[/p]", "обычно страдательный залог");
+        put("[p]употр.[/p] [i]как[/i] [p]sing[/p]", "употребляется как единственное число");
+        put("[i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "иногда употребляется как единственное число");
+        put("[i]часто[/i] [p]презр.[/p]", "часто презрительно");
+    }};
 
     private final IntermediateDslObject dslObject;
 
@@ -104,7 +108,11 @@ public class M1Parser {
         //TODO parse deeply
         body = StringUtils.tryGetBody(line, NOTES);
         if (body.isPresent()) {
-            dslObject.setNotes(body.get().trim());
+            if (NOTES_MAP.get(body.get()) != null) {
+                dslObject.setNote(NOTES_MAP.get(body.get()));
+            } else {
+                dslObject.setNotes(body.get().trim());
+            }
             line = StringUtils.trimOuterBody(line, NOTES).trim();
         }
 
