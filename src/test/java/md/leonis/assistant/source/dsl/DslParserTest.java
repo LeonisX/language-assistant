@@ -27,7 +27,6 @@ class DslParserTest {
         assertEquals("[[n], [], []]", dslObject.getTagsSeq().toString());
         assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
-        assertTrue(dslObject.getLinkSeq().isEmpty());
         assertEquals(ParserState.TRN, dslObject.getState());
     }
 

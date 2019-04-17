@@ -18,12 +18,20 @@ public class M1Parser {
     public static final String LINK_PRE = "[c mediumblue][b]=[/b][/c]";
     public static final String LINK_U = "[c blue],[/c]";
     public static final String LINK2_PRE = "[i]от[/i]";
+    public static final String LINK_SEE_ALSO_PRE = "\\[[p]см. тж.[/p]";
+    public static final String LINK_SEE_PRE = "\\[[p]см.[/p]";
+    public static final String LINK_SEE_POST = "\\]";
+
+    public static final String NEARLY = "[c darkred]≅[/c]";
 
     public static final Pair<String, String> LINK = new Pair<>("[c mediumblue][b]=[/b][/c] <<", ">>");
     public static final Pair<String, String> LINKR = new Pair<>("<<", ">>");
 
     public static final Pair<String, String> LINK_GREEN = new Pair<>("[c mediumblue][b]=[/b][/c] [c lightseagreen][lang id=1033]", "[/lang][/c]");
     public static final Pair<String, String> LINK_GREENR = new Pair<>("[c lightseagreen][lang id=1033]", "[/lang][/c]");
+
+    public static final Pair<String, String> LINK_SEE_ALSO = new Pair<>("\\[[p]см. тж.[/p] <<", LINK_SEE_POST);
+    public static final Pair<String, String> LINK_SEE = new Pair<>("\\[[p]см.[/p] <<", LINK_SEE_POST);
 
     public static final Pair<String, String> CBLUE = new Pair<>("[c blue]", "[/c]");
 
@@ -124,7 +132,25 @@ public class M1Parser {
             line = StringUtils.formatOuterBody(body.get(), LINKR) + line;
             line = tryReadLink(line, LinkType.FROM_TWO);
         }
+        // \[[p]см. тж.[/p] <<kerb>> [i]и[/i] <<curb>> [c blue]1,[/c] [c blue]4)[/c]\]
+        body = StringUtils.tryGetBody(line, LINK_SEE_ALSO);
+        if (body.isPresent()) {
+            line = StringUtils.trimOuterBody(line, LINK_SEE_ALSO);
+            line = LINKR.getKey() + body.get();
+            line = tryReadLink(line, LinkType.SEE_ALSO);
+        }
+        // \[[p]см.[/p] <<dare>> [c blue]1,[/c] [c blue]1)[/c]\]
+        body = StringUtils.tryGetBody(line, LINK_SEE);
+        if (body.isPresent()) {
+            line = StringUtils.trimOuterBody(line, LINK_SEE);
+            line = LINKR.getKey() + body.get();
+            line = tryReadLink(line, LinkType.SEE);
+        }
 
+        if (line.equals(NEARLY)) {
+            dslObject.getCurrentTranslation().setNearly(true);
+            line = "";
+        }
 
         //TODO investigate
         if (!line.isEmpty()) {
@@ -217,7 +243,7 @@ public class M1Parser {
             // [c blue],[/c]
             if (line.startsWith(LINK_U)) {
                 line = line.replace(LINK_U, "").trim();
-                this.dslObject.setLinksSep(LINK_U);
+                link.setSep(LINK_U);
                 //TODO unify
                 body = StringUtils.tryGetBody(line, LINKR);
                 if (body.isPresent()) {
@@ -248,8 +274,8 @@ public class M1Parser {
                     body = StringUtils.tryGetBody(line, ITAG);
                     if (body.isPresent()) {
                         line = StringUtils.trimOuterBody(line, ITAG).trim();
-                        this.dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
-                        this.dslObject.setLinksSep(StringUtils.formatOuterBody(body.get(), ITAG));
+                        link.getSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                        link.setSep(StringUtils.formatOuterBody(body.get(), ITAG));
                     }
                 } else {
                     readNext = false;
@@ -257,8 +283,8 @@ public class M1Parser {
                     body = StringUtils.tryGetBody(line, ITAG);
                     if (body.isPresent()) {
                         line = StringUtils.trimOuterBody(line, ITAG).trim();
-                        this.dslObject.getLinkSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
-                        this.dslObject.setLinksSep(StringUtils.formatOuterBody(body.get(), ITAG));
+                        link.getSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
+                        link.setSep(StringUtils.formatOuterBody(body.get(), ITAG));
                     }
                 }
             }

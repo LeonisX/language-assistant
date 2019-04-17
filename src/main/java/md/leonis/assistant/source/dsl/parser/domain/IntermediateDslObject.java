@@ -22,19 +22,29 @@ public class IntermediateDslObject {
     private String notes = null; //TODO deep parse to chunks
     private List<String> vars = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
-    private List<String> linkSeq = new ArrayList<>();
-    private String linksSep = null;
     private String tail = null;
     private List<DslGroup> dslGroups = new ArrayList<>();
+
+    private List<Translation> translations = new ArrayList<>();
+
     private ParserState state = ParserState.M0;
 
     public IntermediateDslObject(String word) {
         this.word = word;
-        addNewGroup();
+        //addNewGroup();
+        addNewTranslation();
         for (int i = 0; i < 3; i++) {
             tags.add(new ArrayList<>());
             tagsSeq.add(new ArrayList<>());
         }
+    }
+
+    public Translation getCurrentTranslation() {
+        return translations.get(translations.size() - 1);
+    }
+
+    public void addNewTranslation() {
+        translations.add(new Translation());
     }
 
     public DslGroup getCurrentGroup() {
@@ -45,44 +55,35 @@ public class IntermediateDslObject {
         dslGroups.add(new DslGroup());
     }
 
+    public Link getCurrentLink() {
+        return links.get(links.size() - 1);
+    }
+
     public void addLinkGroups(List<String> chunks) {
         links.get(links.size() - 1).addLinkGroups(chunks);
-        linkSeq.addAll(chunks);
+        getCurrentLink().getSeq().addAll(chunks);
     }
 
     public void addLinkMeanings(List<String> chunks) {
         links.get(links.size() - 1).addLinkMeanings(chunks);
-        linkSeq.addAll(chunks);
+        getCurrentLink().getSeq().addAll(chunks);
     }
 
     public void addLinkNumbers(List<String> chunks) {
         links.get(links.size() - 1).addLinkNumbers(chunks);
-        linkSeq.addAll(chunks);
+        getCurrentLink().getSeq().addAll(chunks);
     }
 
     public String toM1String() {
         StringBuilder result = new StringBuilder(String.format("[m1]%s", newWord));
+
         renderTags(result, 1);
-        /*if (!tags1.isEmpty()) {
-            result.append(" ").append(tags1.stream().map(p -> String.format("%s%s%s", PTAG.getKey(), p, PTAG.getValue())).collect(Collectors.joining(" ")));
-        }*/
+
         if (transcription != null) {
             result.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), transcription, TRANSCRIPTION.getValue()));
         }
-        /*if (!tags2.isEmpty()) {
-            result.append(" ").append(tags2.stream().map(p -> String.format("%s%s%s", PTAG.getKey(), p, PTAG.getValue())).collect(Collectors.joining(" ")));
-        }*/
 
         renderTags(result, 2);
-        /*for (String tag2 : tags2) {
-            result.append(String.format(" %s%s%s", PTAG.getKey(), tag2, PTAG.getValue()));
-            int index = tags2Seq.indexOf(tag2);
-            if (index + 1 != tags2Seq.size()) {
-                if (tags2Seq.get(index + 1).startsWith("[") || tags2Seq.get(index + 1).startsWith(",")) { // [i]и[/i]
-                    result.append(" ").append(tags2Seq.get(index + 1));
-                }
-            }
-        }*/
 
         if (!vars.isEmpty()) {
             result.append(" ").append(VARS.getKey()).append(String.join("; ", vars)).append(VARS.getValue());
@@ -94,20 +95,33 @@ public class IntermediateDslObject {
         renderTags(result, 3);
 
         if (!links.isEmpty()) {
-            switch (links.get(0).getType()) {
-                case EQ_ONE:
-                case EQ_GREEN:
-                    result.append(" " + LINK_PRE);
-                    break;
-                case FROM_TWO:
-                    result.append(" " + LINK2_PRE);
-                    break;
-            }
+
+            LinkType prevType = LinkType.UNDEFINED;
 
             for (Link link : links) {
-                switch (links.get(0).getType()) {
+                if (prevType != link.getType()) {
+                    switch (link.getType()) {
+                        case EQ_ONE:
+                        case EQ_GREEN:
+                            result.append(" " + LINK_PRE);
+                            break;
+                        case FROM_TWO:
+                            result.append(" " + LINK2_PRE);
+                            break;
+                        case SEE_ALSO:
+                            result.append(" " + LINK_SEE_ALSO_PRE);
+                            break;
+                        case SEE:
+                            result.append(" " + LINK_SEE_PRE);
+                            break;
+                    }
+                }
+
+                switch (link.getType()) {
                     case EQ_ONE:
                     case FROM_TWO:
+                    case SEE_ALSO:
+                    case SEE:
                         result.append(String.format(" %s%s%s", LINKR.getKey(), link.getName(), LINKR.getValue()));
                         break;
                     case EQ_GREEN:
@@ -116,14 +130,12 @@ public class IntermediateDslObject {
                 }
 
                 for (Map.Entry<String, Map<String, List<String>>> group : link.getLinkAddress().entrySet()) {
-                    if (!group.getKey().isEmpty() && linkSeq.contains(group.getKey())) {
+                    if (!group.getKey().isEmpty() && link.getSeq().contains(group.getKey())) {
                         String comma = group.getValue().isEmpty() ? "" : ",";
                         result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
                     }
-                    String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && linkSeq.contains(m)).collect(Collectors.joining(", "));
+                    String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && link.getSeq().contains(m)).collect(Collectors.joining(", "));
                     if (!meanings.isEmpty()) {
-                        /*String space = link.getType() == LinkType.FROM_TWO ? "" : " ";
-                        String space2 = link.getType() == LinkType.FROM_TWO ? " " : "";*/
                         String space = " ";
                         String space2 = "";
                         boolean isLastMeaning = group.getValue().entrySet().iterator().next().getValue().isEmpty();
@@ -133,12 +145,12 @@ public class IntermediateDslObject {
                     }
                     for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
                         for (String number : meaning.getValue()) {
-                            if (!number.isEmpty() && linkSeq.contains(number)) {
-                                int index = linkSeq.indexOf(number);
-                                if (index + 1 != linkSeq.size()) {
-                                    if (linkSeq.get(index + 1).startsWith("[")) { // no comma, append with tag
+                            if (!number.isEmpty() && link.getSeq().contains(number)) {
+                                int index = link.getSeq().indexOf(number);
+                                if (index + 1 != link.getSeq().size()) {
+                                    if (link.getSeq().get(index + 1).startsWith("[")) { // no comma, append with tag
                                         result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
-                                        result.append(" ").append(linkSeq.get(index + 1));
+                                        result.append(" ").append(link.getSeq().get(index + 1));
                                     } else {
                                         //TODO if last for current link - no comma
                                         result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
@@ -151,15 +163,27 @@ public class IntermediateDslObject {
                     }
                 }
 
-                if ((links.indexOf(link) < links.size() - 1)/* && (link.getType() == LinkType.EQ_ONE)*/) {
-                    if (linksSep != null) {
-                        result.append(linksSep);
-                    } else {
-                        //result.append("[c blue],[/c]");
+                if ((links.indexOf(link) < links.size() - 1)) {
+                    if (link.getSep() != null) {
+                        result.append(link.getSep());
                     }
-
                 }
+
+                if ((links.indexOf(link) == links.size() - 1)) {
+                    switch (link.getType()) {
+                        case SEE_ALSO:
+                        case SEE:
+                            result.append(LINK_SEE_POST);
+                            break;
+                    }
+                }
+
+                prevType = link.getType();
             }
+        }
+
+        if (getCurrentTranslation().isNearly()) {
+            result.append(String.format(" %s", NEARLY));
         }
 
         if (tail != null) {
