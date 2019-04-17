@@ -695,6 +695,20 @@ class M1ParserTest {
     //TODo
 
     //TODO switch to notes; finally retest tails again and cover all cases
+    // plural forms + transcription ([p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\[eɪz\]{{/t}}[/c])
+    // ([p]pl[/p] [c teal][lang id=1033]-es[/lang][/c] [c lightslategray]{{t}}\[-ɪz\]{{/t}}[/c], [c teal][lang id=1033]-ci[/lang][/c])
+    // ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\[ˊæbəti:z\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])
+
+    // ([p]обыкн.[/p] [p]pass.[/p])
+
+    // ([p]употр.[/p] [i]как[/i] [p]sing[/p])
+
+    // ([i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])
+
+    // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
+    // ([p]сокр.[/p] [i]от[/i] <<approbation>>[c blue], [/c]<<approval>>)
+
+    // ([i]часто[/i] [p]презр.[/p])
 
     // for tail:
     // new fields

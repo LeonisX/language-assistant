@@ -135,14 +135,12 @@ public class M1Parser {
         // \[[p]см. тж.[/p] <<kerb>> [i]и[/i] <<curb>> [c blue]1,[/c] [c blue]4)[/c]\]
         body = StringUtils.tryGetBody(line, LINK_SEE_ALSO);
         if (body.isPresent()) {
-            line = StringUtils.trimOuterBody(line, LINK_SEE_ALSO);
             line = LINKR.getKey() + body.get();
             line = tryReadLink(line, LinkType.SEE_ALSO);
         }
         // \[[p]см.[/p] <<dare>> [c blue]1,[/c] [c blue]1)[/c]\]
         body = StringUtils.tryGetBody(line, LINK_SEE);
         if (body.isPresent()) {
-            line = StringUtils.trimOuterBody(line, LINK_SEE);
             line = LINKR.getKey() + body.get();
             line = tryReadLink(line, LinkType.SEE);
         }
@@ -167,8 +165,11 @@ public class M1Parser {
         }
 
         //TODO switch to notes; finally retest this
-        if (dslObject.getTail() != null && !dslObject.getTail().equals(":") && !dslObject.getTail().equals("[i]:[/i]")) {
+        /*if (dslObject.getTail() != null && !dslObject.getTail().equals(":") && !dslObject.getTail().equals("[i]:[/i]")) {
             System.out.println(unchangedLine + " ( " + dslObject.getTail() + " )");
+        }*/
+        if (dslObject.getNotes() != null) {
+            System.out.println(unchangedLine + " ( " + dslObject.getNotes() + " )");
         }
 
         //TODO probably split newWord A, a -> A; a
