@@ -21,6 +21,9 @@ public class IntermediateDslObject {
     private List<List<String>> tagsSeq = new ArrayList<>();
     private String notes = null; //TODO deep parse to chunks
     private String note = null;
+    private Plural plural = null;
+
+
     private List<String> vars = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
     private String tail = null;
@@ -96,6 +99,16 @@ public class IntermediateDslObject {
         if (note != null) {
             String value = NOTES_MAP.entrySet().stream().filter(e -> e.getValue().equals(note)).findFirst().get().getKey();
             result.append(String.format(" %s%s%s", NOTES.getKey(), value, NOTES.getValue()));
+        }
+
+        if (plural != null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            String words = String.join(", ", plural.getWords());
+            stringBuilder.append(String.format("%s%s%s", PLURAL_NOTE.getKey(), words, PLURAL_NOTE.getValue()));
+            if (plural.getTranscription() != null) {
+                stringBuilder.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
+            }
+            result.append(String.format(" %s%s%s", NOTES.getKey(), stringBuilder.toString(), NOTES.getValue()));
         }
 
         renderTags(result, 3);

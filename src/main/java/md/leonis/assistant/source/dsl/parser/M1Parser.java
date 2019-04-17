@@ -1,10 +1,7 @@
 package md.leonis.assistant.source.dsl.parser;
 
 import javafx.util.Pair;
-import md.leonis.assistant.source.dsl.parser.domain.IntermediateDslObject;
-import md.leonis.assistant.source.dsl.parser.domain.Link;
-import md.leonis.assistant.source.dsl.parser.domain.LinkType;
-import md.leonis.assistant.source.dsl.parser.domain.ParserState;
+import md.leonis.assistant.source.dsl.parser.domain.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,6 +48,10 @@ public class M1Parser {
         put("[i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "иногда употребляется как единственное число");
         put("[i]часто[/i] [p]презр.[/p]", "часто презрительно");
     }};
+
+    public static final Pair<String, String> PLURAL_NOTE = new Pair<>("[p]pl[/p] [c teal][lang id=1033]", "[/lang][/c]");
+
+
 
     private final IntermediateDslObject dslObject;
 
@@ -111,7 +112,11 @@ public class M1Parser {
             if (NOTES_MAP.get(body.get()) != null) {
                 dslObject.setNote(NOTES_MAP.get(body.get()));
             } else {
-                dslObject.setNotes(body.get().trim());
+                String processedBody = processNotes(body.get());
+
+                if (!processedBody.isEmpty()) {
+                    dslObject.setNotes(body.get().trim());
+                }
             }
             line = StringUtils.trimOuterBody(line, NOTES).trim();
         }
@@ -183,6 +188,24 @@ public class M1Parser {
         //TODO probably split newWord A, a -> A; a
 
         dslObject.setState(ParserState.TRN);
+    }
+
+    private String processNotes(String notes) {
+        // ([p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\[eɪz\]{{/t}}[/c])
+        Optional<String> body = StringUtils.tryGetBody(notes, PLURAL_NOTE);
+        if (body.isPresent()) {
+            dslObject.setPlural(new Plural(body.get()));
+            notes = StringUtils.trimOuterBody(notes, PLURAL_NOTE).trim();
+        }
+
+        body = StringUtils.tryGetBody(notes, TRANSCRIPTION);
+        if (body.isPresent()) {
+            //TODO unescape []
+            dslObject.getPlural().setTranscription(body.get().trim());
+            notes = StringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
+        }
+
+        return notes;
     }
 
     private String tryReadTags(String line, int n) {
