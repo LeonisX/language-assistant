@@ -50,7 +50,7 @@ public class M1Parser {
     }};
 
     public static final Pair<String, String> PLURAL_NOTE = new Pair<>("[p]pl[/p] [c teal][lang id=1033]", "[/lang][/c]");
-
+    public static final Pair<String, String> PLURAL_NOTER = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
 
 
     private final IntermediateDslObject dslObject;
@@ -191,24 +191,36 @@ public class M1Parser {
     }
 
     private String processNotes(String notes) {
+        boolean readNext = true;
+        while (readNext) {
+            int plurals = this.dslObject.getPlurals().size();
+            notes = tryReadPlurals(notes);
+            readNext = plurals < this.dslObject.getPlurals().size();
+        }
+        return notes;
+    }
+
+    private String tryReadPlurals(String notes) {
         // ([p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\[eɪz\]{{/t}}[/c])
-        Optional<String> body = StringUtils.tryGetBody(notes, PLURAL_NOTE);
+        Pair<String, String> pair = this.dslObject.getPlurals().isEmpty() ? PLURAL_NOTE: PLURAL_NOTER;
+        Optional<String> body = StringUtils.tryGetBody(notes, pair);
         if (body.isPresent()) {
-            dslObject.setPlural(new Plural(body.get()));
-            notes = StringUtils.trimOuterBody(notes, PLURAL_NOTE).trim();
+            dslObject.addNewPlural(body.get());
+            notes = StringUtils.trimOuterBody(notes, pair).trim();
         }
 
         body = StringUtils.tryGetBody(notes, TRANSCRIPTION);
         if (body.isPresent()) {
             //TODO unescape []
-            dslObject.getPlural().setTranscription(body.get().trim());
+            dslObject.getCurrentPlural().setTranscription(body.get().trim());
             notes = StringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
         }
 
+        notes = StringUtils.removeStart(notes, ",").trim();
         return notes;
     }
 
-    private String tryReadTags(String line, int n) {
+    private String tryReadTags(String line, int number) {
         // [p]v[/p]
         boolean readNext = true;
 
@@ -216,27 +228,27 @@ public class M1Parser {
             //hack
             Optional<String> body = StringUtils.tryGetBody(line, ITAG);
             if (body.isPresent() && (body.get().trim().equals("a") || body.get().trim().equals("n") || body.get().trim().equals("v"))) {
-                dslObject.getTags().get(n - 1).add(body.get().trim());
-                dslObject.getTagsSeq().get(n - 1).add(body.get());
+                dslObject.getTags().get(number - 1).add(body.get().trim());
+                dslObject.getTagsSeq().get(number - 1).add(body.get());
                 line = StringUtils.trimOuterBody(line, ITAG).trim();
             }
             //hack
             body = StringUtils.tryGetBody(line, CTEALTAG);
             if (body.isPresent() && (body.get().trim().equals("a") || body.get().trim().equals("n") || body.get().trim().equals("v"))) {
-                dslObject.getTags().get(n - 1).add(body.get().trim());
-                dslObject.getTagsSeq().get(n - 1).add(body.get());
+                dslObject.getTags().get(number - 1).add(body.get().trim());
+                dslObject.getTagsSeq().get(number - 1).add(body.get());
                 line = StringUtils.trimOuterBody(line, CTEALTAG).trim();
             }
 
             body = StringUtils.tryGetBody(line, PTAG);
             if (body.isPresent()) {
-                dslObject.getTags().get(n - 1).add(body.get().trim());
-                dslObject.getTagsSeq().get(n - 1).add(body.get());
+                dslObject.getTags().get(number - 1).add(body.get().trim());
+                dslObject.getTagsSeq().get(number - 1).add(body.get());
                 line = StringUtils.trimOuterBody(line, PTAG).trim();
 
-                line = tryIgnore(line, n, "[i]и[/i]");
-                line = tryIgnore(line, n, "[i],[/i]");
-                line = tryIgnore(line, n, ",");
+                line = tryIgnore(line, number, "[i]и[/i]");
+                line = tryIgnore(line, number, "[i],[/i]");
+                line = tryIgnore(line, number, ",");
             } else {
                 readNext = false;
             }
@@ -244,10 +256,10 @@ public class M1Parser {
         return line;
     }
 
-    private String tryIgnore(String line, int n, String tag) {
+    private String tryIgnore(String line, int number, String tag) {
         if (StringUtils.startsWith(line, tag)) {
             line = StringUtils.removeStart(line, tag).trim();
-            dslObject.getTagsSeq().get(n - 1).add(tag);
+            dslObject.getTagsSeq().get(number - 1).add(tag);
         }
         return line;
     }

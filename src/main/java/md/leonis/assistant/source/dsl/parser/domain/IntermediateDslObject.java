@@ -1,5 +1,6 @@
 package md.leonis.assistant.source.dsl.parser.domain;
 
+import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import md.leonis.assistant.source.dsl.domain.parsed.DslGroup;
@@ -21,7 +22,7 @@ public class IntermediateDslObject {
     private List<List<String>> tagsSeq = new ArrayList<>();
     private String notes = null; //TODO deep parse to chunks
     private String note = null;
-    private Plural plural = null;
+    private List<Plural> plurals = new ArrayList<>();
 
 
     private List<String> vars = new ArrayList<>();
@@ -41,6 +42,14 @@ public class IntermediateDslObject {
             tags.add(new ArrayList<>());
             tagsSeq.add(new ArrayList<>());
         }
+    }
+
+    public Plural getCurrentPlural() {
+        return plurals.get(plurals.size() - 1);
+    }
+
+    public void addNewPlural(String word) {
+        plurals.add(new Plural(word));
     }
 
     public Translation getCurrentTranslation() {
@@ -101,12 +110,17 @@ public class IntermediateDslObject {
             result.append(String.format(" %s%s%s", NOTES.getKey(), value, NOTES.getValue()));
         }
 
-        if (plural != null) {
+        if (!plurals.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
-            String words = String.join(", ", plural.getWords());
-            stringBuilder.append(String.format("%s%s%s", PLURAL_NOTE.getKey(), words, PLURAL_NOTE.getValue()));
-            if (plural.getTranscription() != null) {
-                stringBuilder.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
+            for (int i = 0; i < plurals.size(); i++) {
+                Plural plural = plurals.get(i);
+                String words = String.join(", ", plural.getWords());
+                Pair<String, String> pair = (i == 0) ? PLURAL_NOTE: PLURAL_NOTER;
+                String comma = (i == 0) ? "": ", ";
+                stringBuilder.append(String.format("%s%s%s%s", comma, pair.getKey(), words, pair.getValue()));
+                if (plural.getTranscription() != null) {
+                    stringBuilder.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
+                }
             }
             result.append(String.format(" %s%s%s", NOTES.getKey(), stringBuilder.toString(), NOTES.getValue()));
         }

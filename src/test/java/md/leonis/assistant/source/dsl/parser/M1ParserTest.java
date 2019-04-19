@@ -53,6 +53,7 @@ class M1ParserTest {
         assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
+    //TODO separate title to 2
     @Test
     @DisplayName("[m1]A, a [p]n[/p] [c lightslategray]{{t}}\\[eɪ\\]{{/t}}[/c] ([p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c])")
     void parse3() {
@@ -68,8 +69,7 @@ class M1ParserTest {
         assertEquals("[[n], [], []]", dslObject.getTagsSeq().toString());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[As, A's]", dslObject.getPlural().getWords().toString());
-        assertEquals("\\[eɪz\\]", dslObject.getPlural().getTranscription());
+        assertEquals("[{[As, A's], \\[eɪz\\]}]", dslObject.getPlurals().toString());
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
@@ -689,7 +689,7 @@ class M1ParserTest {
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertNull(dslObject.getPlural());
+        assertTrue(dslObject.getPlurals().isEmpty());
         assertEquals("[{EQ_GREEN, dare say, {}}, {SEE, dare, {={1=[1)]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -777,7 +777,7 @@ class M1ParserTest {
         assertTrue(dslObject.getVars().isEmpty());
         assertNull(dslObject.getNotes());
         assertNotNull(dslObject.getNote());
-        assertNull(dslObject.getPlural());
+        assertTrue(dslObject.getPlurals().isEmpty());
         assertEquals("[{EQ_ONE, Asian, {}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -797,10 +797,10 @@ class M1ParserTest {
         assertEquals("[[], [n], []]", dslObject.getTags().toString());
         assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getVars().isEmpty());
-        assertNotNull(dslObject.getNotes());
+        assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertNull(dslObject.getPlural());
-        assertEquals("[{EQ_ONE, Asian, {}}]", dslObject.getLinks().toString());
+        assertEquals("[{[-es], \\[-ɪz\\]}, {[-ci], null}]", dslObject.getPlurals().toString());
+        assertEquals("[]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
@@ -808,15 +808,56 @@ class M1ParserTest {
         assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
-    //TODo need list of plurals
+    //TODO separate title to 2
+    @Test
+    @DisplayName("[m1]abatis, abattis [c lightslategray]{{t}}\\[ˊæbətɪs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\\[ˊæbəti:z\\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])")
+    void parse38() {
+        String m1 = "[m1]abatis, abattis [c lightslategray]{{t}}\\[ˊæbətɪs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\\[ˊæbəti:z\\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])";
+        dslObject = new IntermediateDslObject("abatis, abattis");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[{[abatis], \\[ˊæbəti:z\\]}, {[abatises, abattises], null}]", dslObject.getPlurals().toString());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    @Test
+    @DisplayName("[m1]abatis, abattis [c lightslategray]{{t}}\\[ˊæbətɪs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\\[ˊæbəti:z\\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])")
+    void parse39() {
+        String m1 = "[m1]abatis, abattis [c lightslategray]{{t}}\\[ˊæbətɪs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\\[ˊæbəti:z\\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])";
+        dslObject = new IntermediateDslObject("abatis, abattis");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[{[abatis], \\[ˊæbəti:z\\]}, {[abatises, abattises], null}]", dslObject.getPlurals().toString());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
 
     //TODO switch to notes; finally retest tails again and cover all cases
-    // [m1]abatis, abattis [c lightslategray]{{t}}\[ˊæbətɪs\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\[ˊæbəti:z\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])
-    // ([p]pl[/p] [c teal][lang id=1033]abatis[/lang][/c] [c lightslategray]{{t}}\[ˊæbəti:z\]{{/t}}[/c], [c teal][lang id=1033]abatises, abattises[/lang][/c])
-
-
-
+    // [m1]a. m. [c lightslategray]{{t}}\[ˏeɪˊem\]{{/t}}[/c] ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
     // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
+
+    // [m1]appro [c lightslategray]{{t}}\[ˊæprəυ\]{{/t}}[/c] [p]n[/p] ([p]сокр.[/p] [i]от[/i] <<approbation>>[c blue], [/c]<<approval>>):
     // ([p]сокр.[/p] [i]от[/i] <<approbation>>[c blue], [/c]<<approval>>)
 
 
@@ -824,4 +865,6 @@ class M1ParserTest {
     // new fields
     // sameAs list -> in translation object
     // abbreviated list
+
+    //TODO separate title to 2: [m1]abatis, abattis [....
 }
