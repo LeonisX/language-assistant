@@ -17,6 +17,8 @@ public class M1Parser {
     public static final String LINK_SEE_PRE = "\\[[p]см.[/p]";
     public static final String LINK_SEE_POST = "\\]";
 
+    public static final String ITAG_OR = "[i]или[/i]";
+
     public static final String NEARLY = "[c darkred]≅[/c]";
 
     public static final Pair<String, String> LINK = new Pair<>("[c mediumblue][b]=[/b][/c] <<", ">>");
@@ -237,7 +239,14 @@ public class M1Parser {
             notes = StringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
         }
 
-        notes = StringUtils.removeStart(notes, ",").trim();
+        if (notes.startsWith(",")) {
+            notes = StringUtils.removeStart(notes, ",").trim();
+            dslObject.getCurrentPlural().setJoin(",");
+        }
+        if (notes.startsWith(ITAG_OR)) {
+            notes = StringUtils.removeStart(notes, ITAG_OR).trim();
+            dslObject.getCurrentPlural().setJoin(" " + ITAG_OR);
+        }
         return notes;
     }
 

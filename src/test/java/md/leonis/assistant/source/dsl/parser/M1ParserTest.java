@@ -943,6 +943,7 @@ class M1ParserTest {
 
     //TODO switch to notes; finally retest tails again and cover all cases
 
+    //TODO finish!!!!!!!!! write test
     // plural:
     // [m1]crux [c lightslategray]{{t}}\[krʌks\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]cruxes[/lang][/c] [i]или[/i] [c teal][lang id=1033]cruces[/lang][/c])
 

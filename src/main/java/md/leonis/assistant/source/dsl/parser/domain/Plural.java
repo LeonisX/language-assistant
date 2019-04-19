@@ -13,6 +13,7 @@ public class Plural {
 
     private List<String> words;
     private String transcription = null;
+    private String join = "";
 
     public Plural(String notes) {
         this.words = Arrays.stream(notes.split(",")).map(String::trim).collect(Collectors.toList());
