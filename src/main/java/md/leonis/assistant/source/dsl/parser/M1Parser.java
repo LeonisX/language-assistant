@@ -43,11 +43,32 @@ public class M1Parser {
     public static final Pair<String, String> CTEALTAG = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
 
     public static final Map<String, String> NOTES_MAP = new HashMap<String, String>() {{
-        put("[p]обыкн.[/p] [p]pass.[/p]", "обычно страдательный залог");
         put("[p]употр.[/p] [i]как[/i] [p]sing[/p]", "употребляется как единственное число");
-        put("[i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "иногда употребляется как единственное число");
+
+        put("[p]преим.[/p] [p]шотл.[/p]", "преимущественно употребительно в Шотландии");
+
+        put("[p]обыкн.[/p] [p]pass.[/p]", "обычно страдательный залог");
+        put("[p]обыкн.[/p] [p]pl[/p]", "обыкновенно множественное число");
+
         put("[i]часто[/i] [p]презр.[/p]", "часто презрительно");
+        put("[i]часто[/i] [p]pl[/p]", "часто множественное число");
+
+        put("[i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "иногда употребляется как единственное число");
+
+        put("[p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "множественное число без изменений; обыкновенно употребляется как единственное число");
     }};
+
+
+
+    // [m1]affection [c lightslategray]{{t}}\[əˊfekʃn\]{{/t}}[/c] [p]n[/p] ([i]часто[/i] [p]pl[/p]) ( [i]часто[/i] [p]pl[/p] )
+    // [m1]aileron [c lightslategray]{{t}}\[ˊeɪlərɒn\]{{/t}}[/c] [p]n[/p] ([p]обыкн.[/p] [p]pl[/p]) ( [p]обыкн.[/p] [p]pl[/p] )
+    // [m1]alms [c lightslategray]{{t}}\[ɑ:mz\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]) ( [p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p] )
+    // [m1]brattle [c lightslategray]{{t}}\[ˊbrætl\]{{/t}}[/c] ([p]преим.[/p] [p]шотл.[/p]) ( [p]преим.[/p] [p]шотл.[/p] )
+
+
+
+
+
 
     public static final Pair<String, String> PLURAL_NOTE = new Pair<>("[p]pl[/p] [c teal][lang id=1033]", "[/lang][/c]");
     public static final Pair<String, String> PLURAL_NOTER = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
