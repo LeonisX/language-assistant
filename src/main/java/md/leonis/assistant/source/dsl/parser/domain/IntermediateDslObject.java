@@ -116,10 +116,12 @@ public class IntermediateDslObject {
                 Plural plural = plurals.get(i);
                 String words = String.join(", ", plural.getWords());
                 Pair<String, String> pair = (i == 0) ? PLURAL_NOTE: PLURAL_NOTER;
-                String comma = (i == 0) ? "": ", ";
-                stringBuilder.append(String.format("%s%s%s%s", comma, pair.getKey(), words, pair.getValue()));
+                stringBuilder.append(String.format("%s%s%s", pair.getKey(), words, pair.getValue()));
                 if (plural.getTranscription() != null) {
                     stringBuilder.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
+                }
+                if (!plural.getJoin().isEmpty()) {
+                    stringBuilder.append(plural.getJoin()).append(" ");
                 }
             }
             result.append(String.format(" %s%s%s", NOTES.getKey(), stringBuilder.toString(), NOTES.getValue()));
@@ -197,8 +199,8 @@ public class IntermediateDslObject {
                 }
 
                 if ((links.indexOf(link) < links.size() - 1)) {
-                    if (link.getSep() != null) {
-                        result.append(link.getSep());
+                    if (link.getJoin() != null) {
+                        result.append(link.getJoin());
                     }
                 }
 

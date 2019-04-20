@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DslParserTest {
 
@@ -25,7 +24,7 @@ class DslParserTest {
         assertEquals("\\[eɪ\\]", dslObject.getTranscription());
         assertEquals("[[n], [], []]", dslObject.getTags().toString());
         assertEquals("[[n], [], []]", dslObject.getTagsSeq().toString());
-        assertEquals("[p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c]", dslObject.getNotes());
+        assertNull(dslObject.getNotes());
         assertTrue(dslObject.getLinks().isEmpty());
         assertEquals(ParserState.TRN, dslObject.getState());
     }

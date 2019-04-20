@@ -317,7 +317,7 @@ public class M1Parser {
             // [c blue],[/c]
             if (line.startsWith(LINK_U)) {
                 line = line.replace(LINK_U, "").trim();
-                link.setSep(LINK_U);
+                link.setJoin(LINK_U);
                 //TODO unify
                 body = StringUtils.tryGetBody(line, LINKR);
                 if (body.isPresent()) {
@@ -349,7 +349,7 @@ public class M1Parser {
                     if (body.isPresent()) {
                         line = StringUtils.trimOuterBody(line, ITAG).trim();
                         link.getSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
-                        link.setSep(StringUtils.formatOuterBody(body.get(), ITAG));
+                        link.setJoin(StringUtils.formatOuterBody(body.get(), ITAG));
                     }
                 } else {
                     readNext = false;
@@ -358,7 +358,7 @@ public class M1Parser {
                     if (body.isPresent()) {
                         line = StringUtils.trimOuterBody(line, ITAG).trim();
                         link.getSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
-                        link.setSep(StringUtils.formatOuterBody(body.get(), ITAG));
+                        link.setJoin(StringUtils.formatOuterBody(body.get(), ITAG));
                     }
                 }
             }

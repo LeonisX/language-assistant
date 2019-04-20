@@ -13,7 +13,7 @@ public class Link {
     private String name;
     private Map<String, Map<String, List<String>>> linkAddress = new LinkedHashMap<>();
     private List<String> seq = new ArrayList<>();
-    private String sep = null;
+    private String join = null;
 
     public Link(LinkType type, String name) {
         this.type = type;

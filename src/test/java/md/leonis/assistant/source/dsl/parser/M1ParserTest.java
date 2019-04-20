@@ -941,11 +941,29 @@ class M1ParserTest {
         assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
-    //TODO switch to notes; finally retest tails again and cover all cases
+    @Test
+    @DisplayName("[m1]crux [c lightslategray]{{t}}\\[krʌks\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]cruxes[/lang][/c] [i]или[/i] [c teal][lang id=1033]cruces[/lang][/c])")
+    void parse44() {
+        String m1 = "[m1]crux [c lightslategray]{{t}}\\[krʌks\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]cruxes[/lang][/c] [i]или[/i] [c teal][lang id=1033]cruces[/lang][/c])";
+        dslObject = new IntermediateDslObject("crux");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
 
-    //TODO finish!!!!!!!!! write test
-    // plural:
-    // [m1]crux [c lightslategray]{{t}}\[krʌks\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]cruxes[/lang][/c] [i]или[/i] [c teal][lang id=1033]cruces[/lang][/c])
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getVars().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[{[cruxes], null}, {[cruces], null}]", dslObject.getPlurals().toString());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    //TODO switch to notes; finally retest tails again and cover all cases
 
     // abbrFrom:
     // [m1]a. m. [c lightslategray]{{t}}\[ˏeɪˊem\]{{/t}}[/c] ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
