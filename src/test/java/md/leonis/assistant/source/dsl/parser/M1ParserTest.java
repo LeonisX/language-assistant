@@ -26,7 +26,7 @@ class M1ParserTest {
         assertEquals("[[], [n], []]", dslObject.getTags().toString());
         assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getModification().isEmpty());
-        assertEquals("[p]преим.[/p] [p]амер.[/p]", dslObject.getNotes());
+        assertNull(dslObject.getNotes());
         assertEquals("[]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
@@ -887,7 +887,7 @@ class M1ParserTest {
         assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
-        assertEquals("обыкновенно множественное число", dslObject.getNote());
+        assertEquals("обычно множественное число", dslObject.getNote());
         assertEquals("[]", dslObject.getPlurals().toString());
         assertEquals("[]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
