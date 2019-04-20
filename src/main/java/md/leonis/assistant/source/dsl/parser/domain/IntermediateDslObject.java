@@ -17,15 +17,20 @@ public class IntermediateDslObject {
 
     private String word;
     private String newWord;
+
     private String transcription = null;
+
     private List<List<String>> tags = new ArrayList<>();
     private List<List<String>> tagsSeq = new ArrayList<>();
+
+    private List<String> modification = new ArrayList<>();
+
     private String notes = null; //TODO deep parse to chunks
     private String note = null;
     private List<Plural> plurals = new ArrayList<>();
+    private List<Abbr> abbrFrom = new ArrayList<>();
+    private List<Link> abbrLinks = new ArrayList<>();
 
-
-    private List<String> vars = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
     private String tail = null;
     private List<DslGroup> dslGroups = new ArrayList<>();
@@ -52,6 +57,14 @@ public class IntermediateDslObject {
         plurals.add(new Plural(word));
     }
 
+    public Abbr getCurrentAbbrFrom() {
+        return abbrFrom.get(abbrFrom.size() - 1);
+    }
+
+    public void addNewAbbrFrom(String lang) {
+        abbrFrom.add(new Abbr(lang));
+    }
+
     public Translation getCurrentTranslation() {
         return translations.get(translations.size() - 1);
     }
@@ -68,23 +81,23 @@ public class IntermediateDslObject {
         dslGroups.add(new DslGroup());
     }
 
-    public Link getCurrentLink() {
+    public Link getCurrentLink(List<Link> links) {
         return links.get(links.size() - 1);
     }
 
-    public void addLinkGroups(List<String> chunks) {
+    public void addLinkGroups(List<String> chunks, List<Link> links) {
         links.get(links.size() - 1).addLinkGroups(chunks);
-        getCurrentLink().getSeq().addAll(chunks);
+        getCurrentLink(links).getSeq().addAll(chunks);
     }
 
-    public void addLinkMeanings(List<String> chunks) {
+    public void addLinkMeanings(List<String> chunks, List<Link> links) {
         links.get(links.size() - 1).addLinkMeanings(chunks);
-        getCurrentLink().getSeq().addAll(chunks);
+        getCurrentLink(links).getSeq().addAll(chunks);
     }
 
-    public void addLinkNumbers(List<String> chunks) {
+    public void addLinkNumbers(List<String> chunks, List<Link> links) {
         links.get(links.size() - 1).addLinkNumbers(chunks);
-        getCurrentLink().getSeq().addAll(chunks);
+        getCurrentLink(links).getSeq().addAll(chunks);
     }
 
     public String toM1String() {
@@ -98,8 +111,8 @@ public class IntermediateDslObject {
 
         renderTags(result, 2);
 
-        if (!vars.isEmpty()) {
-            result.append(" ").append(VARS.getKey()).append(String.join("; ", vars)).append(VARS.getValue());
+        if (!modification.isEmpty()) {
+            result.append(" ").append(MODIFICATIONS.getKey()).append(String.join("; ", modification)).append(MODIFICATIONS.getValue());
         }
         if (notes != null) {
             result.append(String.format(" %s%s%s", NOTES.getKey(), notes, NOTES.getValue()));
@@ -127,8 +140,38 @@ public class IntermediateDslObject {
             result.append(String.format(" %s%s%s", NOTES.getKey(), stringBuilder.toString(), NOTES.getValue()));
         }
 
+        if (!abbrFrom.isEmpty()) {
+            // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(ABBR).append(" ").append(FROM).append(" ");
+            for (Abbr abbr : abbrFrom) {
+                stringBuilder.append(String.format(" %s%s%s", PTAG.getKey(), abbr.getLang(), PTAG.getValue()));
+                stringBuilder.append(String.format(" %s%s%s", CTEALTAG.getKey(), abbr.getName(), CTEALTAG.getValue()));
+            }
+            result.append(String.format(" %s%s%s", NOTES.getKey(), stringBuilder.toString(), NOTES.getValue()));
+        }
+
+        if (!abbrLinks.isEmpty()) {
+            result.append(" ").append(NOTES.getKey());
+            renderLinks(result, abbrLinks);
+            result.append(NOTES.getValue());
+        }
+
         renderTags(result, 3);
 
+        renderLinks(result, links);
+
+        if (getCurrentTranslation().isNearly()) {
+            result.append(String.format(" %s", NEARLY));
+        }
+
+        if (tail != null) {
+            result.append(tail);
+        }
+        return result.toString();
+    }
+
+    private void renderLinks(StringBuilder result, List<Link> links) {
         if (!links.isEmpty()) {
 
             LinkType prevType = LinkType.UNDEFINED;
@@ -149,6 +192,9 @@ public class IntermediateDslObject {
                         case SEE:
                             result.append(" " + LINK_SEE_PRE);
                             break;
+                        case ABBR_FROM:
+                            result.append(" ").append(ABBR).append(" ").append(FROM);
+                            break;
                     }
                 }
 
@@ -157,6 +203,7 @@ public class IntermediateDslObject {
                     case FROM_TWO:
                     case SEE_ALSO:
                     case SEE:
+                    case ABBR_FROM:
                         result.append(String.format(" %s%s%s", LINKR.getKey(), link.getName(), LINKR.getValue()));
                         break;
                     case EQ_GREEN:
@@ -216,15 +263,6 @@ public class IntermediateDslObject {
                 prevType = link.getType();
             }
         }
-
-        if (getCurrentTranslation().isNearly()) {
-            result.append(String.format(" %s", NEARLY));
-        }
-
-        if (tail != null) {
-            result.append(tail);
-        }
-        return result.toString();
     }
 
     private void renderTags(StringBuilder result, int n) {
@@ -242,4 +280,5 @@ public class IntermediateDslObject {
     public String toM1CompactString() {
         return StringUtils.compact(toM1String());
     }
+
 }

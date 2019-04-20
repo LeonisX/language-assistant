@@ -7,6 +7,7 @@ public enum LinkType {
     EQ_GREEN,
     SEE_ALSO,
     SEE,
+    ABBR_FROM,
 
     UNDEFINED
 
