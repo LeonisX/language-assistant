@@ -32,6 +32,7 @@ public class M1Parser {
     public static final Pair<String, String> LINK_SEE = new Pair<>("\\[[p]см.[/p] <<", LINK_SEE_POST);
 
     public static final Pair<String, String> CBLUE = new Pair<>("[c blue]", "[/c]");
+    public static final Pair<String, String> CMEDIUMBLUE = new Pair<>("[c mediumblue]", "[/c]");
 
     public static final Pair<String, String> LINK2 = new Pair<>("[i]от[/i] <<", ">>");
 
@@ -48,28 +49,31 @@ public class M1Parser {
     public static final Triple ABBR = new Triple("[p]", "сокр.", "[/p]");
     public static final Triple FROM = new Triple("[i]", "от", "[/i]");
 
+    //TODO need smart parsing
     public static final Map<String, String> NOTES_MAP = new HashMap<String, String>() {{
         put("[p]употр.[/p] [i]как[/i] [p]sing[/p]", "употребляется как единственное число");
+        put("[p]употр.[/p] [i]как[/i] [p]sing[/p] [i]и как[/i] [p]pl[/p]", "употребляется как единственное число и как множественное число");
 
         put("[p]преим.[/p] [p]шотл.[/p]", "преимущественно употребительно в Шотландии");
+        put("[p]преим.[/p] [p]амер.[/p]", "преимущественно американизм");
 
         put("[p]обыкн.[/p] [p]pass.[/p]", "обычно страдательный залог");
-        put("[p]обыкн.[/p] [p]pl[/p]", "обыкновенно множественное число");
+        put("[p]обыкн.[/p] [p]pl[/p]", "обычно множественное число");
+        put("[p]обыкн.[/p] [p]поэт.[/p]", "обычно поэтическое слово, выражение");
+        put("[i]обыкн.[/i] [p]презр.[/p]", "обычно презрительно");
+        put("[p]обыкн.[/p] [p]амер.[/p]", "обычно американизм");
+        put("[p]обыкн.[/p] [p]собир.[/p]", "обычно собирательно");
+
+        put("[p]особ.[/p] [p]амер.[/p]", "особенно американизм");
 
         put("[i]часто[/i] [p]презр.[/p]", "часто презрительно");
         put("[i]часто[/i] [p]pl[/p]", "часто множественное число");
 
         put("[i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "иногда употребляется как единственное число");
 
+        put("[p]pl[/p] [p]без измен.[/p][i]", "множественное число без изменений");
         put("[p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "множественное число без изменений; обыкновенно употребляется как единственное число");
     }};
-
-
-    // [m1]affection [c lightslategray]{{t}}\[əˊfekʃn\]{{/t}}[/c] [p]n[/p] ([i]часто[/i] [p]pl[/p]) ( [i]часто[/i] [p]pl[/p] )
-    // [m1]aileron [c lightslategray]{{t}}\[ˊeɪlərɒn\]{{/t}}[/c] [p]n[/p] ([p]обыкн.[/p] [p]pl[/p]) ( [p]обыкн.[/p] [p]pl[/p] )
-    // [m1]alms [c lightslategray]{{t}}\[ɑ:mz\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]) ( [p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p] )
-    // [m1]brattle [c lightslategray]{{t}}\[ˊbrætl\]{{/t}}[/c] ([p]преим.[/p] [p]шотл.[/p]) ( [p]преим.[/p] [p]шотл.[/p] )
-
 
     public static final Pair<String, String> PLURAL_NOTE = new Pair<>("[p]pl[/p] [c teal][lang id=1033]", "[/lang][/c]");
     public static final Pair<String, String> PLURAL_NOTER = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
@@ -396,6 +400,13 @@ public class M1Parser {
                         line = StringUtils.trimOuterBody(line, ITAG).trim();
                         link.getSeq().add(StringUtils.formatOuterBody(body.get(), ITAG));
                         link.setJoin(StringUtils.formatOuterBody(body.get(), ITAG));
+                    }
+                    // ignore [c mediumblue][i] или[/i] [/c]
+                    body = StringUtils.tryGetBody(line, CMEDIUMBLUE);
+                    if (body.isPresent()) {
+                        line = StringUtils.trimOuterBody(line, CMEDIUMBLUE).trim();
+                        link.getSeq().add(StringUtils.formatOuterBody(body.get(), CMEDIUMBLUE));
+                        link.setJoin(StringUtils.formatOuterBody(body.get(), CMEDIUMBLUE));
                     }
                 }
             }
