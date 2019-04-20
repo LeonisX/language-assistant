@@ -114,47 +114,57 @@ public class IntermediateDslObject {
         if (!modification.isEmpty()) {
             result.append(" ").append(MODIFICATIONS.getKey()).append(String.join("; ", modification)).append(MODIFICATIONS.getValue());
         }
+
+        boolean isNotes = notes != null || note != null || !plurals.isEmpty() || !abbrFrom.isEmpty() || !abbrLinks.isEmpty();
+
+        if (isNotes) {
+            result.append(" ").append(NOTES.getKey());
+        }
+
         if (notes != null) {
-            result.append(String.format(" %s%s%s", NOTES.getKey(), notes, NOTES.getValue()));
+            result.append(notes);
         }
 
         if (note != null) {
-            String value = NOTES_MAP.entrySet().stream().filter(e -> e.getValue().equals(note)).findFirst().get().getKey();
-            result.append(String.format(" %s%s%s", NOTES.getKey(), value, NOTES.getValue()));
+            result.append(NOTES_MAP.entrySet().stream().filter(e -> e.getValue().equals(note)).findFirst().get().getKey());
         }
 
         if (!plurals.isEmpty()) {
-            StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < plurals.size(); i++) {
                 Plural plural = plurals.get(i);
                 String words = String.join(", ", plural.getWords());
                 Pair<String, String> pair = (i == 0) ? PLURAL_NOTE: PLURAL_NOTER;
-                stringBuilder.append(String.format("%s%s%s", pair.getKey(), words, pair.getValue()));
+                result.append(String.format("%s%s%s", pair.getKey(), words, pair.getValue()));
                 if (plural.getTranscription() != null) {
-                    stringBuilder.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
+                    result.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
                 }
                 if (!plural.getJoin().isEmpty()) {
-                    stringBuilder.append(plural.getJoin()).append(" ");
+                    result.append(plural.getJoin()).append(" ");
                 }
             }
-            result.append(String.format(" %s%s%s", NOTES.getKey(), stringBuilder.toString(), NOTES.getValue()));
         }
 
         if (!abbrFrom.isEmpty()) {
-            // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(ABBR).append(" ").append(FROM).append(" ");
-            for (Abbr abbr : abbrFrom) {
-                stringBuilder.append(String.format(" %s%s%s", PTAG.getKey(), abbr.getLang(), PTAG.getValue()));
-                stringBuilder.append(String.format(" %s%s%s", CTEALTAG.getKey(), abbr.getName(), CTEALTAG.getValue()));
+            if (!plurals.isEmpty()) {
+                result.append("; ");
             }
-            result.append(String.format(" %s%s%s", NOTES.getKey(), stringBuilder.toString(), NOTES.getValue()));
+            // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
+            result.append(ABBR).append(" ").append(FROM).append(" ");
+            for (Abbr abbr : abbrFrom) {
+                result.append(String.format(" %s%s%s", PTAG.getKey(), abbr.getLang(), PTAG.getValue()));
+                result.append(String.format(" %s%s%s", CTEALTAG.getKey(), abbr.getName(), CTEALTAG.getValue()));
+            }
         }
 
         if (!abbrLinks.isEmpty()) {
-            result.append(" ").append(NOTES.getKey());
+            if (!plurals.isEmpty()) {
+                result.append("; ");
+            }
             renderLinks(result, abbrLinks);
-            result.append(NOTES.getValue());
+        }
+
+        if (isNotes) {
+            result.append(" ").append(NOTES.getValue());
         }
 
         renderTags(result, 3);

@@ -1037,6 +1037,30 @@ class M1ParserTest {
         assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
+    @Test
+    @DisplayName("[m1]cello [c lightslategray]{{t}}\\[ˊtʃeləυ\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]-os[/lang][/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c]; [p]сокр.[/p] [i]от[/i] <<violoncello>>)")
+    void parse48() {
+        String m1 = "[m1]cello [c lightslategray]{{t}}\\[ˊtʃeləυ\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]-os[/lang][/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c]; [p]сокр.[/p] [i]от[/i] <<violoncello>>)";
+        dslObject = new IntermediateDslObject("cello");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[{[-os], \\[-əυz\\]}]", dslObject.getPlurals().toString());
+        assertEquals("[]", dslObject.getAbbrFrom().toString());
+        assertEquals("[{ABBR_FROM, violoncello, {}}]", dslObject.getAbbrLinks().toString());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
     //TODO switch to notes; finally retest tails again and cover all cases
 
     // for tail:

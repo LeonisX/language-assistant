@@ -223,6 +223,11 @@ public class M1Parser {
             readNext = plurals < this.dslObject.getPlurals().size();
         }
 
+        // Ignore ;
+        if (notes.startsWith(";")) {
+            notes = notes.substring(1).trim();
+        }
+
         readNext = true;
         while (readNext) {
             int plurals = this.dslObject.getAbbrFrom().size();
