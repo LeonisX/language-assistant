@@ -1061,12 +1061,51 @@ class M1ParserTest {
         assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
     }
 
+    //TODO finish
+    @Test
+    @DisplayName("[m1]hew [c lightslategray]{{t}}\\[hju:\\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c]; [c mediumvioletred]hewed, hewn[/c])")
+    void parse49() {
+        String m1 = "[m1]hew [c lightslategray]{{t}}\\[hju:\\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c]; [c mediumvioletred]hewed, hewn[/c])";
+        dslObject = new IntermediateDslObject("hew");
+        M1Parser m1Parser = new M1Parser(dslObject);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [v], []]", dslObject.getTags().toString());
+        assertEquals("[[], [v], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[{[-os], \\[-əυz\\]}]", dslObject.getPlurals().toString());
+        assertEquals("[]", dslObject.getAbbrFrom().toString());
+        assertEquals("[{ABBR_FROM, violoncello, {}}]", dslObject.getAbbrLinks().toString());
+        assertEquals("[]", dslObject.getLinks().toString());
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+    }
+
+    //TODO modifications - object + trancr
+
+    //TODO smart notes parser
+    // 0. Начать новый бренч.
+    // 1, Read all abbr from DB
+    // 2. Create object Details: String[] abbr, String[] words, Links[] links
+    // 2. parse tag-by-tag.
+    // 3. если встречается ссылка или ключевое слово - заполняем.
+    // 3. идея такая - вытаскивать слова и как-то их сохранять. Так же вытаскивать ссылки.
+    // 4. если ";" - повторяем. Добавить других разделителей
+    // 8. починить все тесты, написать несколько новых, потом вручную просмотреть около сотни нотесов
+    // 9. Вмерджить если всё ОК
+
+    // [m1]jinnee [c lightslategray]{{t}}\[dʒɪˊni:\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]jinn[/lang][/c], [i]часто[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])
+
     //TODO switch to notes; finally retest tails again and cover all cases
 
     // for tail:
     // new fields
     // sameAs list -> in translation object
-    // abbreviated list
 
     //TODO separate title to 2: [m1]abatis, abattis [....
 }
