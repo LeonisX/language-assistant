@@ -21,5 +21,5 @@ public class DslRawAbbrParsed {
 
     private String word;
 
-    private String raw;
+    private String meaning;
 }

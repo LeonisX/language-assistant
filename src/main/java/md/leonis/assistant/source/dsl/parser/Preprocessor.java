@@ -11,14 +11,20 @@ public class Preprocessor {
         string = string.replace(" [/", "[/");
         string = string.replace(" )", ")");
         string = string.replace("( ", "(");
-        string = string.replace("][", "] [");
         string = string.replace(",[", ", [");
         string = string.replace(", [/", ",[/");
         string = string.replace("<<", " <<");
         string = string.replace(">>", ">> ");
         string = string.replace("  ", " ");
         string = string.replace("  ", " ");
-        string = string.replace("1,[/c]", "1[/c],");
+
+        string = string.replace("1,[/c]", "1[/c],"); //TODO regex
+        string = string.replace("Ⅱ,[/c]", "Ⅱ[/c],");
+
+        string = string.replace("][", "] [");
+        string = string.replace("](", "] (");
+        string = string.replace(")[/", ") [/");
+
         string = StringUtils.stripEnd(string, " ");
         return string;
     }

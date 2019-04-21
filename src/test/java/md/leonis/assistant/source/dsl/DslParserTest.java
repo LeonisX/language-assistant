@@ -2,6 +2,8 @@ package md.leonis.assistant.source.dsl;
 
 import md.leonis.assistant.source.dsl.parser.domain.IntermediateDslObject;
 import md.leonis.assistant.source.dsl.parser.domain.ParserState;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualLinkedHashBidiMap;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -11,13 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DslParserTest {
 
+    private final BidiMap<String, String> abbrs = new DualLinkedHashBidiMap<>();
+
     @Test
     void test1() {
         String text =
                 "[m0]{{Roman}}[b]Ⅰ[/b]{{/Roman}}\n" +
                 "[m1]A, a [p]n[/p] [c lightslategray]{{t}}\\[eɪ\\]{{/t}}[/c] ([p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\\[eɪz\\]{{/t}}[/c])\n" +
                 "[trn]";
-        IntermediateDslObject dslObject = DslParser.parseWord("A", Arrays.asList(text.split("\n")));
+        IntermediateDslObject dslObject = DslParser.parseWord("A", Arrays.asList(text.split("\n")), abbrs);
 
         assertEquals("A", dslObject.getWord());
         assertEquals("A, a", dslObject.getNewWord());

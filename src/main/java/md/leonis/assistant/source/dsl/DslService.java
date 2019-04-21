@@ -145,6 +145,10 @@ public class DslService implements md.leonis.assistant.source.Service {
         dslRawAbbrParsedDAO.save(dslRawAbbrParsed);
     }
 
+    public  Iterable<DslRawAbbrParsed> findAllRawParsedAbbr() {
+        return dslRawAbbrParsedDAO.findAll();
+    }
+
     public void clearRawParsed() {
         dslRawParsedDAO.deleteAll();
     }
@@ -152,4 +156,5 @@ public class DslService implements md.leonis.assistant.source.Service {
     public void saveRawParsed(DslRawParsed dslRawParsed) {
         dslRawParsedDAO.save(dslRawParsed);
     }
+
 }

@@ -2,6 +2,7 @@ package md.leonis.assistant.source.dsl.parser;
 
 import javafx.util.Pair;
 import md.leonis.assistant.source.dsl.parser.domain.*;
+import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -11,7 +12,7 @@ public class M1Parser {
 
     public static final Pair<String, String> TRANSCRIPTION = new Pair<>("[c lightslategray]{{t}}", "{{/t}}[/c]");
 
-    public static final String LINK_PRE = "[c mediumblue][b]=[/b][/c]";
+    public static final String LINK_PRE = "[c mediumblue] [b]=[/b] [/c]";
     public static final Triple LINK_U = new Triple("[c blue]", ",", "[/c]");
 
     public static final String LINK2_PRE = "[i]от[/i]";
@@ -23,11 +24,11 @@ public class M1Parser {
 
     public static final String NEARLY = "[c darkred]≅[/c]";
 
-    public static final Pair<String, String> LINK = new Pair<>("[c mediumblue][b]=[/b][/c] <<", ">>");
+    public static final Pair<String, String> LINK = new Pair<>("[c mediumblue] [b]=[/b] [/c] <<", ">>");
     public static final Pair<String, String> LINKR = new Pair<>("<<", ">>");
 
-    public static final Pair<String, String> LINK_GREEN = new Pair<>("[c mediumblue][b]=[/b][/c] [c lightseagreen][lang id=1033]", "[/lang][/c]");
-    public static final Pair<String, String> LINK_GREENR = new Pair<>("[c lightseagreen][lang id=1033]", "[/lang][/c]");
+    public static final Pair<String, String> LINK_GREEN = new Pair<>("[c mediumblue] [b]=[/b] [/c] [c lightseagreen] [lang id=1033]", "[/lang] [/c]");
+    public static final Pair<String, String> LINK_GREENR = new Pair<>("[c lightseagreen] [lang id=1033]", "[/lang] [/c]");
 
     public static final Pair<String, String> LINK_SEE_ALSO = new Pair<>("\\[[p]см. тж.[/p] <<", LINK_SEE_POST);
     public static final Pair<String, String> LINK_SEE = new Pair<>("\\[[p]см.[/p] <<", LINK_SEE_POST);
@@ -41,11 +42,11 @@ public class M1Parser {
 
     public static final Pair<String, String> PTAG = new Pair<>("[p]", "[/p]");
 
-    public static final Pair<String, String> MODIFICATIONS = new Pair<>("[c mediumvioletred](", ")[/c]");
+    public static final Pair<String, String> MODIFICATIONS = new Pair<>("[c mediumvioletred] (", ") [/c]");
 
     public static final Pair<String, String> ITAG = new Pair<>("[i]", "[/i]");
 
-    public static final Pair<String, String> CTEALTAG = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
+    public static final Pair<String, String> CTEALTAG = new Pair<>("[c teal] [lang id=1033]", "[/lang] [/c]");
 
     public static final Triple ABBR = new Triple("[p]", "сокр.", "[/p]");
     public static final Triple FROM = new Triple("[i]", "от", "[/i]");
@@ -76,14 +77,16 @@ public class M1Parser {
         put("[p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "множественное число без изменений; обыкновенно употребляется как единственное число");
     }};
 
-    public static final Pair<String, String> PLURAL_NOTE = new Pair<>("[p]pl[/p] [c teal][lang id=1033]", "[/lang][/c]");
-    public static final Pair<String, String> PLURAL_NOTER = new Pair<>("[c teal][lang id=1033]", "[/lang][/c]");
+    public static final Pair<String, String> PLURAL_NOTE = new Pair<>("[p]pl[/p] [c teal] [lang id=1033]", "[/lang] [/c]");
+    public static final Pair<String, String> PLURAL_NOTER = new Pair<>("[c teal] [lang id=1033]", "[/lang] [/c]");
 
 
     private final IntermediateDslObject dslObject;
+    private final BidiMap<String, String> abbrs;
 
-    public M1Parser(IntermediateDslObject dslObject) {
+    public M1Parser(IntermediateDslObject dslObject, BidiMap<String, String> abbrs) {
         this.dslObject = dslObject;
+        this.abbrs = abbrs;
     }
 
     // m1 (not in [trn])
@@ -198,7 +201,8 @@ public class M1Parser {
         }
 
         String result = dslObject.toM1String();
-        if (!DslStringUtils.compact(result).equals(DslStringUtils.compact(unchangedLine))) {
+        //if (!DslStringUtils.compact(result).equals(DslStringUtils.compact(unchangedLine))) {
+        if (!result.equals(unchangedLine)) {
             System.out.println(unchangedLine);
             System.out.println(result);
             System.out.println();
@@ -398,6 +402,11 @@ public class M1Parser {
                         line = DslStringUtils.trimOuterBody(line, ITAG).trim();
                         link.getSeq().add(DslStringUtils.formatOuterBody(body.get(), ITAG));
                         link.setJoin(DslStringUtils.formatOuterBody(body.get(), ITAG));
+                    }
+                    // ,
+                    if (line.startsWith(",")) {
+                        line = line.substring(1).trim();
+                        link.setJoin(",");
                     }
                 } else {
                     readNext = false;

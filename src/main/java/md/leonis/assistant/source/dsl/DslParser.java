@@ -11,6 +11,8 @@ import md.leonis.assistant.source.dsl.parser.M0Parser;
 import md.leonis.assistant.source.dsl.parser.M1Parser;
 import md.leonis.assistant.source.dsl.parser.domain.IntermediateDslObject;
 import md.leonis.assistant.source.dsl.parser.domain.ParserState;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualLinkedHashBidiMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Component
 public class DslParser implements Parser {
@@ -38,12 +42,19 @@ public class DslParser implements Parser {
     public void parse() {
         log.info("Parsing...");
 
+        //TODO clean all abbs
+        parseAbbr();
+        Iterable<DslRawAbbrParsed> abbrParsed = dslService.findAllRawParsedAbbr();
+        BidiMap<String, String> abbrs = new DualLinkedHashBidiMap<>(StreamSupport.stream(abbrParsed.spliterator(), false)
+                .collect(Collectors.toMap(DslRawAbbrParsed::getWord, DslRawAbbrParsed::getMeaning)));
+
         //TODO revert and fix
         //dslService.clearRawParsed();
 
         for (DslRaw raw : dslService.findAllRaw()) {
-            List<String> lines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {});
-            IntermediateDslObject dslObject = parseWord(raw.getWord(), lines);
+            List<String> lines = objectMapper.readValue(raw.getRaw(), new TypeReference<List<String>>() {
+            });
+            IntermediateDslObject dslObject = parseWord(raw.getWord(), lines, abbrs);
         }
 
         //TODO revert
@@ -76,12 +87,9 @@ public class DslParser implements Parser {
         //- примеры
         //]
 
-
-        //TODO revert
-        //parseAbbr();
     }
 
-    public static IntermediateDslObject parseWord(String word, List<String> lines) {
+    public static IntermediateDslObject parseWord(String word, List<String> lines, BidiMap<String, String> abbrs) {
         //TODO logic
         boolean inTrn = false;
         IntermediateDslObject dslObject = new IntermediateDslObject(word);
@@ -89,7 +97,7 @@ public class DslParser implements Parser {
         //log.debug(word);
 
         M0Parser m0Parser = new M0Parser(dslObject);
-        M1Parser m1Parser = new M1Parser(dslObject);
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
 
         for (String line : lines) {
             if (dslObject.getState() == ParserState.M0) {
@@ -134,6 +142,10 @@ public class DslParser implements Parser {
         return line.equals("[/trn]");
     }
 
+
+    //TODO attributive — атрибутивное употребление (в качестве определения)
+    // long - to -
+    // separate meanings: eng/rus
     @SneakyThrows
     private void parseAbbr() {
         dslService.clearRawAbbrParsed();
