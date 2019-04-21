@@ -5,7 +5,7 @@ import md.leonis.assistant.source.dsl.parser.domain.Triple;
 
 import java.util.Optional;
 
-public class StringUtils {
+public class DslStringUtils {
 
     public static String getBody(String line, Pair<String, String> pair) {
         Pair<Integer, Integer> startPair = getStartPair(line, pair);
@@ -90,22 +90,6 @@ public class StringUtils {
     public static String compact(String string) {
         return string.replace(" ", "").replace(",[/c]", "[/c]");
     }
-
-    public static boolean startsWith(String string, String substr) {
-        return (string.indexOf(substr) == 0);
-    }
-
-    // Apache Commons Lang
-    public static String removeStart(final String str, final String remove) {
-        if (str.isEmpty() || remove.isEmpty()) {
-            return str;
-        }
-        if (str.startsWith(remove)){
-            return str.substring(remove.length());
-        }
-        return str;
-    }
-
 
     private int read(String line, String chunk) {
         return read(line, 0, chunk);

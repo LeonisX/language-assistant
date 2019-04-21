@@ -26,6 +26,9 @@ dependencies {
 
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
 
+	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	
 	compile 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'

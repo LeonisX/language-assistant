@@ -30,7 +30,7 @@ class M1ParserTest {
         assertEquals("[]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -50,7 +50,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, boogie-woogie, {}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     //TODO separate title to 2
@@ -75,7 +75,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -96,7 +96,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -117,7 +117,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertEquals(":", dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -138,7 +138,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -159,7 +159,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, aboriginal, {={2=[]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -180,7 +180,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, halleluja, {}}, {EQ_ONE, hallelujah, {}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -201,7 +201,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -222,7 +222,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, about-turn, {={1=[], 2=[]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -243,7 +243,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, accusation, {={=[1)]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -264,7 +264,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, alley, {Ⅰ={=[1), 2)]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -285,7 +285,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, anyhow, {={=[1), 2)]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -306,7 +306,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, balmy, {={=[1), 4)]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -327,7 +327,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, bow, {Ⅱ={1=[1)]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -348,7 +348,7 @@ class M1ParserTest {
         assertEquals("[{FROM_TWO, behold, {={1=[]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -369,7 +369,7 @@ class M1ParserTest {
         assertEquals("[{EQ_GREEN, archaeo-, {}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -390,7 +390,7 @@ class M1ParserTest {
         assertEquals("[{FROM_TWO, ax, {={1=[]}}}, {FROM_TWO, axe, {={1=[]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -411,7 +411,7 @@ class M1ParserTest {
         assertEquals("[{FROM_TWO, blow, {Ⅱ={2=[]}}}, {FROM_TWO, blow, {Ⅲ={2=[]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -432,7 +432,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, brier, {Ⅰ={}}}, {EQ_ONE, brier, {Ⅱ={}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -453,7 +453,7 @@ class M1ParserTest {
         assertEquals("[{FROM_TWO, calf, {Ⅰ={}}}, {FROM_TWO, calf, {Ⅱ={}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -474,7 +474,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, cursed, {={2=[], 3=[]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        //assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -495,7 +495,7 @@ class M1ParserTest {
         assertEquals("[{EQ_ONE, upstairs, {={1=[1)], 3=[]}}}]", dslObject.getLinks().toString());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        //assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -516,7 +516,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -537,7 +537,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -558,7 +558,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -579,7 +579,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        //assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -600,7 +600,7 @@ class M1ParserTest {
         assertTrue(dslObject.getLinks().isEmpty());
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        //assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -624,7 +624,7 @@ class M1ParserTest {
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(0, dslObject.getDslGroups().size());
         assertEquals(ParserState.TRN, dslObject.getState());
-        //assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        //assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -647,7 +647,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertTrue(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -670,7 +670,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -695,7 +695,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -719,7 +719,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -740,7 +740,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -761,7 +761,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -783,7 +783,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -805,7 +805,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     //TODO separate title to 2
@@ -828,7 +828,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -850,7 +850,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -872,7 +872,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -894,7 +894,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -916,7 +916,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -938,7 +938,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -962,7 +962,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -986,7 +986,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -1010,7 +1010,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -1034,7 +1034,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -1058,7 +1058,7 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     //TODO finish
@@ -1083,9 +1083,11 @@ class M1ParserTest {
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
         assertEquals(ParserState.TRN, dslObject.getState());
-        assertEquals(StringUtils.compact(m1), dslObject.toM1CompactString());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
+    //TODO simplify code, may be remove compact()
+    
     //TODO modifications - object + trancr
 
     //TODO smart notes parser

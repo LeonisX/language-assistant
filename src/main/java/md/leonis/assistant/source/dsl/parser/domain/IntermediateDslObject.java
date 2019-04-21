@@ -4,7 +4,7 @@ import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import md.leonis.assistant.source.dsl.domain.parsed.DslGroup;
-import md.leonis.assistant.source.dsl.parser.StringUtils;
+import md.leonis.assistant.source.dsl.parser.DslStringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -288,7 +288,7 @@ public class IntermediateDslObject {
     }
 
     public String toM1CompactString() {
-        return StringUtils.compact(toM1String());
+        return DslStringUtils.compact(toM1String());
     }
 
 }

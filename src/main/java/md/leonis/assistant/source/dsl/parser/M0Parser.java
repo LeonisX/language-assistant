@@ -21,8 +21,8 @@ public class M0Parser {
             return false;
         }
 
-        String body = StringUtils.getBody(line, NUMBER);
-        line = StringUtils.trimOuterBody(line, NUMBER);
+        String body = DslStringUtils.getBody(line, NUMBER);
+        line = DslStringUtils.trimOuterBody(line, NUMBER);
         if (!line.isEmpty()) {
             throw new IllegalStateException("M0: Non-empty line: " + line);
         }
