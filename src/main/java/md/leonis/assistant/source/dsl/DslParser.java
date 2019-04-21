@@ -45,6 +45,8 @@ public class DslParser implements Parser {
         //TODO clean all abbs
         parseAbbr();
         Iterable<DslRawAbbrParsed> abbrParsed = dslService.findAllRawParsedAbbr();
+        //abbrParsed.forEach(e -> System.out.println(String.format("abbrs.put(\"%s\", \"%s\");", e.getWord(), e.getMeaning())));
+
         BidiMap<String, String> abbrs = new DualLinkedHashBidiMap<>(StreamSupport.stream(abbrParsed.spliterator(), false)
                 .collect(Collectors.toMap(DslRawAbbrParsed::getWord, DslRawAbbrParsed::getMeaning)));
 
