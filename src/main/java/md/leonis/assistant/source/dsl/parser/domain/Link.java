@@ -26,10 +26,10 @@ public class Link {
         this.word = word;
     }
 
-    public Link(String word) {
+    /*public Link(String word) {
         this.type = LinkType.NONE;
         this.word = word;
-    }
+    }*/
 
     public void addLinkGroups(List<String> chunks) {
         for (String chunk : chunks) {
@@ -117,13 +117,18 @@ public class Link {
                     case SEE_ALSO:
                     case SEE:
                     case ABBR_FROM:
+                    case SIMPLE:
                         result.append(String.format(" %s%s%s", LINKR.getKey(), link.getWord(), LINKR.getValue()));
                         break;
                     case EQ_GREEN:
                         result.append(String.format(" %s%s%s", LINK_GREENR.getKey(), link.getWord(), LINK_GREENR.getValue()));
                         break;
-                    case NONE:
+                    case CTEALTAG:
                         result.append(String.format(" %s%s%s", CTEALTAG.getKey(), link.getWord(), CTEALTAG.getValue()));
+                        break;
+                    case CMEDIUMVIOLET:
+                        result.append(String.format(" %s%s%s", CMEDIUMVIOLET.getKey(), link.getWord(), CMEDIUMVIOLET.getValue()));
+                        break;
                 }
 
                 if (link.getTranscription() != null) {
@@ -164,14 +169,14 @@ public class Link {
                     }
                 }
 
-                if ((links.indexOf(link) < links.size() - 1)) {
+                //if ((links.indexOf(link) < links.size() - 1)) {
                     if (link.getJoin() != null) {
                         if (!link.getJoin().equals("[c blue],[/c]") && !link.getJoin().equals(",")) {
                             result.append(" ");
                         }
                         result.append(link.getJoin());
                     }
-                }
+                //}
 
                 if ((links.indexOf(link) == links.size() - 1)) {
                     switch (link.getType()) {

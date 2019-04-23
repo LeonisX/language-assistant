@@ -497,6 +497,7 @@ class M1ParserTest {
         assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
+        //TODO upgrade links renderer
         assertEquals("[c mediumblue] [b]=[/b] [/c] <<upstairs>> [c blue]1,[/c] [c blue]1)[/c] [i]и[/i] [c blue]3[/c]", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
@@ -807,8 +808,8 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[{[-es], \\[-ɪz\\]}, {[-ci], null}]", dslObject.getDetails().toString());
-        assertEquals("[]", Link.renderLinks(dslObject.getLinks()));
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-es[/lang] [/c] [c lightslategray]{{t}}\\[-ɪz\\]{{/t}}[/c],,  [c teal] [lang id=1033]-ci[/lang] [/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
@@ -830,8 +831,8 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[{[abatis], \\[ˊæbəti:z\\]}, {[abatises, abattises], null}]", dslObject.getDetails().toString());
-        assertEquals("[]", Link.renderLinks(dslObject.getLinks()));
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]abatis[/lang] [/c] [c lightslategray]{{t}}\\[ˊæbəti:z\\]{{/t}}[/c],,  [c teal] [lang id=1033]abatises, abattises[/lang] [/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
@@ -897,7 +898,7 @@ class M1ParserTest {
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
         //TODO wrong, need process [i];[/i]
-        assertEquals("!!![[p]pl[/p] [p]без измен.[/p] [i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]]", dslObject.getDetails().toString());
+        assertEquals("[[p]pl[/p] [p]без измен.[/p] [i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -941,8 +942,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        //TODO wrong
-        assertEquals("!![[p]pl[/p] [i]или[/i] [c teal] [lang id=1033]cruxes[/lang] [/c] [c teal] [lang id=1033]cruces[/lang] [/c]]", dslObject.getDetails().toString());
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]cruxes[/lang] [/c] [i]или[/i] [c teal] [lang id=1033]cruces[/lang] [/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -986,8 +986,8 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[]", dslObject.getDetails().toString());
-        assertEquals("[]", Link.renderLinks(dslObject.getLinks()));
+        assertEquals("[[p]сокр.[/p] [i]от[/i] <<approbation>>[c blue],[/c] <<approval>>]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertEquals(":", dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
@@ -1008,8 +1008,8 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[]", dslObject.getDetails().toString());
-        assertEquals("[]", Link.renderLinks(dslObject.getLinks()));
+        assertEquals("[[p]сокр.[/p] [i]от[/i] <<convert>> [c mediumblue] [i]или[/i] [/c] <<pervert>>]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
@@ -1030,8 +1030,8 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[{[-os], \\[-əυz\\]}]", dslObject.getDetails().toString());
-        assertEquals("[]", Link.renderLinks(dslObject.getLinks()));
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c] ;, [p]сокр.[/p] [i]от[/i] <<violoncello>>]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
@@ -1039,7 +1039,6 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO finish
     @Test
     @DisplayName("[m1]hew [c lightslategray]{{t}}\\[hju:\\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c]; [c mediumvioletred]hewed, hewn[/c])")
     void parse49() {
@@ -1053,8 +1052,30 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[{[-os], \\[-əυz\\]}]", dslObject.getDetails().toString());
-        assertEquals("[]", Link.renderLinks(dslObject.getLinks()));
+        assertEquals("[ [c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c] ;,  [c mediumvioletred]hewed, hewn[/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    @Test
+    @DisplayName("[m1]jinnee [c lightslategray]{{t}}\\[dʒɪˊni:\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]jinn[/lang][/c], [i]часто[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])")
+    void parse50() {
+        String m1 = "[m1]jinnee [c lightslategray]{{t}}\\[dʒɪˊni:\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]jinn[/lang][/c], [i]часто[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])";
+        dslObject = new IntermediateDslObject("jinnee");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]jinn[/lang] [/c],, [i]часто[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());
@@ -1069,15 +1090,13 @@ class M1ParserTest {
     //TODO smart notes parser
     // v 0. Начать новый бренч.
     // v 1, Read all abbr from DB
-    // 2. Create object Details: String[] abbr, String[] words, Links[] links
-    // 2. parse tag-by-tag.
-    // 3. если встречается ссылка или ключевое слово - заполняем.
-    // 3. идея такая - вытаскивать слова и как-то их сохранять. Так же вытаскивать ссылки.
-    // 4. если ";" - повторяем. Добавить других разделителей
+    // v 2. Create object Details: String[] abbr, String[] words, Links[] links
+    // v 2. parse tag-by-tag.
+    // v 3. если встречается ссылка или ключевое слово - заполняем.
+    // v 3. идея такая - вытаскивать слова и как-то их сохранять. Так же вытаскивать ссылки.
+    // v 4. если ";" - повторяем. Добавить других разделителей
     // 8. починить все тесты, написать несколько новых, потом вручную просмотреть около сотни нотесов
     // 9. Вмерджить если всё ОК
-
-    // [m1]jinnee [c lightslategray]{{t}}\[dʒɪˊni:\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]jinn[/lang][/c], [i]часто[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p])
 
     //TODO switch to notes; finally retest tails again and cover all cases
 

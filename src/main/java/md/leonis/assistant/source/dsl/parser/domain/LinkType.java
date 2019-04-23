@@ -9,7 +9,11 @@ public enum LinkType {
     SEE,
     ABBR_FROM,
 
-    NONE,
+    SIMPLE,
+
+    CTEALTAG,
+    CMEDIUMVIOLET,
+
     UNDEFINED
 
 }

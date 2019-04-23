@@ -64,7 +64,7 @@ public class IntermediateDslObject {
     }
 
     public void addNewDetailLink(String word) {
-        getCurrentDetail().getLinks().add(new Link(word));
+        //getCurrentDetail().getLinks().add(new Link(word));
     }
 
     /*public Plural getCurrentPlural() {
@@ -182,11 +182,13 @@ public class IntermediateDslObject {
             renderLinks(result, abbrLinks);
         }*/
 
-        if (!details.isEmpty()) {
+        String dt = details.stream().map(Detail::toString).collect(Collectors.joining(" "));
+        result.append(dt);
+        /*if (!details.isEmpty()) {
             for (Detail detail : details) {
                 result.append(detail.toString());
             }
-        }
+        }*/
 
         if (isNotes) {
             result.append(" ").append(NOTES.getValue());

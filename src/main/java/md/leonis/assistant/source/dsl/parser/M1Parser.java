@@ -35,6 +35,7 @@ public class M1Parser {
 
     public static final Pair<String, String> CBLUE = new Pair<>("[c blue]", "[/c]");
     public static final Pair<String, String> CMEDIUMBLUE = new Pair<>("[c mediumblue]", "[/c]");
+    public static final Pair<String, String> CMEDIUMVIOLET = new Pair<>("[c mediumvioletred]", "[/c]");
 
     public static final Pair<String, String> LINK2 = new Pair<>("[i]от[/i] <<", ">>");
 
@@ -188,6 +189,16 @@ public class M1Parser {
 
         boolean readNext = true;
         while (readNext) {
+            if (notes.startsWith(",")) {
+                dslObject.getCurrentDetailLink().setJoin(",");
+                dslObject.addNewDetail();
+                notes = notes.substring(1).trim();
+            }
+            if (notes.startsWith(";")) {
+                dslObject.getCurrentDetailLink().setJoin(";");
+                dslObject.addNewDetail();
+                notes = notes.substring(1).trim();
+            }
             Optional<String> body = DslStringUtils.tryGetBody(notes, PTAG);
             if (body.isPresent()) {
                 dslObject.getCurrentDetail().getTags().add(new Tag(TagType.P, body.get()));
@@ -197,14 +208,18 @@ public class M1Parser {
             }
             body = DslStringUtils.tryGetBody(notes, ITAG);
             if (body.isPresent()) {
-                dslObject.getCurrentDetail().getTags().add(new Tag(TagType.I, body.get()));
+                if (body.get().equals("или")) {
+                    dslObject.getCurrentDetailLink().setJoin(DslStringUtils.formatOuterBody(body.get(), ITAG));
+                } else {
+                    dslObject.getCurrentDetail().getTags().add(new Tag(TagType.I, body.get()));
+                }
                 notes = DslStringUtils.trimOuterBody(notes, ITAG).trim();
                 readNext = true;
                 continue;
             }
             body = DslStringUtils.tryGetBody(notes, CTEALTAG);
             if (body.isPresent()) {
-                dslObject.getCurrentDetail().getLinks().add(new Link(body.get()));
+                dslObject.getCurrentDetail().getLinks().add(new Link(LinkType.CTEALTAG, body.get()));
                 notes = DslStringUtils.trimOuterBody(notes, CTEALTAG).trim();
 
                 body = DslStringUtils.tryGetBody(notes, TRANSCRIPTION);
@@ -215,6 +230,39 @@ public class M1Parser {
                 }
 
                 readNext = true;
+                continue;
+            }
+            body = DslStringUtils.tryGetBody(notes, CMEDIUMVIOLET);
+            if (body.isPresent()) {
+                dslObject.getCurrentDetail().getLinks().add(new Link(LinkType.CMEDIUMVIOLET, body.get()));
+                notes = DslStringUtils.trimOuterBody(notes, CMEDIUMVIOLET).trim();
+
+                body = DslStringUtils.tryGetBody(notes, TRANSCRIPTION);
+                if (body.isPresent()) {
+                    //TODO unescape []
+                    dslObject.getCurrentDetailLink().setTranscription(body.get().trim());
+                    notes = DslStringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
+                }
+
+                readNext = true;
+                continue;
+            }
+            body = DslStringUtils.tryGetBody(notes, LINKR);
+            if (body.isPresent()) {
+
+                notes = tryReadLink(notes, LinkType.SIMPLE, dslObject.getCurrentDetail().getLinks());
+
+                /*dslObject.getCurrentDetail().getLinks().add(new Link(LinkType.ABBR_FROM, body.get()));
+                notes = DslStringUtils.trimOuterBody(notes, LINKR).trim();*/
+
+                /*body = DslStringUtils.tryGetBody(notes, TRANSCRIPTION);
+                if (body.isPresent()) {
+                    //TODO unescape []
+                    dslObject.getCurrentDetailLink().setTranscription(body.get().trim());
+                    notes = DslStringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
+                }*/
+
+                readNext = !notes.isEmpty();
                 continue;
             }
             readNext = false;
@@ -349,7 +397,7 @@ public class M1Parser {
         while (readNext) {
             String oldLine = line;
             line = tryReadLink1(line, linkType, links);
-            readNext = !oldLine.equals(line);
+            readNext = !oldLine.equals(line) && !line.isEmpty();
         }
         return line;
     }
@@ -387,6 +435,7 @@ public class M1Parser {
                     //identify: split by `,`, trim, remove ""
                     List<String> chunks = Arrays.stream(body.get().split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
                     if (!chunks.isEmpty()) {
+                        link.setJoin(null);
                         if (RomanToNumber.isValidRomanNumeral(chunks.get(0))) {
                             this.dslObject.addLinkGroups(chunks, links);
                         } else if (!chunks.get(0).endsWith(")")) {
