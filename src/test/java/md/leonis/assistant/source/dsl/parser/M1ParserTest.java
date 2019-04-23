@@ -501,7 +501,7 @@ class M1ParserTest {
         assertEquals("[c mediumblue] [b]=[/b] [/c] <<upstairs>> [c blue]1,[/c] [c blue]1)[/c] [i]и[/i] [c blue]3[/c]", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
-        //assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
     @Test
@@ -1082,6 +1082,30 @@ class M1ParserTest {
         assertEquals(ParserState.TRN, dslObject.getState());
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
+
+    //TODO find bug and repair
+    @Test
+    @DisplayName("[m1]hers [c lightslategray]{{t}}\\[hɜ:z\\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([i]абсолютная форма[/i]; [i]не[/i] [p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<her>> [c blue]Ⅱ[/c])")
+    void parse51() {
+        String m1 = "[m1]hers [c lightslategray]{{t}}\\[hɜ:z\\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([i]абсолютная форма[/i]; [i]не[/i] [p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<her>> [c blue]Ⅱ[/c])";
+        dslObject = new IntermediateDslObject("hers");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [pron, poss.], []]", dslObject.getTags().toString());
+        assertEquals("[[], [pron, poss.], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[i]абсолютная форма[/i]; [i]не[/i] [p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<her>> [c blue]Ⅱ[/c]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
 
     //TODO simplify code, may be remove compact()
     

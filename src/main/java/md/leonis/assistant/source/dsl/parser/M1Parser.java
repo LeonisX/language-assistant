@@ -163,7 +163,7 @@ public class M1Parser {
             dslObject.setTail(line);
         }
 
-        String result = dslObject.toM1String();
+        String result = Preprocessor.normalize(dslObject.toM1String());
         //if (!DslStringUtils.compact(result).equals(DslStringUtils.compact(unchangedLine))) {
         if (!result.equals(unchangedLine)) {
             System.out.println(unchangedLine);
@@ -195,6 +195,9 @@ public class M1Parser {
                 notes = notes.substring(1).trim();
             }
             if (notes.startsWith(";")) {
+                if (dslObject.getCurrentDetail().getLinks().isEmpty()) {
+                    System.out.println();
+                }
                 dslObject.getCurrentDetailLink().setJoin(";");
                 dslObject.addNewDetail();
                 notes = notes.substring(1).trim();
