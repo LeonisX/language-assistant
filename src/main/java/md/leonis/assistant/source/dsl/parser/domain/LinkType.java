@@ -9,6 +9,7 @@ public enum LinkType {
     SEE,
     ABBR_FROM,
 
+    NONE,
     UNDEFINED
 
 }

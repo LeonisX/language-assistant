@@ -51,36 +51,6 @@ public class M1Parser {
     public static final Triple ABBR = new Triple("[p]", "сокр.", "[/p]");
     public static final Triple FROM = new Triple("[i]", "от", "[/i]");
 
-    //TODO need smart parsing
-    public static final Map<String, String> NOTES_MAP = new HashMap<String, String>() {{
-        put("[p]употр.[/p] [i]как[/i] [p]sing[/p]", "употребляется как единственное число");
-        put("[p]употр.[/p] [i]как[/i] [p]sing[/p] [i]и как[/i] [p]pl[/p]", "употребляется как единственное число и как множественное число");
-
-        put("[p]преим.[/p] [p]шотл.[/p]", "преимущественно употребительно в Шотландии");
-        put("[p]преим.[/p] [p]амер.[/p]", "преимущественно американизм");
-
-        put("[p]обыкн.[/p] [p]pass.[/p]", "обычно страдательный залог");
-        put("[p]обыкн.[/p] [p]pl[/p]", "обычно множественное число");
-        put("[p]обыкн.[/p] [p]поэт.[/p]", "обычно поэтическое слово, выражение");
-        put("[i]обыкн.[/i] [p]презр.[/p]", "обычно презрительно");
-        put("[p]обыкн.[/p] [p]амер.[/p]", "обычно американизм");
-        put("[p]обыкн.[/p] [p]собир.[/p]", "обычно собирательно");
-
-        put("[p]особ.[/p] [p]амер.[/p]", "особенно американизм");
-
-        put("[i]часто[/i] [p]презр.[/p]", "часто презрительно");
-        put("[i]часто[/i] [p]pl[/p]", "часто множественное число");
-
-        put("[i]иногда[/i] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "иногда употребляется как единственное число");
-
-        put("[p]pl[/p] [p]без измен.[/p][i]", "множественное число без изменений");
-        put("[p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]", "множественное число без изменений; обыкновенно употребляется как единственное число");
-    }};
-
-    public static final Pair<String, String> PLURAL_NOTE = new Pair<>("[p]pl[/p] [c teal] [lang id=1033]", "[/lang] [/c]");
-    public static final Pair<String, String> PLURAL_NOTER = new Pair<>("[c teal] [lang id=1033]", "[/lang] [/c]");
-
-
     private final IntermediateDslObject dslObject;
     private final BidiMap<String, String> abbrs;
 
@@ -139,15 +109,7 @@ public class M1Parser {
         // ([p]преим.[/p] [p]амер.[/p])
         body = DslStringUtils.tryGetBody(line, NOTES);
         if (body.isPresent()) {
-            if (NOTES_MAP.get(body.get()) != null) {
-                dslObject.setNote(NOTES_MAP.get(body.get()));
-            } else {
-                String processedBody = processNotes(body.get());
-
-                if (!processedBody.isEmpty()) {
-                    dslObject.setNotes(body.get().trim());
-                }
-            }
+            dslObject.setNotes(processNotes(body.get()));
             line = DslStringUtils.trimOuterBody(line, NOTES).trim();
         }
 
@@ -222,15 +184,54 @@ public class M1Parser {
     }
 
     private String processNotes(String notes) {
+        dslObject.addNewDetail();
+
         boolean readNext = true;
         while (readNext) {
-            int plurals = this.dslObject.getPlurals().size();
+            Optional<String> body = DslStringUtils.tryGetBody(notes, PTAG);
+            if (body.isPresent()) {
+                dslObject.getCurrentDetail().getTags().add(new Tag(TagType.P, body.get()));
+                notes = DslStringUtils.trimOuterBody(notes, PTAG).trim();
+                readNext = true;
+                continue;
+            }
+            body = DslStringUtils.tryGetBody(notes, ITAG);
+            if (body.isPresent()) {
+                dslObject.getCurrentDetail().getTags().add(new Tag(TagType.I, body.get()));
+                notes = DslStringUtils.trimOuterBody(notes, ITAG).trim();
+                readNext = true;
+                continue;
+            }
+            body = DslStringUtils.tryGetBody(notes, CTEALTAG);
+            if (body.isPresent()) {
+                dslObject.getCurrentDetail().getLinks().add(new Link(body.get()));
+                notes = DslStringUtils.trimOuterBody(notes, CTEALTAG).trim();
+
+                body = DslStringUtils.tryGetBody(notes, TRANSCRIPTION);
+                if (body.isPresent()) {
+                    //TODO unescape []
+                    dslObject.getCurrentDetailLink().setTranscription(body.get().trim());
+                    notes = DslStringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
+                }
+
+                readNext = true;
+                continue;
+            }
+            readNext = false;
+
+
+            /*int plurals = this.dslObject.getPlurals().size();
             notes = tryReadPlurals(notes);
-            readNext = plurals < this.dslObject.getPlurals().size();
+            readNext = plurals < this.dslObject.getPlurals().size();*/
+        }
+
+        //fix for tests
+        if (notes.isEmpty()) {
+            notes = null;
         }
 
         // Ignore ;
-        if (notes.startsWith(";")) {
+        /*if (notes.startsWith(";")) {
             notes = notes.substring(1).trim();
         }
 
@@ -239,12 +240,12 @@ public class M1Parser {
             int plurals = this.dslObject.getAbbrFrom().size();
             notes = tryReadAbbr(notes);
             readNext = plurals < this.dslObject.getAbbrFrom().size();
-        }
+        }*/
 
         return notes;
     }
 
-    private String tryReadAbbr(String notes) {
+    /*private String tryReadAbbr(String notes) {
         // [p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c]
         Optional<Pair<Integer, Integer>> pair = DslStringUtils.tryGetBody(notes, ABBR, FROM);
         if (pair.isPresent()) {
@@ -265,7 +266,7 @@ public class M1Parser {
     private String tryReadAbbrFrom(String notes) {
         Optional<String> body = DslStringUtils.tryGetBody(notes, CTEALTAG);
         if (body.isPresent()) {
-            dslObject.getCurrentAbbrFrom().setName(body.get());
+            dslObject.getCurrentAbbrFrom().setWord(body.get());
             notes = DslStringUtils.trimOuterBody(notes, CTEALTAG).trim();
         }
         return notes;
@@ -296,7 +297,7 @@ public class M1Parser {
             dslObject.getCurrentPlural().setJoin(" " + ITAG_OR);
         }
         return notes;
-    }
+    }*/
 
     private String tryReadTags(String line, int number) {
         // [p]v[/p]
@@ -311,6 +312,7 @@ public class M1Parser {
                 line = DslStringUtils.trimOuterBody(line, ITAG).trim();
             }
             //hack
+            //TODO may be words????
             body = DslStringUtils.tryGetBody(line, CTEALTAG);
             if (body.isPresent() && (body.get().trim().equals("a") || body.get().trim().equals("n") || body.get().trim().equals("v"))) {
                 dslObject.getTags().get(number - 1).add(body.get().trim());

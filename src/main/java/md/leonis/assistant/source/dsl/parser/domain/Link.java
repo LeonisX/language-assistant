@@ -4,20 +4,31 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static md.leonis.assistant.source.dsl.parser.M1Parser.*;
+import static md.leonis.assistant.source.dsl.parser.M1Parser.CBLUE;
+import static md.leonis.assistant.source.dsl.parser.M1Parser.LINK_SEE_POST;
 
 @Getter
 @Setter
 public class Link {
 
     private LinkType type;
-    private String name;
+    private String word;
+    private String transcription;
     private Map<String, Map<String, List<String>>> linkAddress = new LinkedHashMap<>();
     private List<String> seq = new ArrayList<>();
     private String join = null;
 
-    public Link(LinkType type, String name) {
+    public Link(LinkType type, String word) {
         this.type = type;
-        this.name = name;
+        this.word = word;
+    }
+
+    public Link(String word) {
+        this.type = LinkType.NONE;
+        this.word = word;
     }
 
     public void addLinkGroups(List<String> chunks) {
@@ -64,6 +75,116 @@ public class Link {
 
     @Override
     public String toString() {
-        return "{" + type + ", " + name + ", " + linkAddress + '}';
+        String result = type == LinkType.UNDEFINED ? "" : type + ", ";
+        result = result + word;
+        if (!linkAddress.isEmpty()) {
+                result += ", " + linkAddress;
+        }
+        return result;
+    }
+
+    public static String renderLinks(List<Link> links) {
+        StringBuilder result = new StringBuilder();
+        if (!links.isEmpty()) {
+
+            LinkType prevType = LinkType.UNDEFINED;
+
+            for (Link link : links) {
+                if (prevType != link.getType()) {
+                    switch (link.getType()) {
+                        case EQ_ONE:
+                        case EQ_GREEN:
+                            result.append(LINK_PRE);
+                            break;
+                        case FROM_TWO:
+                            result.append(LINK2_PRE);
+                            break;
+                        case SEE_ALSO:
+                            result.append(LINK_SEE_ALSO_PRE);
+                            break;
+                        case SEE:
+                            result.append(" ").append(LINK_SEE_PRE);
+                            break;
+                        case ABBR_FROM:
+                            result.append(ABBR).append(" ").append(FROM);
+                            break;
+                    }
+                }
+
+                switch (link.getType()) {
+                    case EQ_ONE:
+                    case FROM_TWO:
+                    case SEE_ALSO:
+                    case SEE:
+                    case ABBR_FROM:
+                        result.append(String.format(" %s%s%s", LINKR.getKey(), link.getWord(), LINKR.getValue()));
+                        break;
+                    case EQ_GREEN:
+                        result.append(String.format(" %s%s%s", LINK_GREENR.getKey(), link.getWord(), LINK_GREENR.getValue()));
+                        break;
+                    case NONE:
+                        result.append(String.format(" %s%s%s", CTEALTAG.getKey(), link.getWord(), CTEALTAG.getValue()));
+                }
+
+                if (link.getTranscription() != null) {
+                    result.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), link.getTranscription(), TRANSCRIPTION.getValue()));
+                }
+
+                for (Map.Entry<String, Map<String, List<String>>> group : link.getLinkAddress().entrySet()) {
+                    if (!group.getKey().isEmpty() && link.getSeq().contains(group.getKey())) {
+                        String comma = group.getValue().isEmpty() ? "" : ",";
+                        result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
+                    }
+                    String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && link.getSeq().contains(m)).collect(Collectors.joining(", "));
+                    if (!meanings.isEmpty()) {
+                        String space = " ";
+                        String space2 = "";
+                        boolean isLastMeaning = group.getValue().entrySet().iterator().next().getValue().isEmpty();
+                        boolean isLastLink = links.indexOf(link) == links.size() - 1;
+                        String comma = isLastMeaning ? "" : ",";
+                        result.append(space).append(String.format("%s%s%s%s%s", CBLUE.getKey(), space2, meanings, comma, CBLUE.getValue()));
+                    }
+                    for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
+                        for (String number : meaning.getValue()) {
+                            if (!number.isEmpty() && link.getSeq().contains(number)) {
+                                int index = link.getSeq().indexOf(number);
+                                if (index + 1 != link.getSeq().size()) {
+                                    if (link.getSeq().get(index + 1).startsWith("[")) { // no comma, append with tag
+                                        result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                        result.append(" ").append(link.getSeq().get(index + 1));
+                                    } else {
+                                        //TODO if last for current link - no comma
+                                        result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                    }
+                                } else {
+                                    result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if ((links.indexOf(link) < links.size() - 1)) {
+                    if (link.getJoin() != null) {
+                        if (!link.getJoin().equals("[c blue],[/c]") && !link.getJoin().equals(",")) {
+                            result.append(" ");
+                        }
+                        result.append(link.getJoin());
+                    }
+                }
+
+                if ((links.indexOf(link) == links.size() - 1)) {
+                    switch (link.getType()) {
+                        case SEE_ALSO:
+                        case SEE:
+                            result.append(LINK_SEE_POST);
+                            break;
+                    }
+                }
+
+                prevType = link.getType();
+            }
+        }
+        return result.toString();
     }
 }

@@ -97,7 +97,7 @@ public class TestService {
         return wordBankDAO.findById(word).isPresent();
     }
 
-    //TODO get name
+    //TODO get word
     public Xdxf getDictionary(File file) {
         try {
             JAXBContext jc = JAXBContext.newInstance(Xdxf.class);

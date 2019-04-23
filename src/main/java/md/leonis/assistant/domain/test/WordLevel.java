@@ -5,7 +5,7 @@ import md.leonis.assistant.domain.LanguageLevel;
 
 import javax.persistence.*;
 
-//TODO study default columns matching, Column w/o name
+//TODO study default columns matching, Column w/o word
 @Getter
 @Setter
 @ToString
