@@ -20,6 +20,6 @@ public class Detail {
         if (links.isEmpty()) {
             return result;
         }
-        return result + Link.renderLinks(links);
+        return (result + Link.renderLinks(links)).trim();
     }
 }

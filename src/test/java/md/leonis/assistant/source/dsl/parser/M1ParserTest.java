@@ -1083,7 +1083,6 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO find bug and repair
     @Test
     @DisplayName("[m1]hers [c lightslategray]{{t}}\\[hɜ:z\\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([i]абсолютная форма[/i]; [i]не[/i] [p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<her>> [c blue]Ⅱ[/c])")
     void parse51() {
@@ -1106,6 +1105,75 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
+    @Test
+    @DisplayName("[m1]abide [c lightslategray]{{t}}\\[əˊbaɪd\\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]abode,[/c] [p]уст.[/p] [c mediumvioletred]abided[/c] [c lightslategray]{{t}}\\[-ɪd\\]{{/t}}[/c])")
+    void parse52() {
+        String m1 = "[m1]abide [c lightslategray]{{t}}\\[əˊbaɪd\\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]abode,[/c] [p]уст.[/p] [c mediumvioletred]abided[/c] [c lightslategray]{{t}}\\[-ɪd\\]{{/t}}[/c])";
+        dslObject = new IntermediateDslObject("abide");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [v], []]", dslObject.getTags().toString());
+        assertEquals("[[], [v], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[c mediumvioletred]abode[/c],, [p]уст.[/p][c mediumvioletred]abided[/c] [c lightslategray]{{t}}\\[-ɪd\\]{{/t}}[/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    @Test
+    @DisplayName("[m1]be [c lightslategray]{{t}}\\[bi:\\]{{/t}}[/c] [p]v[/p] ([p]sing[/p] [c mediumvioletred]was,[/c] [p]pl[/p] [c mediumvioletred]were; been[/c])")
+    void parse53() {
+        String m1 = "[m1]be [c lightslategray]{{t}}\\[bi:\\]{{/t}}[/c] [p]v[/p] ([p]sing[/p] [c mediumvioletred]was,[/c] [p]pl[/p] [c mediumvioletred]were; been[/c])";
+        dslObject = new IntermediateDslObject("be");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [v], []]", dslObject.getTags().toString());
+        assertEquals("[[], [v], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[p]sing[/p] [c mediumvioletred]was[/c],, [p]pl[/p] [c mediumvioletred]were; been[/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    @Test
+    @DisplayName("[m1]speak [c lightslategray]{{t}}\\[spi:k\\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]spoke,[/c] [p]уст.[/p] [c mediumvioletred]spake; spoken[/c])")
+    void parse54() {
+        String m1 = "[m1]speak [c lightslategray]{{t}}\\[spi:k\\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]spoke,[/c] [p]уст.[/p] [c mediumvioletred]spake; spoken[/c])";
+        dslObject = new IntermediateDslObject("speak");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [v], []]", dslObject.getTags().toString());
+        assertEquals("[[], [v], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[c mediumvioletred]spoke[/c],, [p]уст.[/p] [c mediumvioletred]spake; spoken[/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    //
+    //
+    // [m1]speak [c lightslategray]{{t}}\[spi:k\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]spoke,[/c] [p]уст.[/p] [c mediumvioletred]spake; spoken[/c])
 
     //TODO simplify code, may be remove compact()
     

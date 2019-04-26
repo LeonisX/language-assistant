@@ -15,7 +15,7 @@ import static md.leonis.assistant.source.dsl.parser.M1Parser.LINK_SEE_POST;
 public class Link {
 
     private LinkType type;
-    private String word;
+    private String word; //TODO separate; ex.: spake; spoken
     private String transcription;
     private Map<String, Map<String, List<String>>> linkAddress = new LinkedHashMap<>();
     private List<String> seq = new ArrayList<>();
