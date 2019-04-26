@@ -202,9 +202,15 @@ public class M1Parser {
                 dslObject.addNewDetail();
                 notes = notes.substring(1).trim();
             }
+            if (notes.startsWith("—")) {
+                dslObject.getCurrentDetail().addNewTag(new Tag(TagType.NONE, "—"));
+                notes = notes.substring(1).trim();
+                readNext = true;
+                continue;
+            }
             Optional<String> body = DslStringUtils.tryGetBody(notes, PTAG);
             if (body.isPresent()) {
-                dslObject.getCurrentDetail().getTags().add(new Tag(TagType.P, body.get()));
+                dslObject.getCurrentDetail().addNewTag(new Tag(TagType.P, body.get()));
                 notes = DslStringUtils.trimOuterBody(notes, PTAG).trim();
                 readNext = true;
                 continue;
@@ -214,7 +220,7 @@ public class M1Parser {
                 if (body.get().equals("или")) {
                     dslObject.getCurrentDetailLink().setJoin(DslStringUtils.formatOuterBody(body.get(), ITAG));
                 } else {
-                    dslObject.getCurrentDetail().getTags().add(new Tag(TagType.I, body.get()));
+                    dslObject.getCurrentDetail().addNewTag(new Tag(TagType.I, body.get()));
                 }
                 notes = DslStringUtils.trimOuterBody(notes, ITAG).trim();
                 readNext = true;

@@ -808,7 +808,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-es[/lang] [/c] [c lightslategray]{{t}}\\[-ɪz\\]{{/t}}[/c],,  [c teal] [lang id=1033]-ci[/lang] [/c]]", dslObject.getDetails().toString());
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-es[/lang] [/c] [c lightslategray]{{t}}\\[-ɪz\\]{{/t}}[/c],, [c teal] [lang id=1033]-ci[/lang] [/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -831,7 +831,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]abatis[/lang] [/c] [c lightslategray]{{t}}\\[ˊæbəti:z\\]{{/t}}[/c],,  [c teal] [lang id=1033]abatises, abattises[/lang] [/c]]", dslObject.getDetails().toString());
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]abatis[/lang] [/c] [c lightslategray]{{t}}\\[ˊæbəti:z\\]{{/t}}[/c],, [c teal] [lang id=1033]abatises, abattises[/lang] [/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -1052,7 +1052,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[ [c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c] ;,  [c mediumvioletred]hewed, hewn[/c]]", dslObject.getDetails().toString());
+        assertEquals("[[c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c] ;, [c mediumvioletred]hewed, hewn[/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -1118,7 +1118,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[c mediumvioletred]abode[/c],, [p]уст.[/p][c mediumvioletred]abided[/c] [c lightslategray]{{t}}\\[-ɪd\\]{{/t}}[/c]]", dslObject.getDetails().toString());
+        assertEquals("[[c mediumvioletred]abode[/c],, [p]уст.[/p] [c mediumvioletred]abided[/c] [c lightslategray]{{t}}\\[-ɪd\\]{{/t}}[/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -1171,9 +1171,79 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //
-    //
-    // [m1]speak [c lightslategray]{{t}}\[spi:k\]{{/t}}[/c] [p]v[/p] ([c mediumvioletred]spoke,[/c] [p]уст.[/p] [c mediumvioletred]spake; spoken[/c])
+    //TODO we must greedily search for the second bracket
+    @Test
+    @DisplayName("[m1]my [c lightslategray]{{t}}\\[maɪ\\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<mine>> [c blue]1)[/c])")
+    void parse55() {
+        String m1 = "[m1]my [c lightslategray]{{t}}\\[maɪ\\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<mine>> [c blue]1)[/c])";
+        dslObject = new IntermediateDslObject("my");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [pron, poss.], []]", dslObject.getTags().toString());
+        assertEquals("[[], [pron, poss.], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<mine>> [c blue]1)[/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    @Test
+    @DisplayName("[m1]com- [c lightslategray]{{t}}\\[kɒm-\\]{{/t}}[/c] ([p]тж.[/p] [c teal] [lang id=1033]col-, con-, cor-[/lang] [/c]— [i]в зависимости от последующего звука[/i]) [p]pref[/p]")
+    void parse56() {
+        String m1 = "[m1]com- [c lightslategray]{{t}}\\[kɒm-\\]{{/t}}[/c] ([p]тж.[/p] [c teal] [lang id=1033]col-, con-, cor-[/lang] [/c]— [i]в зависимости от последующего звука[/i]) [p]pref[/p]";
+        dslObject = new IntermediateDslObject("com-");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [], [pref]]", dslObject.getTags().toString());
+        assertEquals("[[], [], [pref]]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[p]тж.[/p] [c teal] [lang id=1033]col-, con-, cor-[/lang] [/c] — [i]в зависимости от последующего звука[/i]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    @Test
+    @DisplayName("[m1]Bedouin [c lightslategray]{{t}}\\[ˊbedυɪn\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]-s[/lang][/c] [c lightslategray]{{t}}\\[-z\\]{{/t}}[/c] [i]или[/i] [p]без измен.[/p])")
+    void parse57() {
+        String m1 = "[m1]Bedouin [c lightslategray]{{t}}\\[ˊbedυɪn\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]-s[/lang][/c] [c lightslategray]{{t}}\\[-z\\]{{/t}}[/c] [i]или[/i] [p]без измен.[/p])";
+        dslObject = new IntermediateDslObject("Bedouin");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-s[/lang] [/c] [c lightslategray]{{t}}\\[-z\\]{{/t}}[/c] [i]или[/i] [p]без измен.[/p]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    // [m1]Bedouin [c lightslategray]{{t}}\[ˊbedυɪn\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]-s[/lang][/c] [c lightslategray]{{t}}\[-z\]{{/t}}[/c] [i]или[/i] [p]без измен.[/p])
+    // [m1]com- [c lightslategray]{{t}}\[kɒm-\]{{/t}}[/c] ([p]тж.[/p] [c teal] [lang id=1033]col-, con-, cor-[/lang] [/c]— [i]в зависимости от последующего звука[/i]) [p]pref[/p]
+
+
+    //TODO fix bracket in file ([c teal][lang id=1033]os
+    // [m1]crypto [c lightslategray]{{t}}\[ˊkrɪptəυ\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] ([c teal][lang id=1033]os[/lang][/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c])
 
     //TODO simplify code, may be remove compact()
     

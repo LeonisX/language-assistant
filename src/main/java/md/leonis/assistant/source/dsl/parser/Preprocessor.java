@@ -31,6 +31,7 @@ public class Preprocessor {
         string = string.replace(") :", "):");
 
         string = string.replace("],[", "], [");
+        string = string.replace("], [/", "],[/");
 
         string = StringUtils.stripEnd(string, " ");
         return string;
