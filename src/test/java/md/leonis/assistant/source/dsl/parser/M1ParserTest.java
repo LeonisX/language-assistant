@@ -1238,12 +1238,14 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    // [m1]Bedouin [c lightslategray]{{t}}\[ˊbedυɪn\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal][lang id=1033]-s[/lang][/c] [c lightslategray]{{t}}\[-z\]{{/t}}[/c] [i]или[/i] [p]без измен.[/p])
-    // [m1]com- [c lightslategray]{{t}}\[kɒm-\]{{/t}}[/c] ([p]тж.[/p] [c teal] [lang id=1033]col-, con-, cor-[/lang] [/c]— [i]в зависимости от последующего звука[/i]) [p]pref[/p]
+    // TODO
+    // [m1]en- [c lightslategray]{{t}}\[en-, ɪn-\]{{/t}}[/c] [p]pref[/p] ([c teal] [lang id=1033]em-[/lang] [/c] [i]перед[/i] [c teal] [lang id=1033]b, p, m[/lang] [/c])
 
 
     //TODO fix bracket in file ([c teal][lang id=1033]os
     // [m1]crypto [c lightslategray]{{t}}\[ˊkrɪptəυ\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] ([c teal][lang id=1033]os[/lang][/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c])
+    //TODO add ,
+    // [m1]cablegram [c lightslategray]{{t}}\[ˊkeɪblgræm\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<cable>> [c blue]1[/c] [c blue]3) [/c]
 
     //TODO simplify code, may be remove compact()
     
