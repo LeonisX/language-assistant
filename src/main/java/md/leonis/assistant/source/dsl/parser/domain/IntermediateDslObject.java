@@ -60,6 +60,9 @@ public class IntermediateDslObject {
     }
 
     public Link getCurrentDetailLink() {
+        if (getCurrentDetail().getLinks().isEmpty()) {
+            getCurrentDetail().getLinks().add(new Link(LinkType.UNDEFINED, null));
+        }
         return getCurrentDetail().getLinks().get(getCurrentDetail().getLinks().size() - 1);
     }
 

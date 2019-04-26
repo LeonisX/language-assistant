@@ -1097,7 +1097,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[i]абсолютная форма[/i]; [i]не[/i] [p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<her>> [c blue]Ⅱ[/c]", dslObject.getDetails().toString());
+        assertEquals("[[i]абсолютная форма[/i];, [i]не[/i] [p]употр.[/p] [i]атрибутивно[/i];, [p]ср.[/p] <<her>> [c blue]Ⅱ[/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());

@@ -171,7 +171,7 @@ public class Link {
 
                 //if ((links.indexOf(link) < links.size() - 1)) {
                     if (link.getJoin() != null) {
-                        if (!link.getJoin().equals("[c blue],[/c]") && !link.getJoin().equals(",")) {
+                        if (!link.getJoin().equals("[c blue],[/c]") && !link.getJoin().equals(",") && link.getWord() != null) {
                             result.append(" ");
                         }
                         result.append(link.getJoin());
