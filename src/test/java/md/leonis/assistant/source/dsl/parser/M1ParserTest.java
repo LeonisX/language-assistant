@@ -1242,10 +1242,6 @@ class M1ParserTest {
     // [m1]en- [c lightslategray]{{t}}\[en-, ɪn-\]{{/t}}[/c] [p]pref[/p] ([c teal] [lang id=1033]em-[/lang] [/c] [i]перед[/i] [c teal] [lang id=1033]b, p, m[/lang] [/c])
 
 
-    //TODO fix bracket in file ([c teal][lang id=1033]os
-    // [m1]crypto [c lightslategray]{{t}}\[ˊkrɪptəυ\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] ([c teal][lang id=1033]os[/lang][/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c])
-    //TODO add ,
-    // [m1]cablegram [c lightslategray]{{t}}\[ˊkeɪblgræm\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<cable>> [c blue]1[/c] [c blue]3) [/c]
 
     //TODO simplify code, may be remove compact()
     
