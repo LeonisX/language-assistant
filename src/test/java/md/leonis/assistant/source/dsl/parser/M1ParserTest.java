@@ -1260,18 +1260,6 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO fix src
-    //src: [m1]loop line [c lightslategray]{{t}}\[ˊlu:plaɪn\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<loop>> [c blue]1[/c] [c blue]3) [/c]
-    //res: [m1]loop line [c lightslategray]{{t}}\[ˊlu:plaɪn\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<loop>> [c blue]1[/c], [c blue]3) [/c]
-
-    //TODO fix src
-    //src: [m1]mess-room [c lightslategray]{{t}}\[ˊmesrυm\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<mess>> [c blue]Ⅱ[/c] [c blue]1[/c], [c blue]3) [/c]
-    //res: [m1]mess-room [c lightslategray]{{t}}\[ˊmesrυm\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<mess>> [c blue]Ⅱ[/c], [c blue]1[/c], [c blue]3) [/c]
-
-    //TODO fix src
-    //src: [m1]woke [c lightslategray]{{t}}\[wəυk\]{{/t}}[/c] [p]past[/p] [i]и[/i] [p]p. p.[/p] [i]от[/i] <<wake>> [c blue]Ⅰ[/c] [c blue]1[/c]
-    //res: [m1]woke [c lightslategray]{{t}}\[wəυk\]{{/t}}[/c] [p]past[/p] [i]и[/i] [p]p. p.[/p] [i]от[/i] <<wake>> [c blue]Ⅰ[/c], [c blue]1[/c]
-
     //TODO
     //src: [m1]quarto [c lightslategray]{{t}}\[ˊkwɔ:təυ\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c]) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c])
     //res: [m1]quarto [c lightslategray]{{t}}\[ˊkwɔ:təυ\]{{/t}}[/c] [p]n[/p] () ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c] [p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c])
