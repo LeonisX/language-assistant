@@ -1,7 +1,7 @@
 package md.leonis.assistant.source.dsl.parser;
 
 import javafx.util.Pair;
-import md.leonis.assistant.source.dsl.parser.domain.Triple;
+import md.leonis.assistant.source.dsl.parser.domain.Tag;
 
 import java.util.Optional;
 
@@ -76,26 +76,26 @@ public class DslStringUtils {
         return pair.getKey() + body + pair.getValue();
     }
 
-    public static Optional<Pair<Integer, Integer>> tryGetBody(String line, final Triple... triples) {
+    public static Optional<Pair<Integer, Integer>> tryGetBody(String line, final Tag... tags) {
         int startIndex = 0;
         int endIndex = 0;
         Optional<Pair<Integer, Integer>> pair = Optional.empty();
-        for (final Triple triple : triples) {
-            pair = tryGetStartTriple(line, startIndex, triple);
+        for (final Tag tag : tags) {
+            pair = tryGetStartTag(line, startIndex, tag);
             if (!pair.isPresent()) {
                 return Optional.empty();
             }
             Pair<Integer, Integer> startPair = pair.get();
-            endIndex = startPair.getValue() + triple.getValue().length();
-            startIndex = startPair.getValue() + triple.getValue().length();
+            endIndex = startPair.getValue() + tag.getType().getClosing().length();
+            startIndex = startPair.getValue() + tag.getType().getClosing().length();
         }
         int index = endIndex;
         return pair.map(p -> new Pair<>(0, index));
     }
 
-    private static Optional<Pair<Integer, Integer>> tryGetStartTriple(String line, int startIndex, Triple triple) {
-        int keyStart = line.indexOf(triple.getKey(), startIndex);
-        int valueStart = line.indexOf(triple.getValue(), startIndex);
+    private static Optional<Pair<Integer, Integer>> tryGetStartTag(String line, int startIndex, Tag tag) {
+        int keyStart = line.indexOf(tag.getType().getOpening(), startIndex);
+        int valueStart = line.indexOf(tag.getType().getClosing(), startIndex);
         if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
             return Optional.empty();
         }
@@ -106,8 +106,8 @@ public class DslStringUtils {
                 return Optional.empty();
             }
         }
-        String body = line.substring(keyStart + triple.getKey().length(), valueStart);
-        if (!body.trim().equals(triple.getBody())) {
+        String body = line.substring(keyStart + tag.getType().getOpening().length(), valueStart);
+        if (!body.trim().equals(tag.getWord())) {
             return Optional.empty();
         }
         return Optional.of(new Pair<>(keyStart, valueStart));

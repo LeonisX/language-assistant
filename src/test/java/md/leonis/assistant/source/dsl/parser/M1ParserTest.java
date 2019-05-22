@@ -1030,7 +1030,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c] ;, [p]сокр.[/p] [i]от[/i] <<violoncello>>]", dslObject.getDetails().toString());
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c];, [p]сокр.[/p] [i]от[/i] <<violoncello>>]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -1052,7 +1052,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c] ;, [c mediumvioletred]hewed, hewn[/c]]", dslObject.getDetails().toString());
+        assertEquals("[[c mediumvioletred]hewed[/c] [c lightslategray]{{t}}\\[-d\\]{{/t}}[/c];, [c mediumvioletred]hewed, hewn[/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
@@ -1237,8 +1237,82 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    // TODO
-    // [m1]en- [c lightslategray]{{t}}\[en-, ɪn-\]{{/t}}[/c] [p]pref[/p] ([c teal] [lang id=1033]em-[/lang] [/c] [i]перед[/i] [c teal] [lang id=1033]b, p, m[/lang] [/c])
+    //TODO separate b, p, m???
+    @Test
+    @DisplayName("[m1]en- [c lightslategray]{{t}}\\[en-, ɪn-\\]{{/t}}[/c] [p]pref[/p] ([c teal] [lang id=1033]em-[/lang] [/c] [i]перед[/i] [c teal] [lang id=1033]b, p, m[/lang] [/c])")
+    void parse58() {
+        String m1 = "[m1]en- [c lightslategray]{{t}}\\[en-, ɪn-\\]{{/t}}[/c] [p]pref[/p] ([c teal] [lang id=1033]em-[/lang] [/c] [i]перед[/i] [c teal] [lang id=1033]b, p, m[/lang] [/c])";
+        dslObject = new IntermediateDslObject("Bedouin");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [pref], []]", dslObject.getTags().toString());
+        assertEquals("[[], [pref], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[[c teal] [lang id=1033]em-[/lang] [/c] [i]перед[/i] [c teal] [lang id=1033]b, p, m[/lang] [/c]]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
+    //TODO fix src
+    //src: [m1]loop line [c lightslategray]{{t}}\[ˊlu:plaɪn\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<loop>> [c blue]1[/c] [c blue]3) [/c]
+    //res: [m1]loop line [c lightslategray]{{t}}\[ˊlu:plaɪn\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<loop>> [c blue]1[/c], [c blue]3) [/c]
+
+    //TODO fix src
+    //src: [m1]mess-room [c lightslategray]{{t}}\[ˊmesrυm\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<mess>> [c blue]Ⅱ[/c] [c blue]1[/c], [c blue]3) [/c]
+    //res: [m1]mess-room [c lightslategray]{{t}}\[ˊmesrυm\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<mess>> [c blue]Ⅱ[/c], [c blue]1[/c], [c blue]3) [/c]
+
+    //TODO fix src
+    //src: [m1]woke [c lightslategray]{{t}}\[wəυk\]{{/t}}[/c] [p]past[/p] [i]и[/i] [p]p. p.[/p] [i]от[/i] <<wake>> [c blue]Ⅰ[/c] [c blue]1[/c]
+    //res: [m1]woke [c lightslategray]{{t}}\[wəυk\]{{/t}}[/c] [p]past[/p] [i]и[/i] [p]p. p.[/p] [i]от[/i] <<wake>> [c blue]Ⅰ[/c], [c blue]1[/c]
+
+    //TODO
+    //src: [m1]quarto [c lightslategray]{{t}}\[ˊkwɔ:təυ\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c]) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c])
+    //res: [m1]quarto [c lightslategray]{{t}}\[ˊkwɔ:təυ\]{{/t}}[/c] [p]n[/p] () ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c] [p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c])
+
+    //[m1]quarto [c lightslategray]{{t}}\[ˊkwɔ:təυ\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c]) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c]) ( ) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c] )
+
+    //TODO
+    //src: [m1]s-o-b [c lightslategray]{{t}}\[ˏesəυˊbi:\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]s-o-b's[/lang] [/c]) ([p]сокр.[/p] [i]от[/i] <<son-of-a-bitch>> )
+    //res: [m1]s-o-b [c lightslategray]{{t}}\[ˏesəυˊbi:\]{{/t}}[/c] [p]n[/p] () ([p]сокр.[/p] [i]от[/i] <<son-of-a-bitch>> [p]pl[/p] [c teal] [lang id=1033]s-o-b's[/lang] [/c])
+
+    //[m1]s-o-b [c lightslategray]{{t}}\[ˏesəυˊbi:\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]s-o-b's[/lang] [/c]) ([p]сокр.[/p] [i]от[/i] <<son-of-a-bitch>> ) ( ) ([p]сокр.[/p] [i]от[/i] <<son-of-a-bitch>> )
+
+    //TODO
+    //src: [m1]uterus [c lightslategray]{{t}}\[ˊju:tǝrəs\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ri[/lang]) [/c])
+    //res: [m1]uterus [c lightslategray]{{t}}\[ˊju:tǝrəs\]{{/t}}[/c] [p]n[/p] ([c teal] [lang id=1033]-ri[/lang]) [/c] [p]pl[/p])
+
+    //[m1]uterus [c lightslategray]{{t}}\[ˊju:tǝrəs\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ri[/lang]) [/c]) ( [c teal] [lang id=1033]-ri[/lang]) [/c] )
+
+    //TODO
+    //src: [m1]vestigium [c lightslategray]{{t}}\[veˊstɪdʒɪəm\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-gia[/lang] [/c]) [c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1) [/c]
+    //res: [m1]vestigium [c lightslategray]{{t}}\[veˊstɪdʒɪəm\]{{/t}}[/c] [p]n[/p] () [c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1[p]pl[/p] [c teal] [lang id=1033]-gia[/lang] [/c]) [/c]
+
+    //[m1]vestigium [c lightslategray]{{t}}\[veˊstɪdʒɪəm\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-gia[/lang] [/c]) [c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1) [/c] ( ) [c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1 )
+
+    //TODO
+    //src: [m1]viaticum [c lightslategray]{{t}}\[vaɪˊætɪkəm\]{{/t}}[/c] [p]n[/p] ([p]pl[/p]-са)
+    //res: [m1]viaticum [c lightslategray]{{t}}\[vaɪˊætɪkəm\]{{/t}}[/c] [p]n[/p] (-са[p]pl[/p])
+
+    //[m1]viaticum [c lightslategray]{{t}}\[vaɪˊætɪkəm\]{{/t}}[/c] [p]n[/p] ([p]pl[/p]-са) ( -са )
+
+    //TODO
+    //src: [m1]your [c lightslategray]{{t}}\[jɔ:\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([p]употр.[/p] [i]атрибутивно[/i]: [p]ср.[/p] <<yours>> )
+    //res: [m1]your [c lightslategray]{{t}}\[jɔ:\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] (: [p]ср.[/p] <<yours>> [p]употр.[/p] [i]атрибутивно[/i])
+
+    //[m1]your [c lightslategray]{{t}}\[jɔ:\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([p]употр.[/p] [i]атрибутивно[/i]: [p]ср.[/p] <<yours>> ) ( : [p]ср.[/p] <<yours>> )
+
+    //TODO upgrade links renderer
+    //src: [m1]upstair [c lightslategray]{{t}}\[ˏʌpˊsteə\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<upstairs>> [c blue]1[/c], [c blue]1) [/c] [i]и[/i] [c blue]3[/c]
+    //res: [m1]upstair [c lightslategray]{{t}}\[ˏʌpˊsteə\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<upstairs>> [c blue]1, 3[/c], [c blue]1) [/c] [i]и[/i]
+
+
 
 
     //TODO modifications - object + trancr

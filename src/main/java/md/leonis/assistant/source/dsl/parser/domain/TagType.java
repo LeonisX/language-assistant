@@ -8,6 +8,8 @@ public enum TagType {
 
     I("[i]", "[/i]"),
     P("[p]", "[/p]"),
+    CMEDIUMBLUE("[c mediumblue]", "[/c]"),
+    CBLUE("[c blue]", "[/c]"),
 
     NONE("", "");
 

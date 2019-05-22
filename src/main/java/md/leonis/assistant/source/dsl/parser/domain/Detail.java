@@ -17,7 +17,11 @@ public class Detail {
 
     public void addNewTag(Tag tag) {
         if (!links.isEmpty() && links.get(links.size() - 1).getWord() != null) {
-            tags2.add(tag);
+            if (links.get(links.size() - 1).getJoin() == null) {
+                links.get(links.size() - 1).setJoin(tag);
+            } else {
+                tags2.add(tag);
+            }
         } else {
             tags.add(tag);
         }

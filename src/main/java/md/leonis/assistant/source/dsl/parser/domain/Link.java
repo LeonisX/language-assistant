@@ -19,17 +19,12 @@ public class Link {
     private String transcription;
     private Map<String, Map<String, List<String>>> linkAddress = new LinkedHashMap<>();
     private List<String> seq = new ArrayList<>();
-    private String join = null;
+    private Tag join;
 
     public Link(LinkType type, String word) {
         this.type = type;
         this.word = word;
     }
-
-    /*public Link(String word) {
-        this.type = LinkType.NONE;
-        this.word = word;
-    }*/
 
     public void addLinkGroups(List<String> chunks) {
         for (String chunk : chunks) {
@@ -78,7 +73,7 @@ public class Link {
         String result = type == LinkType.UNDEFINED ? "" : type + ", ";
         result = result + word;
         if (!linkAddress.isEmpty()) {
-                result += ", " + linkAddress;
+            result += ", " + linkAddress;
         }
         return result;
     }
@@ -169,14 +164,14 @@ public class Link {
                     }
                 }
 
-                //if ((links.indexOf(link) < links.size() - 1)) {
-                    if (link.getJoin() != null) {
-                        if (!link.getJoin().equals("[c blue],[/c]") && !link.getJoin().equals(",") && link.getWord() != null) {
-                            result.append(" ");
-                        }
-                        result.append(link.getJoin());
+                if (link.getJoin() != null) {
+                    boolean needSpace = !((link.getJoin().getWord().equals(",") || link.getJoin().getWord().equals(";")));
+
+                    if (needSpace && link.getWord() != null) {
+                        result.append(" ");
                     }
-                //}
+                    result.append(link.getJoin());
+                }
 
                 if ((links.indexOf(link) == links.size() - 1)) {
                     switch (link.getType()) {

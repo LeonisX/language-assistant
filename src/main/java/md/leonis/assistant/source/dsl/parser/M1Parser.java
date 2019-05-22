@@ -13,14 +13,12 @@ public class M1Parser {
     public static final Pair<String, String> TRANSCRIPTION = new Pair<>("[c lightslategray]{{t}}", "{{/t}}[/c]");
 
     public static final String LINK_PRE = "[c mediumblue] [b]=[/b] [/c]";
-    public static final Triple LINK_U = new Triple("[c blue]", ",", "[/c]");
+    public static final Tag LINK_U = new Tag(TagType.CBLUE, ",");
 
     public static final String LINK2_PRE = "[i]от[/i]";
     public static final String LINK_SEE_ALSO_PRE = "\\[[p]см. тж.[/p]";
     public static final String LINK_SEE_PRE = "\\[[p]см.[/p]";
     public static final String LINK_SEE_POST = "\\]";
-
-    public static final String ITAG_OR = "[i]или[/i]";
 
     public static final String NEARLY = "[c darkred]≅[/c]";
 
@@ -41,6 +39,7 @@ public class M1Parser {
 
     public static final Pair<String, String> NOTES = new Pair<>("(", ")");
 
+    //TODO use TagType instead Pair!!!
     public static final Pair<String, String> PTAG = new Pair<>("[p]", "[/p]");
 
     public static final Pair<String, String> MODIFICATIONS = new Pair<>("[c mediumvioletred] (", ") [/c]");
@@ -49,8 +48,8 @@ public class M1Parser {
 
     public static final Pair<String, String> CTEALTAG = new Pair<>("[c teal] [lang id=1033]", "[/lang] [/c]");
 
-    public static final Triple ABBR = new Triple("[p]", "сокр.", "[/p]");
-    public static final Triple FROM = new Triple("[i]", "от", "[/i]");
+    public static final Tag ABBR = new Tag(TagType.P, "сокр.");
+    public static final Tag FROM = new Tag(TagType.I, "от");
 
     private final IntermediateDslObject dslObject;
     private final BidiMap<String, String> abbrs;
@@ -166,8 +165,8 @@ public class M1Parser {
         String result = Preprocessor.normalize(dslObject.toM1String());
         //if (!DslStringUtils.compact(result).equals(DslStringUtils.compact(unchangedLine))) {
         if (!result.equals(unchangedLine)) {
-            System.out.println(unchangedLine);
-            System.out.println(result);
+            System.out.println("src: " + unchangedLine);
+            System.out.println("res: " + result);
             System.out.println();
         }
 
@@ -190,7 +189,7 @@ public class M1Parser {
         boolean readNext = true;
         while (readNext) {
             if (notes.startsWith(",")) {
-                dslObject.getCurrentDetailLink().setJoin(",");
+                dslObject.getCurrentDetailLink().setJoin(new Tag(","));
                 dslObject.addNewDetail();
                 notes = notes.substring(1).trim();
             }
@@ -198,7 +197,7 @@ public class M1Parser {
                 if (dslObject.getCurrentDetail().getLinks().isEmpty()) {
                     System.out.println();
                 }
-                dslObject.getCurrentDetailLink().setJoin(";");
+                dslObject.getCurrentDetailLink().setJoin(new Tag(";"));
                 dslObject.addNewDetail();
                 notes = notes.substring(1).trim();
             }
@@ -218,7 +217,7 @@ public class M1Parser {
             body = DslStringUtils.tryGetBody(notes, ITAG);
             if (body.isPresent()) {
                 if (body.get().equals("или")) {
-                    dslObject.getCurrentDetailLink().setJoin(DslStringUtils.formatOuterBody(body.get(), ITAG));
+                    dslObject.getCurrentDetailLink().setJoin(new Tag(TagType.I, body.get()));
                 } else {
                     dslObject.getCurrentDetail().addNewTag(new Tag(TagType.I, body.get()));
                 }
@@ -346,7 +345,7 @@ public class M1Parser {
             Optional<Pair<Integer, Integer>> pair = DslStringUtils.tryGetBody(line, LINK_U);
             if (pair.isPresent()) {
                 line = DslStringUtils.trim(line, pair.get()).trim();
-                link.setJoin(LINK_U.toString());
+                link.setJoin(LINK_U);
                 //TODO unify
                 body = DslStringUtils.tryGetBody(line, LINKR);
                 if (body.isPresent()) {
@@ -381,33 +380,33 @@ public class M1Parser {
                     if (body.isPresent()) {
                         line = DslStringUtils.trimOuterBody(line, ITAG).trim();
                         link.getSeq().add(DslStringUtils.formatOuterBody(body.get(), ITAG));
-                        link.setJoin(DslStringUtils.formatOuterBody(body.get(), ITAG));
+                        link.setJoin(new Tag(TagType.I, body.get()));
                     }
                     // ,
                     if (line.startsWith(",")) {
                         line = line.substring(1).trim();
-                        link.setJoin(",");
+                        link.setJoin(new Tag(","));
                     }
                 } else {
                     readNext = false;
                     // ,
                     if (line.startsWith(",")) {
                         line = line.substring(1).trim();
-                        link.setJoin(",");
+                        link.setJoin(new Tag(","));
                     }
                     // ignore [i]и[/i]
                     body = DslStringUtils.tryGetBody(line, ITAG);
                     if (body.isPresent()) {
                         line = DslStringUtils.trimOuterBody(line, ITAG).trim();
                         link.getSeq().add(DslStringUtils.formatOuterBody(body.get(), ITAG));
-                        link.setJoin(DslStringUtils.formatOuterBody(body.get(), ITAG));
+                        link.setJoin(new Tag(TagType.I, body.get()));
                     }
                     // ignore [c mediumblue][i] или[/i] [/c]
                     body = DslStringUtils.tryGetBody(line, CMEDIUMBLUE);
                     if (body.isPresent()) {
                         line = DslStringUtils.trimOuterBody(line, CMEDIUMBLUE).trim();
                         link.getSeq().add(DslStringUtils.formatOuterBody(body.get(), CMEDIUMBLUE));
-                        link.setJoin(DslStringUtils.formatOuterBody(body.get(), CMEDIUMBLUE));
+                        link.setJoin(new Tag(TagType.CMEDIUMBLUE, body.get()));
                     }
                 }
             }
