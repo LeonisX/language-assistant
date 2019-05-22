@@ -1171,7 +1171,6 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO we must greedily search for the second bracket
     @Test
     @DisplayName("[m1]my [c lightslategray]{{t}}\\[maɪ\\]{{/t}}[/c] [p]pron[/p] [p]poss.[/p] ([p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<mine>> [c blue]1)[/c])")
     void parse55() {
@@ -1242,9 +1241,6 @@ class M1ParserTest {
     // [m1]en- [c lightslategray]{{t}}\[en-, ɪn-\]{{/t}}[/c] [p]pref[/p] ([c teal] [lang id=1033]em-[/lang] [/c] [i]перед[/i] [c teal] [lang id=1033]b, p, m[/lang] [/c])
 
 
-
-    //TODO simplify code, may be remove compact()
-    
     //TODO modifications - object + trancr
 
     //TODO smart notes parser
