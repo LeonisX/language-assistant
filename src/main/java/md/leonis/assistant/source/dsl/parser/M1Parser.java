@@ -108,10 +108,10 @@ public class M1Parser {
         }
 
         // ([p]преим.[/p] [p]амер.[/p])
-        body = DslStringUtils.tryGetBody(line, NOTES);
+        body = DslStringUtils.tryGetBodyGreedily(line, NOTES);
         if (body.isPresent()) {
             dslObject.setNotes(processNotes(body.get()));
-            line = DslStringUtils.trimOuterBody(line, NOTES).trim();
+            line = DslStringUtils.trimOuterBodyGreedily(line, NOTES).trim();
         }
 
         // [p]v[/p]
@@ -261,25 +261,11 @@ public class M1Parser {
 
                 notes = tryReadLink(notes, LinkType.SIMPLE, dslObject.getCurrentDetail().getLinks());
 
-                /*dslObject.getCurrentDetail().getLinks().add(new Link(LinkType.ABBR_FROM, body.get()));
-                notes = DslStringUtils.trimOuterBody(notes, LINKR).trim();*/
-
-                /*body = DslStringUtils.tryGetBody(notes, TRANSCRIPTION);
-                if (body.isPresent()) {
-                    //TODO unescape []
-                    dslObject.getCurrentDetailLink().setTranscription(body.get().trim());
-                    notes = DslStringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
-                }*/
-
                 readNext = !notes.isEmpty();
                 continue;
             }
             readNext = false;
 
-
-            /*int plurals = this.dslObject.getPlurals().size();
-            notes = tryReadPlurals(notes);
-            readNext = plurals < this.dslObject.getPlurals().size();*/
         }
 
         //fix for tests
@@ -287,74 +273,8 @@ public class M1Parser {
             notes = null;
         }
 
-        // Ignore ;
-        /*if (notes.startsWith(";")) {
-            notes = notes.substring(1).trim();
-        }
-
-        readNext = true;
-        while (readNext) {
-            int plurals = this.dslObject.getAbbrFrom().size();
-            notes = tryReadAbbr(notes);
-            readNext = plurals < this.dslObject.getAbbrFrom().size();
-        }*/
-
         return notes;
     }
-
-    /*private String tryReadAbbr(String notes) {
-        // [p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c]
-        Optional<Pair<Integer, Integer>> pair = DslStringUtils.tryGetBody(notes, ABBR, FROM);
-        if (pair.isPresent()) {
-            notes = DslStringUtils.trim(notes, pair.get()).trim();
-            // Either abbr from or abbr link
-            Optional<String> body = DslStringUtils.tryGetBody(notes, PTAG);
-            if (body.isPresent()) { // abbr from
-                dslObject.addNewAbbrFrom(body.get());
-                notes = DslStringUtils.trimOuterBody(notes, PTAG).trim();
-                return tryReadAbbrFrom(notes);
-            } else {
-                notes = tryReadLink(notes, LinkType.ABBR_FROM, dslObject.getAbbrLinks()).trim();
-            }
-        }
-        return notes;
-    }
-
-    private String tryReadAbbrFrom(String notes) {
-        Optional<String> body = DslStringUtils.tryGetBody(notes, CTEALTAG);
-        if (body.isPresent()) {
-            dslObject.getCurrentAbbrFrom().setWord(body.get());
-            notes = DslStringUtils.trimOuterBody(notes, CTEALTAG).trim();
-        }
-        return notes;
-    }
-
-    private String tryReadPlurals(String notes) {
-        // ([p]pl[/p] [c teal][lang id=1033]As, A's[/lang][/c] [c lightslategray]{{t}}\[eɪz\]{{/t}}[/c])
-        Pair<String, String> pair = this.dslObject.getPlurals().isEmpty() ? PLURAL_NOTE : PLURAL_NOTER;
-        Optional<String> body = DslStringUtils.tryGetBody(notes, pair);
-        if (body.isPresent()) {
-            dslObject.addNewPlural(body.get());
-            notes = DslStringUtils.trimOuterBody(notes, pair).trim();
-        }
-
-        body = DslStringUtils.tryGetBody(notes, TRANSCRIPTION);
-        if (body.isPresent()) {
-            //TODO unescape []
-            dslObject.getCurrentPlural().setTranscription(body.get().trim());
-            notes = DslStringUtils.trimOuterBody(notes, TRANSCRIPTION).trim();
-        }
-
-        if (notes.startsWith(",")) {
-            notes = StringUtils.removeStart(notes, ",").trim();
-            dslObject.getCurrentPlural().setJoin(",");
-        }
-        if (notes.startsWith(ITAG_OR)) {
-            notes = StringUtils.removeStart(notes, ITAG_OR).trim();
-            dslObject.getCurrentPlural().setJoin(" " + ITAG_OR);
-        }
-        return notes;
-    }*/
 
     private String tryReadTags(String line, int number) {
         // [p]v[/p]

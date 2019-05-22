@@ -26,6 +26,20 @@ public class DslStringUtils {
         return new Pair<>(keyStart, valueStart);
     }
 
+    public static String trimOuterBodyGreedily(String line, Pair<String, String> pair) {
+        Pair<Integer, Integer> startPair = getStartPairGreedily(line, pair);
+        return line.substring(0, startPair.getKey()) + line.substring(startPair.getValue() + pair.getValue().length());
+    }
+
+    private static Pair<Integer, Integer> getStartPairGreedily(String line, Pair<String, String> pair) {
+        int keyStart = line.indexOf(pair.getKey());
+        int valueStart = line.lastIndexOf(pair.getValue());
+        if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
+            throw new IllegalStateException(line);
+        }
+        return new Pair<>(keyStart, valueStart);
+    }
+
     public static Optional<String> tryGetBody(String line, Pair<String, String> pair) {
         return tryGetStartPair(line, pair).map(startPair -> line.substring(pair.getKey().length(), startPair.getValue()));
     }
@@ -33,6 +47,22 @@ public class DslStringUtils {
     private static Optional<Pair<Integer, Integer>> tryGetStartPair(String line, Pair<String, String> pair) {
         int keyStart = line.indexOf(pair.getKey());
         int valueStart = line.indexOf(pair.getValue());
+        if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
+            return Optional.empty();
+        }
+        if (keyStart != 0) {
+            return Optional.empty();
+        }
+        return Optional.of(new Pair<>(keyStart, valueStart));
+    }
+
+    public static Optional<String> tryGetBodyGreedily(String line, Pair<String, String> pair) {
+        return tryGetStartPairGreedily(line, pair).map(startPair -> line.substring(pair.getKey().length(), startPair.getValue()));
+    }
+
+    private static Optional<Pair<Integer, Integer>> tryGetStartPairGreedily(String line, Pair<String, String> pair) {
+        int keyStart = line.indexOf(pair.getKey());
+        int valueStart = line.lastIndexOf(pair.getValue());
         if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
             return Optional.empty();
         }

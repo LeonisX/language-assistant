@@ -1185,7 +1185,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[p]употр.[/p] [i]атрибутивно[/i]; [p]ср.[/p] <<mine>> [c blue]1)[/c]]", dslObject.getDetails().toString());
+        assertEquals("[[p]употр.[/p] [i]атрибутивно[/i];, [p]ср.[/p] <<mine>> [c blue]1)[/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
