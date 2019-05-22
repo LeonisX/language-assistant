@@ -1260,6 +1260,29 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
+    //TODO need to add more notes - contain in list
+    @Test
+    @DisplayName("[m1]quarto [c lightslategray]{{t}}\\[ˊkwɔ:təυ\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c]) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c])")
+    void parse59() {
+        String m1 = "[m1]quarto [c lightslategray]{{t}}\\[ˊkwɔ:təυ\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c]) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c])";
+        dslObject = new IntermediateDslObject("Bedouin");
+        M1Parser m1Parser = new M1Parser(dslObject, abbrs);
+        m1Parser.parse(m1);
+
+        assertEquals("[[], [n], []]", dslObject.getTags().toString());
+        assertEquals("[[], [n], []]", dslObject.getTagsSeq().toString());
+        assertTrue(dslObject.getModification().isEmpty());
+        assertNull(dslObject.getNotes());
+        assertNull(dslObject.getNote());
+        assertEquals("[p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\\[-əυz\\]{{/t}}[/c]) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c]", dslObject.getDetails().toString());
+        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertNull(dslObject.getTail());
+        assertEquals(1, dslObject.getTranslations().size());
+        assertFalse(dslObject.getTranslations().get(0).isNearly());
+        assertEquals(ParserState.TRN, dslObject.getState());
+        assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
+    }
+
     //TODO
     //src: [m1]quarto [c lightslategray]{{t}}\[ˊkwɔ:təυ\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c]) ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c])
     //res: [m1]quarto [c lightslategray]{{t}}\[ˊkwɔ:təυ\]{{/t}}[/c] [p]n[/p] () ([p]сокр.[/p] [c teal] [lang id=1033]4to[/lang] [/c] [p]pl[/p] [c teal] [lang id=1033]-os[/lang] [/c] [c lightslategray]{{t}}\[-əυz\]{{/t}}[/c])
