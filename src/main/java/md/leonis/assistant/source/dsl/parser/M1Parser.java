@@ -107,11 +107,7 @@ public class M1Parser {
         }
 
         // ([p]преим.[/p] [p]амер.[/p])
-        body = DslStringUtils.tryGetBodyGreedily(line, NOTES);
-        if (body.isPresent()) {
-            dslObject.setNotes(processNotes(body.get()));
-            line = DslStringUtils.trimOuterBodyGreedily(line, NOTES).trim();
-        }
+        line = tryReadNotes(line);
 
         // [p]v[/p]
         line = tryReadTags(line, 3);
@@ -181,6 +177,23 @@ public class M1Parser {
         //TODO probably split newWord A, a -> A; a
 
         dslObject.setState(ParserState.TRN);
+    }
+
+    private String tryReadNotes(String line) {
+        boolean readNext = true;
+        while (readNext) {
+            // ([p]преим.[/p] [p]амер.[/p])
+            Optional<String> body = DslStringUtils.tryGetBodyExactly(line, NOTES);
+            if (body.isPresent()) {
+                dslObject.addNewDetailContainer();
+                dslObject.setNotes(processNotes(body.get()));
+                line = DslStringUtils.trimOuterBodyExactly(line, NOTES).trim();
+                readNext = !(dslObject.getCurrentDetailContainer().isEmpty()) && !line.isEmpty();
+            } else {
+                readNext = false;
+            }
+        }
+        return line;
     }
 
     private String processNotes(String notes) {

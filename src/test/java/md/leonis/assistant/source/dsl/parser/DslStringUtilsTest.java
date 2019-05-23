@@ -3,6 +3,7 @@ package md.leonis.assistant.source.dsl.parser;
 import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static md.leonis.assistant.source.dsl.parser.M1Parser.ABBR;
@@ -91,6 +92,66 @@ class DslStringUtilsTest {
         assertEquals(":", DslStringUtils.trim("[p] сокр. [/p]  [i]от [/i]:", new Pair<>(0, 26)));
     }
 
-    // public static final Triple ABBR = new Triple("[p]", "сокр.", "[/p]");
-    //    public static final Triple FROM = new Triple("[i]", "от", "[/i]");
+    @Test
+    void toIndexesMap() {
+        Map<Integer, String> indexes = DslStringUtils.toIndexesMap("asd", new Pair<>("(", ")"));
+        assertTrue(indexes.isEmpty());
+    }
+
+    @Test
+    void toIndexesMap2() {
+        Map<Integer, String> indexes = DslStringUtils.toIndexesMap("(asd)", new Pair<>("(", ")"));
+        assertEquals(indexes.get(0), "(");
+        assertEquals(indexes.get(4), ")");
+    }
+
+    @Test
+    void toIndexesMap3() {
+        Map<Integer, String> indexes = DslStringUtils.toIndexesMap(" (asd) ", new Pair<>("(", ")"));
+        assertEquals(indexes.get(1), "(");
+        assertEquals(indexes.get(5), ")");
+    }
+
+    @Test
+    void toIndexesMap4() {
+        Map<Integer, String> indexes = DslStringUtils.toIndexesMap(" ((asd)) ", new Pair<>("((", "))"));
+        assertEquals(indexes.get(1), "((");
+        assertEquals(indexes.get(6), "))");
+    }
+
+    @Test
+    void tryGetBodyExactly() {
+        Optional<String> s = DslStringUtils.tryGetBodyExactly("asd", new Pair<>("(", ")"));
+        assertFalse(s.isPresent());
+    }
+
+    @Test
+    void tryGetBodyExactly2() {
+        Optional<String> s = DslStringUtils.tryGetBodyExactly("(asd)", new Pair<>("(", ")"));
+        assertEquals("asd", s.orElse(""));
+    }
+
+    @Test
+    void tryGetBodyExactly3() {
+        Optional<String> s = DslStringUtils.tryGetBodyExactly(" ( asd ) ", new Pair<>("(", ")"));
+        assertEquals("", s.orElse(""));
+    }
+
+    @Test
+    void tryGetBodyExactly4() {
+        Optional<String> s = DslStringUtils.tryGetBodyExactly("( asd ) ", new Pair<>("(", ")"));
+        assertEquals(" asd ", s.orElse(""));
+    }
+
+    @Test
+    void tryGetBodyExactly6() {
+        Optional<String> s = DslStringUtils.tryGetBodyExactly("( 1) ) ", new Pair<>("(", ")"));
+        assertEquals(" 1) ", s.orElse(""));
+    }
+
+    @Test
+    void tryGetBodyExactly7() {
+        Optional<String> s = DslStringUtils.tryGetBodyExactly("(a) (b) ", new Pair<>("(", ")"));
+        assertEquals("a", s.orElse(""));
+    }
 }

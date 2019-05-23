@@ -3,6 +3,8 @@ package md.leonis.assistant.source.dsl.parser;
 import javafx.util.Pair;
 import md.leonis.assistant.source.dsl.parser.domain.Tag;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class DslStringUtils {
@@ -26,12 +28,12 @@ public class DslStringUtils {
         return new Pair<>(keyStart, valueStart);
     }
 
-    public static String trimOuterBodyGreedily(String line, Pair<String, String> pair) {
-        Pair<Integer, Integer> startPair = getStartPairGreedily(line, pair);
+    public static String trimOuterBodyExactly(String line, Pair<String, String> pair) {
+        Pair<Integer, Integer> startPair = tryGetStartPairExactly(line, pair).get();
         return line.substring(0, startPair.getKey()) + line.substring(startPair.getValue() + pair.getValue().length());
     }
 
-    private static Pair<Integer, Integer> getStartPairGreedily(String line, Pair<String, String> pair) {
+    private static Pair<Integer, Integer> getStartPairExactly(String line, Pair<String, String> pair) {
         int keyStart = line.indexOf(pair.getKey());
         int valueStart = line.lastIndexOf(pair.getValue());
         if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
@@ -56,13 +58,28 @@ public class DslStringUtils {
         return Optional.of(new Pair<>(keyStart, valueStart));
     }
 
-    public static Optional<String> tryGetBodyGreedily(String line, Pair<String, String> pair) {
-        return tryGetStartPairGreedily(line, pair).map(startPair -> line.substring(pair.getKey().length(), startPair.getValue()));
+    public static Optional<String> tryGetBodyExactly(String line, Pair<String, String> pair) {
+        return tryGetStartPairExactly(line, pair).map(startPair -> line.substring(pair.getKey().length(), startPair.getValue()));
     }
 
-    private static Optional<Pair<Integer, Integer>> tryGetStartPairGreedily(String line, Pair<String, String> pair) {
+    private static Optional<Pair<Integer, Integer>> tryGetStartPairExactly(String line, Pair<String, String> pair) {
+        Map<Integer, String> indexes = toIndexesMap(line, pair);
+        int opened = 0;
+        int valueStart = -1;
+
+        for (Integer i: indexes.keySet()) {
+            if (indexes.get(i).equals(pair.getKey())) {
+                opened++;
+            }
+            if (indexes.get(i).equals(pair.getValue())) {
+                valueStart = i;
+            }
+            if (opened > 1) {
+                break;
+            }
+        }
+
         int keyStart = line.indexOf(pair.getKey());
-        int valueStart = line.lastIndexOf(pair.getValue());
         if (keyStart == -1 || valueStart == -1 || keyStart >= valueStart) {
             return Optional.empty();
         }
@@ -70,6 +87,26 @@ public class DslStringUtils {
             return Optional.empty();
         }
         return Optional.of(new Pair<>(keyStart, valueStart));
+    }
+
+    static Map<Integer, String> toIndexesMap(String line, Pair<String, String> pair) {
+        Map<Integer, String> indexes = new HashMap<>();
+        int index = 0;
+        while (!line.isEmpty()) {
+            if (line.startsWith(pair.getKey())) {
+                indexes.put(index, pair.getKey());
+                index += pair.getKey().length();
+                line = line.substring(pair.getKey().length());
+            } else if (line.startsWith(pair.getValue())) {
+                indexes.put(index, pair.getValue());
+                index += pair.getValue().length();
+                line = line.substring(pair.getValue().length());
+            } else {
+                index++;
+                line = line.substring(1);
+            }
+        }
+        return indexes;
     }
 
     public static String formatOuterBody(String body, Pair<String, String> pair) {

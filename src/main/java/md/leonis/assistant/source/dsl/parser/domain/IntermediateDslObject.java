@@ -24,7 +24,7 @@ public class IntermediateDslObject {
 
     private List<String> modification = new ArrayList<>();
 
-    private List<Detail> details = new ArrayList<>();
+    private List<DetailContainer> details = new ArrayList<>();
 
     //TODO delete all
     private String notes = null; //TODO deep parse to chunks
@@ -51,12 +51,20 @@ public class IntermediateDslObject {
         }
     }
 
-    public Detail getCurrentDetail() {
+    public DetailContainer getCurrentDetailContainer() {
         return details.get(details.size() - 1);
     }
 
+    public void addNewDetailContainer() {
+        details.add(new DetailContainer());
+    }
+
+    public Detail getCurrentDetail() {
+        return getCurrentDetailContainer().get(getCurrentDetailContainer().size() - 1);
+    }
+
     public void addNewDetail() {
-        details.add(new Detail());
+        getCurrentDetailContainer().add(new Detail());
     }
 
     public Link getCurrentDetailLink() {
@@ -136,66 +144,12 @@ public class IntermediateDslObject {
             result.append(" ").append(MODIFICATIONS.getKey()).append(String.join("; ", modification)).append(MODIFICATIONS.getValue());
         }
 
-        boolean isNotes = notes != null || note != null || !details.isEmpty();
-        //boolean isNotes = notes != null || note != null || !plurals.isEmpty() || !abbrFrom.isEmpty() || !abbrLinks.isEmpty();
-
-        if (isNotes) {
-            result.append(" ").append(NOTES.getKey());
-        }
-
         if (notes != null) {
-            result.append(notes);
+            result.append(NOTES.getKey()).append(notes).append(NOTES.getValue());
         }
 
-        /*if (note != null) {
-            result.append(NOTES_MAP.entrySet().stream().filter(e -> e.getValue().equals(note)).findFirst().get().getKey());
-        }*/
-
-        /*if (!plurals.isEmpty()) {
-            for (int i = 0; i < plurals.size(); i++) {
-                Plural plural = plurals.get(i);
-                String words = String.join(", ", plural.getWords());
-                Pair<String, String> pair = (i == 0) ? PLURAL_NOTE: PLURAL_NOTER;
-                result.append(String.format("%s%s%s", pair.getKey(), words, pair.getValue()));
-                if (plural.getTranscription() != null) {
-                    result.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
-                }
-                if (!plural.getJoin().isEmpty()) {
-                    result.append(plural.getJoin()).append(" ");
-                }
-            }
-        }
-
-        if (!abbrFrom.isEmpty()) {
-            if (!plurals.isEmpty()) {
-                result.append("; ");
-            }
-            // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
-            result.append(ABBR).append(" ").append(FROM).append(" ");
-            for (Abbr abbr : abbrFrom) {
-                result.append(String.format(" %s%s%s", PTAG.getKey(), abbr.getLang(), PTAG.getValue()));
-                result.append(String.format(" %s%s%s", CTEALTAG.getKey(), abbr.getWord(), CTEALTAG.getValue()));
-            }
-        }
-
-        if (!abbrLinks.isEmpty()) {
-            if (!plurals.isEmpty()) {
-                result.append("; ");
-            }
-            renderLinks(result, abbrLinks);
-        }*/
-
-        String dt = details.stream().map(Detail::toString).collect(Collectors.joining(" "));
+        String dt = details.stream().map(d -> NOTES.getKey() + d.toString() + NOTES.getValue()).collect(Collectors.joining(" "));
         result.append(dt);
-        /*if (!details.isEmpty()) {
-            for (Detail detail : details) {
-                result.append(detail.toString());
-            }
-        }*/
-
-        if (isNotes) {
-            result.append(" ").append(NOTES.getValue());
-        }
 
         renderTags(result, 3);
 
@@ -211,8 +165,6 @@ public class IntermediateDslObject {
         return result.toString();
     }
 
-
-
     private void renderTags(StringBuilder result, int n) {
         for (String tag : tags.get(n - 1)) {
             result.append(String.format(" %s%s%s", PTAG.getKey(), tag, PTAG.getValue()));
@@ -223,10 +175,6 @@ public class IntermediateDslObject {
                 }
             }
         }
-    }
-
-    public String toM1CompactString() {
-        return DslStringUtils.compact(toM1String());
     }
 
 }
