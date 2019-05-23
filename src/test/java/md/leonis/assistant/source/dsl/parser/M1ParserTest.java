@@ -1304,11 +1304,10 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO repair (remove parenthesis ) [/c]))
     @Test
-    @DisplayName("[m1]uterus [c lightslategray]{{t}}\\[ˊju:tǝrəs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ri[/lang]) [/c])")
+    @DisplayName("[m1]uterus [c lightslategray]{{t}}\\[ˊju:tǝrəs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ri[/lang] [/c])")
     void parse61() {
-        String m1 = "[m1]uterus [c lightslategray]{{t}}\\[ˊju:tǝrəs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ri[/lang]) [/c])";
+        String m1 = "[m1]uterus [c lightslategray]{{t}}\\[ˊju:tǝrəs\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ri[/lang] [/c])";
         dslObject = new IntermediateDslObject("uterus");
         M1Parser m1Parser = new M1Parser(dslObject, abbrs);
         m1Parser.parse(m1);
@@ -1327,7 +1326,7 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO repair. how??? don't "see" 1)
+    //TODO repair. how??? don't "see" 1) . Need to ignore 1)
     @Test
     @DisplayName("[m1]vestigium [c lightslategray]{{t}}\\[veˊstɪdʒɪəm\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-gia[/lang] [/c]) [c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1) [/c]")
     void parse62() {
@@ -1350,11 +1349,10 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO repair source
     @Test
-    @DisplayName("[m1]viaticum [c lightslategray]{{t}}\\[vaɪˊætɪkəm\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p]-са)")
+    @DisplayName("[m1]viaticum [c lightslategray]{{t}}\\[vaɪˊætɪkəm\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ca[/lang] [/c])")
     void parse63() {
-        String m1 = "[m1]viaticum [c lightslategray]{{t}}\\[vaɪˊætɪkəm\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p]-са)";
+        String m1 = "[m1]viaticum [c lightslategray]{{t}}\\[vaɪˊætɪkəm\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-ca[/lang] [/c])";
         dslObject = new IntermediateDslObject("viaticum");
         M1Parser m1Parser = new M1Parser(dslObject, abbrs);
         m1Parser.parse(m1);
@@ -1364,7 +1362,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[p]pl[/p]-са]", dslObject.getDetails().toString());
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-ca[/lang] [/c]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
