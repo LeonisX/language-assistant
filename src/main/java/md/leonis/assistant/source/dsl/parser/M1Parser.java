@@ -207,10 +207,12 @@ public class M1Parser {
                 notes = notes.substring(1).trim();
             }
             if (notes.startsWith(";")) {
-                if (dslObject.getCurrentDetail().getLinks().isEmpty()) {
-                    System.out.println();
-                }
                 dslObject.getCurrentDetailLink().setJoin(new Tag(";"));
+                dslObject.addNewDetail();
+                notes = notes.substring(1).trim();
+            }
+            if (notes.startsWith(":")) {
+                dslObject.getCurrentDetailLink().setJoin(new Tag(":"));
                 dslObject.addNewDetail();
                 notes = notes.substring(1).trim();
             }
