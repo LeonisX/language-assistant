@@ -154,4 +154,10 @@ class DslStringUtilsTest {
         Optional<String> s = DslStringUtils.tryGetBodyExactly("(a) (b) ", new Pair<>("(", ")"));
         assertEquals("a", s.orElse(""));
     }
+
+    @Test
+    void tryGetBodyExactly8() {
+        Optional<String> s = DslStringUtils.tryGetBodyExactly("(a 1) ) ", new Pair<>("(", ")"));
+        assertEquals("a 1) ", s.orElse(""));
+    }
 }

@@ -1326,7 +1326,6 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO repair. how??? don't "see" 1) . Need to ignore 1)
     @Test
     @DisplayName("[m1]vestigium [c lightslategray]{{t}}\\[veˊstɪdʒɪəm\\]{{/t}}[/c] [p]n[/p] ([p]pl[/p] [c teal] [lang id=1033]-gia[/lang] [/c]) [c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1) [/c]")
     void parse62() {
@@ -1340,8 +1339,8 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-gia[/lang] [/c] [c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1) [/c]]", dslObject.getDetails().toString());
-        assertEquals("", Link.renderLinks(dslObject.getLinks()));
+        assertEquals("[[p]pl[/p] [c teal] [lang id=1033]-gia[/lang] [/c]]", dslObject.getDetails().toString());
+        assertEquals("[c mediumblue] [b]=[/b] [/c] <<vestige>> [c blue]1)[/c]", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());
         assertFalse(dslObject.getTranslations().get(0).isNearly());

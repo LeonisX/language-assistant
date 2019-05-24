@@ -92,17 +92,21 @@ public class DslStringUtils {
     static Map<Integer, String> toIndexesMap(String line, Pair<String, String> pair) {
         Map<Integer, String> indexes = new HashMap<>();
         int index = 0;
+        char prevChar = 0;
         while (!line.isEmpty()) {
             if (line.startsWith(pair.getKey())) {
                 indexes.put(index, pair.getKey());
                 index += pair.getKey().length();
+                prevChar = pair.getKey().charAt(pair.getKey().length() - 1);
                 line = line.substring(pair.getKey().length());
-            } else if (line.startsWith(pair.getValue())) {
+            } else if (line.startsWith(pair.getValue()) && prevChar != '1') {
                 indexes.put(index, pair.getValue());
                 index += pair.getValue().length();
+                prevChar = pair.getValue().charAt(pair.getValue().length() - 1);
                 line = line.substring(pair.getValue().length());
             } else {
                 index++;
+                prevChar = line.charAt(0);
                 line = line.substring(1);
             }
         }
