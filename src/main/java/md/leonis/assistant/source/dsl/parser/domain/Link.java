@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static md.leonis.assistant.source.dsl.parser.M1Parser.*;
-import static md.leonis.assistant.source.dsl.parser.M1Parser.CBLUE;
-import static md.leonis.assistant.source.dsl.parser.M1Parser.LINK_SEE_POST;
 
 @Getter
 @Setter
@@ -130,34 +128,39 @@ public class Link {
                     result.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), link.getTranscription(), TRANSCRIPTION.getValue()));
                 }
 
-                for (Map.Entry<String, Map<String, List<String>>> group : link.getLinkAddress().entrySet()) {
-                    if (!group.getKey().isEmpty() && link.getSeq().contains(group.getKey())) {
-                        String comma = group.getValue().isEmpty() ? "" : ",";
-                        result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
-                    }
-                    String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && link.getSeq().contains(m)).collect(Collectors.joining(", "));
-                    if (!meanings.isEmpty()) {
-                        String space = " ";
-                        String space2 = "";
-                        boolean isLastMeaning = group.getValue().entrySet().iterator().next().getValue().isEmpty();
-                        boolean isLastLink = links.indexOf(link) == links.size() - 1;
-                        String comma = isLastMeaning ? "" : ",";
-                        result.append(space).append(String.format("%s%s%s%s%s", CBLUE.getKey(), space2, meanings, comma, CBLUE.getValue()));
-                    }
-                    for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
-                        for (String number : meaning.getValue()) {
-                            if (!number.isEmpty() && link.getSeq().contains(number)) {
-                                int index = link.getSeq().indexOf(number);
-                                if (index + 1 != link.getSeq().size()) {
-                                    if (link.getSeq().get(index + 1).startsWith("[")) { // no comma, append with tag
-                                        result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
-                                        result.append(" ").append(link.getSeq().get(index + 1));
+                boolean isWrongCase = link.getLinkAddress().size() == 1 && link.getLinkAddress().keySet().iterator().next().equals("") && link.getLinkAddress().values().iterator().next().entrySet().stream()
+                        .filter(e -> !e.getKey().equals("") && e.getValue().isEmpty()).collect(toList()).size() == link.getLinkAddress().values().iterator().next().entrySet().size();
+
+                if (isWrongCase) {
+                    result.append(String.format(" %s%s%s", CBLUE.getKey(), String.join(", ", link.getLinkAddress().values().iterator().next().keySet()), CBLUE.getValue()));
+                } else {
+                    for (Map.Entry<String, Map<String, List<String>>> group : link.getLinkAddress().entrySet()) {
+                        if (!group.getKey().isEmpty() && link.getSeq().contains(group.getKey())) {
+                            String comma = group.getValue().isEmpty() ? "" : ",";
+                            result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
+                        }
+
+                        for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
+                            boolean isLastMeaning = isLastMeaning(meaning.getKey(), group.getValue()) && meaning.getValue().isEmpty();
+                            String comma = isLastMeaning ? "" : ",";
+                            if (!meaning.getKey().equals("")) {
+                                result.append(" ").append(String.format("%s%s%s%s%s", CBLUE.getKey(), "", meaning.getKey(), comma, CBLUE.getValue()));
+                            }
+
+                            for (String number : meaning.getValue()) {
+                                if (!number.isEmpty() && link.getSeq().contains(number)) {
+                                    int index = link.getSeq().indexOf(number);
+                                    if (index + 1 != link.getSeq().size()) {
+                                        if (link.getSeq().get(index + 1).startsWith("[")) { // no comma, append with tag
+                                            result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                            result.append(" ").append(link.getSeq().get(index + 1));
+                                        } else {
+                                            //TODO if last for current link - no comma
+                                            result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                        }
                                     } else {
-                                        //TODO if last for current link - no comma
-                                        result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
+                                        result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
                                     }
-                                } else {
-                                    result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
                                 }
                             }
                         }
@@ -186,5 +189,9 @@ public class Link {
             }
         }
         return result.toString();
+    }
+
+    private static boolean isLastMeaning(String meaning, Map<String, List<String>> group) {
+        return new ArrayList<>(group.keySet()).indexOf(meaning) == group.size() - 1;
     }
 }

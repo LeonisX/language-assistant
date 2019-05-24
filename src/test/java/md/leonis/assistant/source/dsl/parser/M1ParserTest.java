@@ -1390,12 +1390,6 @@ class M1ParserTest {
         assertEquals(Preprocessor.normalize(m1), Preprocessor.normalize(dslObject.toM1String()));
     }
 
-    //TODO upgrade links renderer
-    //src: [m1]upstair [c lightslategray]{{t}}\[ˏʌpˊsteə\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<upstairs>> [c blue]1[/c], [c blue]1) [/c] [i]и[/i] [c blue]3[/c]
-    //res: [m1]upstair [c lightslategray]{{t}}\[ˏʌpˊsteə\]{{/t}}[/c] [c mediumblue] [b]=[/b] [/c] <<upstairs>> [c blue]1, 3[/c], [c blue]1) [/c] [i]и[/i]
-
-
-
 
     //TODO modifications - object + trancr
 
