@@ -497,7 +497,6 @@ class M1ParserTest {
         assertEquals("[[], [], []]", dslObject.getTagsSeq().toString());
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
-        //TODO upgrade links renderer
         assertEquals("[c mediumblue] [b]=[/b] [/c] <<upstairs>> [c blue]1,[/c] [c blue]1)[/c] [i]и[/i] [c blue]3[/c]", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(ParserState.TRN, dslObject.getState());
@@ -897,8 +896,7 @@ class M1ParserTest {
         assertTrue(dslObject.getModification().isEmpty());
         assertNull(dslObject.getNotes());
         assertNull(dslObject.getNote());
-        //TODO wrong, need process [i];[/i]
-        assertEquals("[[p]pl[/p] [p]без измен.[/p] [i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]]", dslObject.getDetails().toString());
+        assertEquals("[[p]pl[/p] [p]без измен.[/p][i];[/i] [p]обыкн.[/p] [p]употр.[/p] [i]как[/i] [p]sing[/p]]", dslObject.getDetails().toString());
         assertEquals("", Link.renderLinks(dslObject.getLinks()));
         assertNull(dslObject.getTail());
         assertEquals(1, dslObject.getTranslations().size());

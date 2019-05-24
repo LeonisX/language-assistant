@@ -29,7 +29,7 @@ public class Detail {
 
     @Override
     public String toString() {
-        String renderedTags = tags.stream().map(Tag::toString).collect(Collectors.joining(" "));
+        String renderedTags = tags.stream().map(Tag::toString).collect(Collectors.joining(" ")).replace(" [i];[/i]", "[i];[/i]");
         String renderedLinks = Link.renderLinks(links);
         String renderedTags2 = tags2.stream().map(Tag::toString).collect(Collectors.joining(" "));
 
