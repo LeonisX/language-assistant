@@ -1,12 +1,11 @@
 package md.leonis.assistant.source.dsl.parser.domain;
 
-import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import md.leonis.assistant.source.dsl.domain.parsed.DslGroup;
-import md.leonis.assistant.source.dsl.parser.DslStringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static md.leonis.assistant.source.dsl.parser.M1Parser.*;
@@ -25,14 +24,17 @@ public class IntermediateDslObject {
 
     private List<String> modification = new ArrayList<>();
 
-    private String notes = null; //TODO deep parse to chunks
-    private String note = null;
-    private List<Plural> plurals = new ArrayList<>();
-    private List<Abbr> abbrFrom = new ArrayList<>();
-    private List<Link> abbrLinks = new ArrayList<>();
+    private List<DetailContainer> details = new ArrayList<>();
+
+    //TODO if not empty - throw error
+    private String notes = null;
 
     private List<Link> links = new ArrayList<>();
+
+    //TODO if not empty - throw error
     private String tail = null;
+
+    //TODO what is it???
     private List<DslGroup> dslGroups = new ArrayList<>();
 
     private List<Translation> translations = new ArrayList<>();
@@ -41,7 +43,6 @@ public class IntermediateDslObject {
 
     public IntermediateDslObject(String word) {
         this.word = word;
-        //addNewGroup();
         addNewTranslation();
         for (int i = 0; i < 3; i++) {
             tags.add(new ArrayList<>());
@@ -49,20 +50,27 @@ public class IntermediateDslObject {
         }
     }
 
-    public Plural getCurrentPlural() {
-        return plurals.get(plurals.size() - 1);
+    public DetailContainer getCurrentDetailContainer() {
+        return details.get(details.size() - 1);
     }
 
-    public void addNewPlural(String word) {
-        plurals.add(new Plural(word));
+    public void addNewDetailContainer() {
+        details.add(new DetailContainer());
     }
 
-    public Abbr getCurrentAbbrFrom() {
-        return abbrFrom.get(abbrFrom.size() - 1);
+    public Detail getCurrentDetail() {
+        return getCurrentDetailContainer().get(getCurrentDetailContainer().size() - 1);
     }
 
-    public void addNewAbbrFrom(String lang) {
-        abbrFrom.add(new Abbr(lang));
+    public void addNewDetail() {
+        getCurrentDetailContainer().add(new Detail());
+    }
+
+    public Link getCurrentDetailLink() {
+        if (getCurrentDetail().getLinks().isEmpty()) {
+            getCurrentDetail().getLinks().add(new Link(LinkType.UNDEFINED, null));
+        }
+        return getCurrentDetail().getLinks().get(getCurrentDetail().getLinks().size() - 1);
     }
 
     public Translation getCurrentTranslation() {
@@ -115,61 +123,16 @@ public class IntermediateDslObject {
             result.append(" ").append(MODIFICATIONS.getKey()).append(String.join("; ", modification)).append(MODIFICATIONS.getValue());
         }
 
-        boolean isNotes = notes != null || note != null || !plurals.isEmpty() || !abbrFrom.isEmpty() || !abbrLinks.isEmpty();
-
-        if (isNotes) {
-            result.append(" ").append(NOTES.getKey());
-        }
-
         if (notes != null) {
-            result.append(notes);
+            result.append(NOTES.getKey()).append(notes).append(NOTES.getValue());
         }
 
-        if (note != null) {
-            result.append(NOTES_MAP.entrySet().stream().filter(e -> e.getValue().equals(note)).findFirst().get().getKey());
-        }
-
-        if (!plurals.isEmpty()) {
-            for (int i = 0; i < plurals.size(); i++) {
-                Plural plural = plurals.get(i);
-                String words = String.join(", ", plural.getWords());
-                Pair<String, String> pair = (i == 0) ? PLURAL_NOTE: PLURAL_NOTER;
-                result.append(String.format("%s%s%s", pair.getKey(), words, pair.getValue()));
-                if (plural.getTranscription() != null) {
-                    result.append(String.format(" %s%s%s", TRANSCRIPTION.getKey(), plural.getTranscription(), TRANSCRIPTION.getValue()));
-                }
-                if (!plural.getJoin().isEmpty()) {
-                    result.append(plural.getJoin()).append(" ");
-                }
-            }
-        }
-
-        if (!abbrFrom.isEmpty()) {
-            if (!plurals.isEmpty()) {
-                result.append("; ");
-            }
-            // ([p]сокр.[/p][i] от[/i] [p]лат.[/p] [c teal][lang id=1033]ante meridiem[/lang][/c])
-            result.append(ABBR).append(" ").append(FROM).append(" ");
-            for (Abbr abbr : abbrFrom) {
-                result.append(String.format(" %s%s%s", PTAG.getKey(), abbr.getLang(), PTAG.getValue()));
-                result.append(String.format(" %s%s%s", CTEALTAG.getKey(), abbr.getName(), CTEALTAG.getValue()));
-            }
-        }
-
-        if (!abbrLinks.isEmpty()) {
-            if (!plurals.isEmpty()) {
-                result.append("; ");
-            }
-            renderLinks(result, abbrLinks);
-        }
-
-        if (isNotes) {
-            result.append(" ").append(NOTES.getValue());
-        }
+        String dt = details.stream().map(d -> NOTES.getKey() + d.toString() + NOTES.getValue()).collect(Collectors.joining(" "));
+        result.append(dt);
 
         renderTags(result, 3);
 
-        renderLinks(result, links);
+        result.append(" ").append(Link.renderLinks(links));
 
         if (getCurrentTranslation().isNearly()) {
             result.append(String.format(" %s", NEARLY));
@@ -179,100 +142,6 @@ public class IntermediateDslObject {
             result.append(tail);
         }
         return result.toString();
-    }
-
-    private void renderLinks(StringBuilder result, List<Link> links) {
-        if (!links.isEmpty()) {
-
-            LinkType prevType = LinkType.UNDEFINED;
-
-            for (Link link : links) {
-                if (prevType != link.getType()) {
-                    switch (link.getType()) {
-                        case EQ_ONE:
-                        case EQ_GREEN:
-                            result.append(" " + LINK_PRE);
-                            break;
-                        case FROM_TWO:
-                            result.append(" " + LINK2_PRE);
-                            break;
-                        case SEE_ALSO:
-                            result.append(" " + LINK_SEE_ALSO_PRE);
-                            break;
-                        case SEE:
-                            result.append(" " + LINK_SEE_PRE);
-                            break;
-                        case ABBR_FROM:
-                            result.append(" ").append(ABBR).append(" ").append(FROM);
-                            break;
-                    }
-                }
-
-                switch (link.getType()) {
-                    case EQ_ONE:
-                    case FROM_TWO:
-                    case SEE_ALSO:
-                    case SEE:
-                    case ABBR_FROM:
-                        result.append(String.format(" %s%s%s", LINKR.getKey(), link.getName(), LINKR.getValue()));
-                        break;
-                    case EQ_GREEN:
-                        result.append(String.format(" %s%s%s", LINK_GREENR.getKey(), link.getName(), LINK_GREENR.getValue()));
-                        break;
-                }
-
-                for (Map.Entry<String, Map<String, List<String>>> group : link.getLinkAddress().entrySet()) {
-                    if (!group.getKey().isEmpty() && link.getSeq().contains(group.getKey())) {
-                        String comma = group.getValue().isEmpty() ? "" : ",";
-                        result.append(String.format(" %s%s%s%s", CBLUE.getKey(), group.getKey(), comma, CBLUE.getValue()));
-                    }
-                    String meanings = group.getValue().keySet().stream().filter(m -> !m.isEmpty() && link.getSeq().contains(m)).collect(Collectors.joining(", "));
-                    if (!meanings.isEmpty()) {
-                        String space = " ";
-                        String space2 = "";
-                        boolean isLastMeaning = group.getValue().entrySet().iterator().next().getValue().isEmpty();
-                        boolean isLastLink = links.indexOf(link) == links.size() - 1;
-                        String comma = isLastMeaning ? "" : ",";
-                        result.append(space).append(String.format("%s%s%s%s%s", CBLUE.getKey(), space2, meanings, comma, CBLUE.getValue()));
-                    }
-                    for (Map.Entry<String, List<String>> meaning : group.getValue().entrySet()) {
-                        for (String number : meaning.getValue()) {
-                            if (!number.isEmpty() && link.getSeq().contains(number)) {
-                                int index = link.getSeq().indexOf(number);
-                                if (index + 1 != link.getSeq().size()) {
-                                    if (link.getSeq().get(index + 1).startsWith("[")) { // no comma, append with tag
-                                        result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
-                                        result.append(" ").append(link.getSeq().get(index + 1));
-                                    } else {
-                                        //TODO if last for current link - no comma
-                                        result.append(String.format(" %s%s,%s", CBLUE.getKey(), number, CBLUE.getValue()));
-                                    }
-                                } else {
-                                    result.append(String.format(" %s%s%s", CBLUE.getKey(), number, CBLUE.getValue()));
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if ((links.indexOf(link) < links.size() - 1)) {
-                    if (link.getJoin() != null) {
-                        result.append(link.getJoin());
-                    }
-                }
-
-                if ((links.indexOf(link) == links.size() - 1)) {
-                    switch (link.getType()) {
-                        case SEE_ALSO:
-                        case SEE:
-                            result.append(LINK_SEE_POST);
-                            break;
-                    }
-                }
-
-                prevType = link.getType();
-            }
-        }
     }
 
     private void renderTags(StringBuilder result, int n) {
@@ -286,9 +155,4 @@ public class IntermediateDslObject {
             }
         }
     }
-
-    public String toM1CompactString() {
-        return DslStringUtils.compact(toM1String());
-    }
-
 }

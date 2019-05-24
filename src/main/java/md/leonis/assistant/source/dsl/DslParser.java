@@ -90,9 +90,28 @@ public class DslParser implements Parser {
 
     }
 
+    // flicker
+    //	[m0]{{Roman}}[b]Ⅰ[/b]{{/Roman}}
+    //	[m1]flicker [c lightslategray]{{t}}\[ˊflɪkə\]{{/t}}[/c]
+    //	[trn]
+    //	[m2][c brown]1.[/c] [p]n[/p]
+    //	[m3][c saddlebrown]1)[/c] мерц[']а[/']ние
+    //	[m3][c saddlebrown]2)[/c] трепет[']а[/']ние; дрож[']а[/']ние
+    //	[m3][c saddlebrown]3)[/c] кор[']о[/']ткая всп[']ы[/']шка
+    //	[m3][c saddlebrown]4)[/c] [p]pl[/p] [p]сл.[/p] (кино)ф[']и[/']льм
+    //	[m2][c brown]2.[/c] [p]v[/p]
+    //	[m3][c saddlebrown]1)[/c] мерц[']а[/']ть
+    //	[m3][c saddlebrown]2)[/c] колых[']а[/']ться; дрож[']а[/']ть
+    //	[m3][c saddlebrown]3)[/c] бить, мах[']а[/']ть кр[']ы[/']льями
+    //	[m3][c saddlebrown]4)[/c] всп[']ы[/']хивать и г[']а[/']снуть ([i]о надежде[/i] [p]и т.п.[/p]);
+    //	[m2][ex][c teal][lang id=1033]a faint hope still flickered in her breast[/lang][/c] сл[']а[/']бая над[']е[/']жда всё ещё т[']е[/']плилась в её душ[']е[/'][/ex]
+    //	[/trn]
+    //	[m0]{{Roman}}[b]Ⅱ[/b]{{/Roman}}
+    //	[m1]flicker [c lightslategray]{{t}}\[ˊflɪkə\]{{/t}}[/c] [p]n[/p]
+    //	[trn]
+    //	[m1]д[']я[/']тел
+    //	[/trn]
     public static IntermediateDslObject parseWord(String word, List<String> lines, BidiMap<String, String> abbrs) {
-        //TODO logic
-        boolean inTrn = false;
         IntermediateDslObject dslObject = new IntermediateDslObject(word);
 
         //log.debug(word);
@@ -116,13 +135,15 @@ public class DslParser implements Parser {
             // m2
 
             if (isTrn(line)) {
-                inTrn = true;
+                dslObject.setState(ParserState.TRN);
                 //System.out.println("\t" + line);
                 continue;
             }
 
+            //TODO TRN BODY
+
             if (isTrnEnd(line)) {
-                inTrn = false;
+                dslObject.setState(ParserState.M0);
                 //System.out.println("\t" + line);
                 continue;
             }
