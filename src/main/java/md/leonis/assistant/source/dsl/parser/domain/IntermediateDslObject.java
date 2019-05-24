@@ -3,9 +3,9 @@ package md.leonis.assistant.source.dsl.parser.domain;
 import lombok.Getter;
 import lombok.Setter;
 import md.leonis.assistant.source.dsl.domain.parsed.DslGroup;
-import md.leonis.assistant.source.dsl.parser.DslStringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static md.leonis.assistant.source.dsl.parser.M1Parser.*;
@@ -26,15 +26,15 @@ public class IntermediateDslObject {
 
     private List<DetailContainer> details = new ArrayList<>();
 
-    //TODO delete all
-    private String notes = null; //TODO deep parse to chunks
-    private String note = null;
-    /*private List<Plural> plurals = new ArrayList<>();
-    private List<Abbr> abbrFrom = new ArrayList<>();
-    private List<Link> abbrLinks = new ArrayList<>();*/
+    //TODO if not empty - throw error
+    private String notes = null;
 
     private List<Link> links = new ArrayList<>();
+
+    //TODO if not empty - throw error
     private String tail = null;
+
+    //TODO what is it???
     private List<DslGroup> dslGroups = new ArrayList<>();
 
     private List<Translation> translations = new ArrayList<>();
@@ -43,7 +43,6 @@ public class IntermediateDslObject {
 
     public IntermediateDslObject(String word) {
         this.word = word;
-        //addNewGroup();
         addNewTranslation();
         for (int i = 0; i < 3; i++) {
             tags.add(new ArrayList<>());
@@ -73,26 +72,6 @@ public class IntermediateDslObject {
         }
         return getCurrentDetail().getLinks().get(getCurrentDetail().getLinks().size() - 1);
     }
-
-    public void addNewDetailLink(String word) {
-        //getCurrentDetail().getLinks().add(new Link(word));
-    }
-
-    /*public Plural getCurrentPlural() {
-        return plurals.get(plurals.size() - 1);
-    }
-
-    public void addNewPlural(String word) {
-        plurals.add(new Plural(word));
-    }
-
-    public Abbr getCurrentAbbrFrom() {
-        return abbrFrom.get(abbrFrom.size() - 1);
-    }
-
-    public void addNewAbbrFrom(String lang) {
-        abbrFrom.add(new Abbr(lang));
-    }*/
 
     public Translation getCurrentTranslation() {
         return translations.get(translations.size() - 1);
@@ -176,5 +155,4 @@ public class IntermediateDslObject {
             }
         }
     }
-
 }

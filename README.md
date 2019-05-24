@@ -6,6 +6,10 @@ This is a model of the project, designed to simplify the study of foreign langua
 
 ### TODO list:
 
+TODO read TRN
+TODO start to read M1 in TRN. Try to identify all TRN with only one M1
+
+
 https://mvnrepository.com/artifact/org.apache.commons
 
 Слова для заучивания и словарный запас - добавить колонок
@@ -30,16 +34,6 @@ TODO work with archives, unpack all sources directly
 
 DSL - prepare all classes, domains, ...
 
-
-TODO implement parser as state machine
-
-https://habr.com/ru/post/60342/
-https://github.com/Stepets/akerfsm
-
-https://github.com/davidmoten/state-machine
-
-
-TODO refactor AkerFSM + tests
 
 Split by words. Starts from "". not from "/t"
 [m1]: main block
