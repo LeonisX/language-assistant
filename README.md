@@ -61,6 +61,7 @@ trim ['], [/'], [lang id=1033], [/lang]
 - примеры
 ]
 
+https://ru.glosbe.com/en/ru/easy%20money
 
 
 TODO get scripts from YouTube || allow to upload them
