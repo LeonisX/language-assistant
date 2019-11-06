@@ -46,7 +46,7 @@ CREATE TABLE Bank.Dictionary (
     FullName NVARCHAR(255),
     Size BIGINT NOT NULL DEFAULT 0,
     RecordsCount INT NOT NULL DEFAULT 0,
-    Path NVARCHAR(255),
+    Path NVARCHAR(255)
 );
 
 --changeset leonis:test:1.0.6

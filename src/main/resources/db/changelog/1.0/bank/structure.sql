@@ -19,5 +19,5 @@ CREATE TABLE Bank.ParsedData (
     variants TEXT,
     topics TEXT,
     region TEXT,
-    highlight TEXT,
+    highlight TEXT
 );
