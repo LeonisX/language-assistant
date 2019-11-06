@@ -4,6 +4,10 @@
 
 This is a model of the project, designed to simplify the study of foreign languages. For now, just a sketch of the integration of Spring Boot 2 and JavaFX 8.
 
+### Launch
+
+Use either `pom.xml` or `build.gradle` to import project.
+
 ### TODO list:
 
 TODO read TRN
